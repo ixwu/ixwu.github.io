@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://ixwu.github.io</id>
+    <title>习吾学</title>
+    <updated>2020-02-07T18:28:54.613Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://ixwu.github.io"/>
+    <link rel="self" href="https://ixwu.github.io/atom.xml"/>
+    <subtitle>温故而知新</subtitle>
+    <logo>https://ixwu.github.io/images/avatar.png</logo>
+    <icon>https://ixwu.github.io/favicon.ico</icon>
+    <rights>All rights reserved 2020, 习吾学</rights>
+    <entry>
+        <title type="html"><![CDATA[利用kubeadm部署kubernetes1.17.2]]></title>
+        <id>https://ixwu.github.io/config-k8s-1.17.2-with-kubeadm</id>
+        <link href="https://ixwu.github.io/config-k8s-1.17.2-with-kubeadm">
+        </link>
+        <updated>2020-01-27T11:34:26.000Z</updated>
+        <content type="html"><![CDATA[<hr>
+<p>Title:  利用kubeadm部署kubernetes1.17.2<br>
+d</p>
+<h2 id="date-2020-01-27-1934slug-config-k8s-1172-with-kubeadmtags-abc-test-主机">Date: 2020-01-27 19:34<br>
+Slug: config-k8s-1.17.2-with-kubeadm<br>
+Tags: abc, test, 主机</h2>
+<p>[TOC]</p>
+<h2 id="准备工作">准备工作</h2>
+<p>在京东云买了三台云主机，配置如下</p>
+<table>
+<thead>
+<tr>
+<th>主机名</th>
+<th>角色</th>
+<th>内网ip</th>
+<th>CPU核数</th>
+<th>内存</th>
+<th>磁盘</th>
+<th>操作系统</th>
+<th>内核</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JD1</td>
+<td>master</td>
+<td>10.0.0.3</td>
+<td>2</td>
+<td>4GB</td>
+<td>40GB</td>
+<td>CentOS 7.3</td>
+<td>3.10.0</td>
+</tr>
+<tr>
+<td>JD2</td>
+<td>worker</td>
+<td>10.0.0.4</td>
+<td>2</td>
+<td>4GB</td>
+<td>40GB</td>
+<td>CentOS 7.3</td>
+<td>3.10.0</td>
+</tr>
+<tr>
+<td>JD3</td>
+<td>worker</td>
+<td>10.0.0.5</td>
+<td>2</td>
+<td>4GB</td>
+<td>40GB</td>
+<td>CentOS 7.3</td>
+<td>3.10.0</td>
+</tr>
+</tbody>
+</table>
+<h2 id="配置kubernetes-yum源">配置kubernetes yum源</h2>
+<p>京东云自带的yum源无kubernetes，需要添加阿里云的源</p>
+<pre><code class="language-Bash">vim /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=kubernetes
+baseurl=https://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64/
+gpgcheck=0
+enable=1
+
+yum clean all &amp;&amp; yum makecache
+</code></pre>
+<p>测试</p>
+<pre><code class="language-Bash">[root@JD1 yum.repos.d]# yum list | grep kubeadm
+kubeadm.x86_64                            1.17.2-0                       kubernetes
+</code></pre>
+<h2 id="安装-docker">安装 Docker</h2>
+<p>三台机器上都需要安装</p>
+<pre><code class="language-Bash">[root@JD1 ~]# yum install docker -y
+[root@JD1 ~]# systemctl start docker
+[root@JD1 ~]# systemctl enable docker
+Created symlink from /etc/systemd/system/multi-user.target.wants/docker.service to /usr/lib/systemd/system/docker.service.
+[root@JD1 yum.repos.d]# docker version
+Client:
+ Version:         1.13.1
+ API version:     1.26
+ Package version: docker-1.13.1-103.git7f2769b.el7.centos.x86_64
+ Go version:      go1.10.3
+ Git commit:      7f2769b/1.13.1
+ Built:           Sun Sep 15 14:06:47 2019
+ OS/Arch:         linux/amd64
+
+Server:
+ Version:         1.13.1
+ API version:     1.26 (minimum version 1.12)
+ Package version: docker-1.13.1-103.git7f2769b.el7.centos.x86_64
+ Go version:      go1.10.3
+ Git commit:      7f2769b/1.13.1
+ Built:           Sun Sep 15 14:06:47 2019
+ OS/Arch:         linux/amd64
+ Experimental:    false
+</code></pre>
+<h2 id="安装-kubeadm">安装 kubeadm</h2>
+<p>三台机器上都需要安装</p>
+<pre><code class="language-Bash">yum install kubeadm -y
+......
+Installed:
+  kubeadm.x86_64 0:1.17.2-0
+
+Dependency Installed:
+  conntrack-tools.x86_64 0:1.4.4-5.el7_7.2          cri-tools.x86_64 0:1.13.0-0
+  kubectl.x86_64 0:1.17.2-0                         kubelet.x86_64 0:1.17.2-0
+  kubernetes-cni.x86_64 0:0.7.5-0                   libnetfilter_cthelper.x86_64 0:1.0.0-10.el7_7.1
+  libnetfilter_cttimeout.x86_64 0:1.0.0-6.el7_7.1   libnetfilter_queue.x86_64 0:1.0.2-2.el7_2
+  socat.x86_64 0:1.7.3.2-2.el7
+
+kubelet、kubectl、kubenetes-cni也跟着一起安装好了
+</code></pre>
+<p>配置kubelet开机启动</p>
+<pre><code class="language-Bash">systemctl enable kubelet
+</code></pre>
+<h2 id="部署-master节点">部署 Master节点</h2>
+<p>以jd1作为master节点，另外两台为worker节点</p>
+<h3 id="方法一命令行">方法一：命令行</h3>
+<pre><code class="language-Bash">kubeadm init --kubernetes-version=v1.17.2  \
+    --pod-network-cidr=10.244.0.0/16  \
+    --service-cidr=10.96.0.0/12  \
+    --apiserver-advertise-address=10.0.0.3
+</code></pre>
+<h3 id="方法二配置文件推荐本次也采用该方式">方法二：配置文件(推荐，本次也采用该方式)</h3>
+<p>使用kubeadm配置文件，由于本次下载的kubeadm版本过高，安装低版本k8s集群时报错，索性就安装最新版本的k8s了。</p>
+<pre><code># 生成配置文件
+kubeadm config print init-defaults ClusterConfiguration &gt;kubeadm.yaml
+</code></pre>
+<p>修改默认镜像仓库，由于大家都懂得的原因，谷歌默认容器镜像地址<code>k8s.gcr.io</code>无法访问，修改为<code>registry.cn-hangzhou.aliyuncs.com/google_containers</code></p>
+<pre><code>vim kubeadm.yaml
+#修改 imageRepository: k8s.gcr.io
+#改为 imageRepository: registry.cn-hangzhou.aliyuncs.com/google_containers
+#修改 advertiseAddress: 1.2.3.4
+#改为 advertiseAddress: 10.0.0.3
+</code></pre>
+<p>最终版本</p>
+<pre><code>apiVersion: kubeadm.k8s.io/v1beta2
+kind: InitConfiguration
+localAPIEndpoint:
+  advertiseAddress: 10.0.0.3
+  bindPort: 6443
+nodeRegistration:
+  criSocket: /var/run/dockershim.sock
+  name: jd1
+  taints:
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/master
+---
+apiServer:
+  timeoutForControlPlane: 4m0s
+apiVersion: kubeadm.k8s.io/v1beta2
+certificatesDir: /etc/kubernetes/pki
+clusterName: kubernetes
+controllerManager: {}
+dns:
+  type: CoreDNS
+etcd:
+  local:
+    dataDir: /var/lib/etcd
+imageRepository: registry.cn-hangzhou.aliyuncs.com/google_containers
+kind: ClusterConfiguration
+kubernetesVersion: v1.17.2
+networking:
+  dnsDomain: cluster.local
+  podSubnet: 10.244.0.0/16
+  serviceSubnet: 10.96.0.0/12
+scheduler: {}
+</code></pre>
+<p>查看kubeadm config所需的镜像，更多<a href="https://v1-16.docs.kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-config/">kubeadm config</a>命令</p>
+<pre><code>[root@JD1 ~]# kubeadm config images list --config kubeadm.yaml
+W0126 20:54:01.849570    9619 validation.go:28] Cannot validate kube-proxy config - no validator is available
+W0126 20:54:01.849607    9619 validation.go:28] Cannot validate kubelet config - no validator is available
+registry.cn-hangzhou.aliyuncs.com/google_containers/kube-apiserver:v1.17.2
+registry.cn-hangzhou.aliyuncs.com/google_containers/kube-controller-manager:v1.17.2
+registry.cn-hangzhou.aliyuncs.com/google_containers/kube-scheduler:v1.17.2
+registry.cn-hangzhou.aliyuncs.com/google_containers/kube-proxy:v1.17.2
+registry.cn-hangzhou.aliyuncs.com/google_containers/pause:3.1
+registry.cn-hangzhou.aliyuncs.com/google_containers/etcd:3.4.3-0
+registry.cn-hangzhou.aliyuncs.com/google_containers/coredns:1.6.5
+</code></pre>
+<p>提前下载好这些镜像</p>
+<pre><code>[root@JD1 ~]# kubeadm config images pull --config kubeadm.yaml
+W0126 19:44:46.987395   27714 validation.go:28] Cannot validate kube-proxy config - no validator is available
+W0126 19:44:46.987429   27714 validation.go:28] Cannot validate kubelet config - no validator is available
+[config/images] Pulled registry.cn-hangzhou.aliyuncs.com/google_containers/kube-apiserver:v1.17.2
+[config/images] Pulled registry.cn-hangzhou.aliyuncs.com/google_containers/kube-controller-manager:v1.17.2
+[config/images] Pulled registry.cn-hangzhou.aliyuncs.com/google_containers/kube-scheduler:v1.17.2
+[config/images] Pulled registry.cn-hangzhou.aliyuncs.com/google_containers/kube-proxy:v1.17.2
+[config/images] Pulled registry.cn-hangzhou.aliyuncs.com/google_containers/pause:3.1
+[config/images] Pulled registry.cn-hangzhou.aliyuncs.com/google_containers/etcd:3.4.3-0
+[config/images] Pulled registry.cn-hangzhou.aliyuncs.com/google_containers/coredns:1.6.5
+</code></pre>
+<p>初始化master节点</p>
+<pre><code>[root@JD1 ~]# kubeadm init --config kubeadm.yaml
+W0126 20:57:30.795523   10460 validation.go:28] Cannot validate kube-proxy config - no validator is available
+W0126 20:57:30.795570   10460 validation.go:28] Cannot validate kubelet config - no validator is available
+[init] Using Kubernetes version: v1.17.2
+[preflight] Running pre-flight checks
+[preflight] Pulling images required for setting up a Kubernetes cluster
+[preflight] This might take a minute or two, depending on the speed of your internet connection
+[preflight] You can also perform this action in beforehand using 'kubeadm config images pull'
+[kubelet-start] Writing kubelet environment file with flags to file &quot;/var/lib/kubelet/kubeadm-flags.env&quot;
+[kubelet-start] Writing kubelet configuration to file &quot;/var/lib/kubelet/config.yaml&quot;
+[kubelet-start] Starting the kubelet
+[certs] Using certificateDir folder &quot;/etc/kubernetes/pki&quot;
+[certs] Generating &quot;ca&quot; certificate and key
+[certs] Generating &quot;apiserver&quot; certificate and key
+[certs] apiserver serving cert is signed for DNS names [jd1 kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local] and IPs [10.96.0.1 10.0.0.3]
+[certs] Generating &quot;apiserver-kubelet-client&quot; certificate and key
+[certs] Generating &quot;front-proxy-ca&quot; certificate and key
+[certs] Generating &quot;front-proxy-client&quot; certificate and key
+[certs] Generating &quot;etcd/ca&quot; certificate and key
+[certs] Generating &quot;etcd/server&quot; certificate and key
+[certs] etcd/server serving cert is signed for DNS names [jd1 localhost] and IPs [10.0.0.3 127.0.0.1 ::1]
+[certs] Generating &quot;etcd/peer&quot; certificate and key
+[certs] etcd/peer serving cert is signed for DNS names [jd1 localhost] and IPs [10.0.0.3 127.0.0.1 ::1]
+[certs] Generating &quot;etcd/healthcheck-client&quot; certificate and key
+[certs] Generating &quot;apiserver-etcd-client&quot; certificate and key
+[certs] Generating &quot;sa&quot; key and public key
+[kubeconfig] Using kubeconfig folder &quot;/etc/kubernetes&quot;
+[kubeconfig] Writing &quot;admin.conf&quot; kubeconfig file
+[kubeconfig] Writing &quot;kubelet.conf&quot; kubeconfig file
+[kubeconfig] Writing &quot;controller-manager.conf&quot; kubeconfig file
+[kubeconfig] Writing &quot;scheduler.conf&quot; kubeconfig file
+[control-plane] Using manifest folder &quot;/etc/kubernetes/manifests&quot;
+[control-plane] Creating static Pod manifest for &quot;kube-apiserver&quot;
+[control-plane] Creating static Pod manifest for &quot;kube-controller-manager&quot;
+W0126 20:57:34.329698   10460 manifests.go:214] the default kube-apiserver authorization-mode is &quot;Node,RBAC&quot;; using &quot;Node,RBAC&quot;
+[control-plane] Creating static Pod manifest for &quot;kube-scheduler&quot;
+W0126 20:57:34.330430   10460 manifests.go:214] the default kube-apiserver authorization-mode is &quot;Node,RBAC&quot;; using &quot;Node,RBAC&quot;
+[etcd] Creating static Pod manifest for local etcd in &quot;/etc/kubernetes/manifests&quot;
+[wait-control-plane] Waiting for the kubelet to boot up the control plane as static Pods from directory &quot;/etc/kubernetes/manifests&quot;. This can take up to 4m0s
+[apiclient] All control plane components are healthy after 15.001757 seconds
+[upload-config] Storing the configuration used in ConfigMap &quot;kubeadm-config&quot; in the &quot;kube-system&quot; Namespace
+[kubelet] Creating a ConfigMap &quot;kubelet-config-1.17&quot; in namespace kube-system with the configuration for the kubelets in the cluster
+[upload-certs] Skipping phase. Please see --upload-certs
+[mark-control-plane] Marking the node jd1 as control-plane by adding the label &quot;node-role.kubernetes.io/master=''&quot;
+[mark-control-plane] Marking the node jd1 as control-plane by adding the taints [node-role.kubernetes.io/master:NoSchedule]
+[bootstrap-token] Using token: abcdef.0123456789abcdef
+[bootstrap-token] Configuring bootstrap tokens, cluster-info ConfigMap, RBAC Roles
+[bootstrap-token] configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order for nodes to get long term certificate credentials
+[bootstrap-token] configured RBAC rules to allow the csrapprover controller automatically approve CSRs from a Node Bootstrap Token
+[bootstrap-token] configured RBAC rules to allow certificate rotation for all node client certificates in the cluster
+[bootstrap-token] Creating the &quot;cluster-info&quot; ConfigMap in the &quot;kube-public&quot; namespace
+[kubelet-finalize] Updating &quot;/etc/kubernetes/kubelet.conf&quot; to point to a rotatable kubelet client certificate and key
+[addons] Applied essential addon: CoreDNS
+[addons] Applied essential addon: kube-proxy
+
+Your Kubernetes control-plane has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+You should now deploy a pod network to the cluster.
+Run &quot;kubectl apply -f [podnetwork].yaml&quot; with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join 10.0.0.3:6443 --token abcdef.0123456789abcdef \
+    --discovery-token-ca-cert-hash sha256:2957de566c5bcf9bee9fb2211d1bf0d9cb85eeefb2c5eed35443390728e45957
+</code></pre>
+<p>配置常规用户</p>
+<pre><code>[root@JD1 ~]# mkdir -p $HOME/.kube
+[root@JD1 ~]# cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+[root@JD1 ~]# chown $(id -u):$(id -g) $HOME/.kube/config
+</code></pre>
+<p>查看集群状态</p>
+<pre><code>[root@JD1 ~]# kubectl get cs
+NAME                 STATUS    MESSAGE             ERROR
+scheduler            Healthy   ok
+controller-manager   Healthy   ok
+etcd-0               Healthy   {&quot;health&quot;:&quot;true&quot;}
+</code></pre>
+<h2 id="安装pod-network">安装Pod Network</h2>
+<p>接下来安装flannel network add-on</p>
+<pre><code>[root@JD1 ~]# mkdir -p ~/k8s/
+[root@JD1 ~]# cd ~/k8s
+[root@JD1 k8s]# curl -O https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 14416  100 14416    0     0   6772      0  0:00:02  0:00:02 --:--:--  6774
+[root@JD1 k8s]# ls
+kube-flannel.yml
+[root@JD1 k8s]# kubectl apply -f  kube-flannel.yml
+podsecuritypolicy.policy/psp.flannel.unprivileged created
+clusterrole.rbac.authorization.k8s.io/flannel created
+clusterrolebinding.rbac.authorization.k8s.io/flannel created
+serviceaccount/flannel created
+configmap/kube-flannel-cfg created
+daemonset.apps/kube-flannel-ds-amd64 created
+daemonset.apps/kube-flannel-ds-arm64 created
+daemonset.apps/kube-flannel-ds-arm created
+daemonset.apps/kube-flannel-ds-ppc64le created
+daemonset.apps/kube-flannel-ds-s390x created
+</code></pre>
+<h2 id="添加worker节点至集群">添加worker节点至集群</h2>
+<p>在另外两台机器上执行如下命令即可</p>
+<pre><code>[root@JD3 ~]# kubeadm join 10.0.0.3:6443 --token abcdef.0123456789abcdef \
+    --discovery-token-ca-cert-hash sha256:2957de566c5bcf9bee9fb2211d1bf0d9cb85eeefb2c5eed35443390728e45957
+
+W0126 21:15:58.144981    6559 join.go:346] [preflight] WARNING: JoinControlPane.controlPlane settings will be ignored when control-plane flag is not set.
+[preflight] Running pre-flight checks
+[preflight] Reading configuration from the cluster...
+[preflight] FYI: You can look at this config file with 'kubectl -n kube-system get cm kubeadm-config -oyaml'
+[kubelet-start] Downloading configuration for the kubelet from the &quot;kubelet-config-1.17&quot; ConfigMap in the kube-system namespace
+[kubelet-start] Writing kubelet configuration to file &quot;/var/lib/kubelet/config.yaml&quot;
+[kubelet-start] Writing kubelet environment file with flags to file &quot;/var/lib/kubelet/kubeadm-flags.env&quot;
+[kubelet-start] Starting the kubelet
+[kubelet-start] Waiting for the kubelet to perform the TLS Bootstrap...
+
+This node has joined the cluster:
+* Certificate signing request was sent to apiserver and a response was received.
+* The Kubelet was informed of the new secure connection details.
+
+Run 'kubectl get nodes' on the control-plane to see this node join the cluster.
+</code></pre>
+<p>查看节点信息</p>
+<p>在master节点查看</p>
+<pre><code>[root@JD1 ~]# kubectl get nodes
+NAME   STATUS   ROLES    AGE     VERSION
+jd1    Ready    master   19m     v1.17.2
+jd2    Ready    &lt;none&gt;   9m55s   v1.17.2
+jd3    Ready    &lt;none&gt;   105s    v1.17.2
+</code></pre>
+<p>查看集群状态信息</p>
+<pre><code>[root@JD1 ~]# kubectl cluster-info
+Kubernetes master is running at https://10.0.0.3:6443
+KubeDNS is running at https://10.0.0.3:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+</code></pre>
+<p>查看k8s集群server端与client端的版本信息</p>
+<pre><code>[root@JD1 ~]# kubectl version --short=true
+Client Version: v1.17.2
+Server Version: v1.17.2
+</code></pre>
+<h2 id="拷贝adminconf到worker节点">拷贝admin.conf到worker节点</h2>
+<p>worker节点运行kubectl命令报错</p>
+<pre><code>The connection to the server localhost:8080 was refused - did you specify the right host or port?
+</code></pre>
+<p>kubectl命令需要使用kubernetes-admin来运行，将主节点中的/etc/kubernetes/admin.conf文件拷贝到worker节点相同目录下</p>
+<pre><code>[root@JD2 ~]# scp root@jd1:/etc/kubernetes/admin.conf /etc/kubernetes/
+</code></pre>
+<p>然后执行</p>
+<pre><code>[root@JD2 ~]# mkdir -p $HOME/.kube
+[root@JD2 ~]# cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+[root@JD2 ~]# chown $(id -u):$(id -g) $HOME/.kube/config
+</code></pre>
+<p>jd3主机也作同样操作，再次执行kubectl命令查看</p>
+<pre><code># 检查nodes
+[root@JD2 ~]# kubectl get nodes
+NAME   STATUS   ROLES    AGE   VERSION
+jd1    Ready    master   63m   v1.17.2
+jd2    Ready    &lt;none&gt;   52m   v1.17.2
+jd3    Ready    &lt;none&gt;   52m   v1.17.2
+
+# 检查pods
+[root@JD2 ~]# kubectl get pods -A
+NAMESPACE              NAME                                         READY   STATUS    RESTARTS   AGE
+kube-system            coredns-7f9c544f75-hc954                     1/1     Running   0          64m
+kube-system            coredns-7f9c544f75-nlrkx                     1/1     Running   0          64m
+kube-system            etcd-jd1                                     1/1     Running   0          64m
+kube-system            kube-apiserver-jd1                           1/1     Running   0          64m
+kube-system            kube-controller-manager-jd1                  1/1     Running   0          64m
+kube-system            kube-flannel-ds-amd64-27b72                  1/1     Running   0          57m
+kube-system            kube-flannel-ds-amd64-27l7c                  1/1     Running   0          53m
+kube-system            kube-flannel-ds-amd64-7bg5p                  1/1     Running   0          53m
+kube-system            kube-proxy-44698                             1/1     Running   0          53m
+kube-system            kube-proxy-flx2c                             1/1     Running   0          64m
+kube-system            kube-proxy-kk2nd                             1/1     Running   0          53m
+kube-system            kube-scheduler-jd1                           1/1     Running   0          64m
+kubernetes-dashboard   dashboard-metrics-scraper-7b64584c5c-jwmhv   1/1     Running   0          47m
+kubernetes-dashboard   kubernetes-dashboard-566f567dc7-ktdpf        1/1     Running   0          47m
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[给王二的一封信]]></title>
+        <id>https://ixwu.github.io/a-letter-to-wang</id>
+        <link href="https://ixwu.github.io/a-letter-to-wang">
+        </link>
+        <updated>2013-05-02T18:13:11.000Z</updated>
+        <content type="html"><![CDATA[<p>亲爱的王二：</p>
+<p>想不到分别这么久了，我还会给你写信吧。认识你是一个意外，久别重逢也是一个意外，这封信更是一个意外。就在今天，就在今天，我脱去了我的衣衫，我看到了我皱瘪下垂的乳房，我看到了我干涸无源的沟渠，我想起了我们的伟大友谊，我想起了你。</p>
+<p>你是我见过最混蛋又最仗义，最流氓又最善良，最不要脸又最自尊，最不知耻又最单纯的男人。</p>
+<p>认识你之前，我并不是破鞋，但人人都说我是破鞋；认识你之后，我变成了破鞋，却再也没有人说我是破鞋。</p>
+<p>我不懂，我真的不懂，我不懂这个世界是怎么了；你不懂，你也不懂，不！你是不屑于懂，任何外在世界都影响不了你内心的世界。现在，我懂了，可是我已离不开这世界，离不开这捆绑我的世界，离不开这强奸我的世界。</p>
+<p>认识你之前，作为一名医生，我的任务就是：救死扶伤悬壶济世保家卫国；作为一个女人，我的任务就是：生儿育女相夫教子保家卫国；作为一个人，我的任务就是：牺牲自我建设祖国保家卫国。认识你之后，我才知道我之前的世界是多么苍白无力，多么冠冕堂皇，多么枯燥乏味。真的！我乐于当一个破鞋，当一个人人唾弃却自由快乐的破鞋。</p>
+<p>还记得吗？</p>
+<p>我们一起探讨我究竟是不是破鞋，我们一起验证我们的伟大友谊，我们一起被批斗写检讨。你受伤时，我哭着对你说：要是你瘫了，我就照顾你一辈子。你第一次掏出你那红彤彤的丑陋玩意儿时，我不受控制地抽了你一耳光；你失踪时，我几乎赤身裸体，只穿着一件空荡荡的白大褂，披星戴月，独自上山寻你……</p>
+<p>伟大友谊不过是一个谎言，这世界也是一个谎言，但我更青睐你所给予的谎言，因为它不攻自破。就因为这个赤裸裸的谎言，我们可以独存天地欺师灭祖无法无天疯狂造爱。</p>
+<p>我不知道我们之间算不算爱情，我不知道我们自由而又惊世骇俗的爱有没有令你刻骨铭心，但我知道伟大友谊是不受捆绑不被束缚的，我知道你绝对是这个世界上最王八蛋又最令我难忘的男人。</p>
+<p>哎，美好的日子往往极其短暂。文革后，为了生活，我离开了你，有了一个家庭，有了一个女儿。</p>
+<p>自从上次偶遇之后，我就再也没有见过你，再也没有了伟大友谊。后来，听说有个叫王小波的作家写了我们的故事。可是，等到我去拜访他时，他已经死了。于是，我错过了这最后一次能够联系到你的机会。这封信，没有邮票，没有地址，只能寄给天地，寄给自由，寄给心中的你。</p>
+<p>愿君保重！<br>
+最爱你的陈清扬</p>
+]]></content>
+    </entry>
+</feed>
