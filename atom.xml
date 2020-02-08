@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://xwlearn.com</id>
     <title>习吾学</title>
-    <updated>2020-02-08T18:10:47.484Z</updated>
+    <updated>2020-02-08T18:11:58.028Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://xwlearn.com"/>
     <link rel="self" href="https://xwlearn.com/atom.xml"/>
