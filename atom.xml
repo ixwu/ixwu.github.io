@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://ixwu.github.io</id>
     <title>习吾学</title>
-    <updated>2020-02-08T12:32:06.878Z</updated>
+    <updated>2020-02-08T12:46:15.436Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://ixwu.github.io"/>
     <link rel="self" href="https://ixwu.github.io/atom.xml"/>
@@ -16,14 +16,7 @@
         <link href="https://ixwu.github.io/config-k8s-1.17.2-with-kubeadm">
         </link>
         <updated>2020-01-27T11:34:26.000Z</updated>
-        <content type="html"><![CDATA[<hr>
-<p>Title:  利用kubeadm部署kubernetes1.17.2<br>
-d</p>
-<h2 id="date-2020-01-27-1934slug-config-k8s-1172-with-kubeadmtags-abc-test-主机">Date: 2020-01-27 19:34<br>
-Slug: config-k8s-1.17.2-with-kubeadm<br>
-Tags: abc, test, 主机</h2>
-<p>[TOC]</p>
-<h2 id="准备工作">准备工作</h2>
+        <content type="html"><![CDATA[<h2 id="准备工作">准备工作</h2>
 <p>在京东云买了三台云主机，配置如下</p>
 <table>
 <thead>
