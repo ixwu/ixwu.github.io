@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://ixwu.github.io</id>
     <title>习吾学</title>
-    <updated>2020-02-08T15:55:59.257Z</updated>
+    <updated>2020-02-08T17:47:06.805Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://ixwu.github.io"/>
     <link rel="self" href="https://ixwu.github.io/atom.xml"/>
@@ -390,25 +390,1184 @@ kubernetes-dashboard   kubernetes-dashboard-566f567dc7-ktdpf        1/1     Runn
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[给王二的一封信]]></title>
-        <id>https://ixwu.github.io/a-letter-to-wang</id>
-        <link href="https://ixwu.github.io/a-letter-to-wang">
+        <title type="html"><![CDATA[利用Jupyter Notebook打造go及python交互式编程环境]]></title>
+        <id>https://ixwu.github.io/how-to-config-go-python-kernel-for-jupyter-notebook</id>
+        <link href="https://ixwu.github.io/how-to-config-go-python-kernel-for-jupyter-notebook">
         </link>
-        <updated>2013-05-02T18:13:11.000Z</updated>
-        <content type="html"><![CDATA[<p>亲爱的王二：</p>
-<p>想不到分别这么久了，我还会给你写信吧。认识你是一个意外，久别重逢也是一个意外，这封信更是一个意外。就在今天，就在今天，我脱去了我的衣衫，我看到了我皱瘪下垂的乳房，我看到了我干涸无源的沟渠，我想起了我们的伟大友谊，我想起了你。</p>
-<p>你是我见过最混蛋又最仗义，最流氓又最善良，最不要脸又最自尊，最不知耻又最单纯的男人。</p>
-<p>认识你之前，我并不是破鞋，但人人都说我是破鞋；认识你之后，我变成了破鞋，却再也没有人说我是破鞋。</p>
-<p>我不懂，我真的不懂，我不懂这个世界是怎么了；你不懂，你也不懂，不！你是不屑于懂，任何外在世界都影响不了你内心的世界。现在，我懂了，可是我已离不开这世界，离不开这捆绑我的世界，离不开这强奸我的世界。</p>
-<p>认识你之前，作为一名医生，我的任务就是：救死扶伤悬壶济世保家卫国；作为一个女人，我的任务就是：生儿育女相夫教子保家卫国；作为一个人，我的任务就是：牺牲自我建设祖国保家卫国。认识你之后，我才知道我之前的世界是多么苍白无力，多么冠冕堂皇，多么枯燥乏味。真的！我乐于当一个破鞋，当一个人人唾弃却自由快乐的破鞋。</p>
-<p>还记得吗？</p>
-<p>我们一起探讨我究竟是不是破鞋，我们一起验证我们的伟大友谊，我们一起被批斗写检讨。你受伤时，我哭着对你说：要是你瘫了，我就照顾你一辈子。你第一次掏出你那红彤彤的丑陋玩意儿时，我不受控制地抽了你一耳光；你失踪时，我几乎赤身裸体，只穿着一件空荡荡的白大褂，披星戴月，独自上山寻你……</p>
-<p>伟大友谊不过是一个谎言，这世界也是一个谎言，但我更青睐你所给予的谎言，因为它不攻自破。就因为这个赤裸裸的谎言，我们可以独存天地欺师灭祖无法无天疯狂造爱。</p>
-<p>我不知道我们之间算不算爱情，我不知道我们自由而又惊世骇俗的爱有没有令你刻骨铭心，但我知道伟大友谊是不受捆绑不被束缚的，我知道你绝对是这个世界上最王八蛋又最令我难忘的男人。</p>
-<p>哎，美好的日子往往极其短暂。文革后，为了生活，我离开了你，有了一个家庭，有了一个女儿。</p>
-<p>自从上次偶遇之后，我就再也没有见过你，再也没有了伟大友谊。后来，听说有个叫王小波的作家写了我们的故事。可是，等到我去拜访他时，他已经死了。于是，我错过了这最后一次能够联系到你的机会。这封信，没有邮票，没有地址，只能寄给天地，寄给自由，寄给心中的你。</p>
-<p>愿君保重！<br>
-最爱你的陈清扬</p>
+        <updated>2019-06-02T13:17:16.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="先说说jupyter-notebook">先说说Jupyter Notebook</h2>
+<p>Jupyter Notebook既是一款笔记应用，又是一款交互式编程工具，号称支持运行40种编程语言。之前受李笑来在GitHub上的项目--<a href="https://github.com/selfteaching/the-craft-of-selfteaching">自学是一门艺术</a>影响，下过一次，玩了玩，不过当时鲁钝，并未识得其好。近来，突然醒悟，这真是一款学习编程的好工具。</p>
+<p>比如python。单纯用命令行python解释器的话，无法实现命令补全，用IPython的话，虽然能实现命令补全，但是笔记又得借助其他软件，二者是割裂的，下次想修改那段代码，想看效果，你又得拷到IPython中。</p>
+<p>那么IDE怎么样呢？确实能实现实时查看代码执行效果，可以利用注释做笔记，但是当你的代码量变多了，而你只是想运行其中一部分代码的时候，你是注释其他代码还是另起一个新文件呢？而且IDE一般都很臃肿，打开速度都挺慢。综合以上，关于代码的学习笔记，我都选择用Jupyter。</p>
+<p>以上是我近期使用Jupyter得来的一点浅识。看看大佬怎么说的。</p>
+<blockquote>
+<p>从2017年开始，已有大量的北美顶尖计算机课程，开始完全使用Jupyter Notebook作为工具。比如李⻜⻜的CS231N《计算机视觉与神经网络》课程，在16年时作业还是命令行Python的形式，但是17年的作业就全部在Jupyter Notebook上完成了。再如UC Berkeley的《数据科学基础》课程，从17年起，所有作业也全部用 Jupyter Notebook完成。</p>
+<p>而Jupyter Notebook 在工业界的影响力更甚。在Facebook，虽然大规模的后台开发仍然借助于功能⻬全的IDE，但是几乎所有的中小型程序，比如内部的一些线下分析软件，机器学习模块的训练都是借助于Jupyter Notebook完成的。据我了解，在别的硅谷一线大厂，例如Google的AI Research部⻔Google Brain，也是清一色地全部使用Jupyter Notebook，虽然用的是他们自己的改进定制版，叫 Google Colab。</p>
+</blockquote>
+<p>以上两段文字引自Fackbook资深工程师景霄在极客时间上的课程《Python核心技术与实战--02讲JupyterNotebook为什么是现代Python的必学技术》。下面这个图片中的代码同样引自该课程。</p>
+<figure data-type="image" tabindex="1"><img src="http://ww4.sinaimg.cn/large/006tNc79ly1g3n1fh589cj30oy0d2zlr.jpg" alt="" loading="lazy"></figure>
+<p>总之，知道Jupyter Notebook真的很方便很实用就行了。下面总结下如何在Jupyter Notebook上安装python内核与go内核。如下操作均是在macOS系统上操作完成。</p>
+<h2 id="python交互式编程">python交互式编程</h2>
+<p>Jupyter本来就是因为python而诞生的，所以搞python内核很容易。如果你之前装了IPython，直接下载jupyter就行了。</p>
+<pre><code class="language-bash"># 安装python3
+$ brew install python3
+# 安装pip
+$ curl https://bootstrap.pypa.io/get-pip.py | python3
+# 安装ipython(如果出现权限问题，可以试试pip3 install ipython --user)
+$ pip3 install ipython
+# 安装jupyter
+$ pip3 install jupyter
+# 启动jupyter
+$ jupyter notebook
+</code></pre>
+<p>执行启动命令后，会自动打开你的浏览器，本地链接为：http://localhost:8888/tree，你也可以在启动时使用 <code>--port</code>指定端口</p>
+<figure data-type="image" tabindex="2"><img src="http://ww4.sinaimg.cn/large/006tNc79ly1g3n36ir7boj30rq09cjsp.jpg" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="3"><img src="http://ww2.sinaimg.cn/large/006tNc79ly1g3n39wpsa4j30rd063408.jpg" alt="" loading="lazy"></figure>
+<p>使用起来很简单，就不做过多介绍了。文件后缀为<code>ipynb</code>，你可以使用git管理你的笔记，上传到远程仓库GitHub上，可以直接渲染该文件。</p>
+<figure data-type="image" tabindex="4"><img src="http://ww4.sinaimg.cn/large/006tNc79ly1g3n4da1adyj30ru0hwmze.jpg" alt="" loading="lazy"></figure>
+<h2 id="golang交互式编程">golang交互式编程</h2>
+<p>go内核的安装稍微麻烦点。</p>
+<pre><code class="language-bash"># 安装go
+$ brew install go
+$ go version
+go version go1.12.4 darwin/amd64
+
+# 安装Jupyter Notebook
+$ pip3 install jupyter
+
+# 安装ZeroMQ
+$ brew install zmq
+# 我这里遇到的坑是创建软链时提示/usr/local/lib不可写，原来该目录属主是root，改成个人账户就行了
+# 假如你用Mac或Linux把属主改成当前用户就行了
+$ sudo chown -R roy:admin /usr/local/lib
+# 然后按照之前的提示重新链接文件
+$ brew link zeromq
+
+# 配置环境变量，我用的zsh，修改.zshrc; bash的话修改.bashrc
+$ vim ~/.zshrc
+export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+export GOPATH=/Users/roy/go 
+# 使配置生效
+$ source ~/.zshrc
+
+# 利用pkg-config获取libzmq所有编译相关的信息
+$ pkg-config --cflags libzmq
+
+# 安装go内核(利用go get从github上下载gophernotes)
+$ go get -u github.com/gopherdata/gophernotes 
+$ mkdir -p ~/Library/Jupyter/kernels/gophernotes
+$ cp $GOPATH/src/github.com/gopherdata/gophernotes/kernel/* ~/Library/Jupyter/kernels/gophernotes
+
+# 将gophernotes加入PATH
+$ vim ~/.zshrc
+export PATH=$GOPATH/bin:$PATH
+# 使配置生效
+$ source ~/.zshrc
+
+# 启动jupyter
+$ jupyter notebook
+</code></pre>
+<p>好了，你可以在Jupter上愉快地玩go了。以上操作基于Mac，其他操作系统的安装可以参考<a href="https://github.com/gopherdata/gophernotes">官方文档</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[读史杂草-201902]]></title>
+        <id>https://ixwu.github.io/history-cards-201902</id>
+        <link href="https://ixwu.github.io/history-cards-201902">
+        </link>
+        <updated>2019-02-02T13:56:44.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="授人以柄">授人以柄</h2>
+<p>前秦苻坚统一了大半个中国，独东南一隅（即东晋）未沾王化。他如传道士一般，欲传“王道”之福音于“中国”每一寸土地，遂不顾群臣反对，亲自带兵征讨，并封主战派姚苌为龙骧将军。</p>
+<p>苻坚对姚苌说：“朕曾以龙骧之位，建功立业。从未轻易授人，爱卿切莫辜负朕的期望。”左将军窦冲曰：“王者无戏言，此不祥之诏也！”坚默然。</p>
+<p>后来，姚苌杀苻坚，建立后秦。</p>
+<h2 id="企鹅官员">“企鹅”官员</h2>
+<p>BBC同腾讯视频联手打造的纪录片《王朝》，有一集专门讲帝企鹅的生存。</p>
+<p>南极乃极寒之地，却阻挡不了企鹅们繁衍后代，母企鹅诞下企鹅蛋后，由公企鹅负责孵化，来不及坐“月子”的她们则踏上出海觅食的征程。如果走运找到食物而又万幸活着回来并找到竟然没有冻死饿死的公企鹅与企鹅宝宝的话，她会呕吐食物让企鹅宝宝从嘴中取食。然后，母企鹅留下照顾企鹅宝宝，公企鹅则会代替“妻子”踏上险象环生的觅食之旅。</p>
+<figure data-type="image" tabindex="1"><img src="http://img1.cache.netease.com/catchpic/1/1A/1A75FC21050D629DFAD5D35ECD2B0A7F.jpg" alt="" loading="lazy"></figure>
+<p>人类历史上也有惊人相似的一幕：晋烈宗太元十年。春，正月，秦王坚朝飨群臣。时长安饥，人相食，诸将归，吐肉以饲妻子。秋，八月，后秦王姚苌杀前秦王坚。</p>
+<h2 id="小人姚苌">小人姚苌</h2>
+<p>后秦主姚苌之所做所为，足见小人之可怕可悲。其初随兄长姚襄与前秦战，大败，襄死，苌降。苻眉欲斩之，苻坚制止。</p>
+<p>苻坚继位后，重用姚苌，淝水之战时更提拔其为龙骧将军，荣宠可谓极矣。</p>
+<p>淝水一役次年，前秦国力衰颓，姚苌乘乱自立，建立后秦。不久，擒杀前主子苻坚，这还没完，又掘墓鞭尸。</p>
+<p>可笑的是，与苻登战时，他屡战屡败，见苻登军中有苻坚神位，谓其得苻坚神助，遂于军中立苻坚像。暗中向苻坚祈祷，言己不过为兄襄复仇，陛下既然授予龙骧之位，岂敢违之。今为陛下立像，陛下莫要追究臣之过错啦。</p>
+<p>与登战，依旧不利，且每夜看到苻坚像就吓一跳，又惹得军中人心惶惶，索性斩像首送给苻登。</p>
+<h2 id="不以为耻">不以为耻</h2>
+<p>后秦王苌某次与群臣宴，酒酣之时对大臣们说：“诸位爱卿曾与朕北面事秦，今我为君，诸位为臣，难道不觉得羞耻吗？”赵迁曰：“天不耻以陛下为子，臣等何耻为臣！”苌大笑。</p>
+<h2 id="帝王教训">帝王教训</h2>
+<p>古代帝王皆爱总结成败教训，姚苌也不例外。</p>
+<p>后秦与前秦苻登僵持甚久，诸将抱怨姚苌太过持重，使得苻登屡屡逃生。苌笑曰：“吾不如亡兄有四：身长八尺五寸、臂垂过膝，人望而畏之，一也；将十万之众，与天下争衡，望麾而进，前无横隈，二也；温古知今，讲论道艺，收罗英隽，三也；董帅兄众，上下咸悦，人尽死力，四也。所以得建立功业、驱策群贤者，正望算略中有片长耳。”群臣咸称万岁。</p>
+<h2 id="好尴尬啊">好尴尬啊</h2>
+<p>魏王珪与燕太子丹临河作战，忽暴风起，漂燕军数十艘船至对岸，魏军尽获其甲士三百余人，皆释而遣之。</p>
+<p>有一位喜剧演员，口头禅是：好尴尬啊。我猜，燕军心中皆作此念。</p>
+<h2 id="傻皇帝">“傻”皇帝</h2>
+<p>晋朝出了两个著名的“傻”皇帝。一个是西晋的晋惠帝，一个是东晋的孝武帝。</p>
+<p>前者因“何不食肉糜”被嘲笑了上千年，我独耿耿于怀于嵇康后代为其舍身。后者因一句戏言（对爱妾张贵人开玩笑说，你这个年龄就该废了，我更喜欢年龄小的）被爱妾联合宫女用被子闷死，真可谓“千古一帝”。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[读史杂草-201901]]></title>
+        <id>https://ixwu.github.io/history-cards-201901</id>
+        <link href="https://ixwu.github.io/history-cards-201901">
+        </link>
+        <updated>2019-01-24T13:21:25.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="1如此朋友">1.如此朋友</h2>
+<p>东晋元帝时，朝廷偏安江东。当时，王敦外握兵权，王导内掌朝政，琅琊王氏一族皆身居要职，时谚曰：王与马，共天下。后王敦造反，有人劝晋元帝杀尽王氏。王导遂率宗族二十余人，每日凌晨于台阁处待罪。</p>
+<p>这日，周顗（yǐ，字伯仁）入朝，导呼之，顗直入不顾，见帝，大谈导之忠诚，极力营救，帝纳之。出，导犹在，又呼之，顗不与言，归家又上表，言导无罪。王导皆不知也，心甚恨之。</p>
+<p>王敦得胜，欲杀周顗，问王导意见，连问三次，皆不答，于是周顗被杀。导后见顗所上表皆为救己，流涕曰：“吾虽不杀伯仁，伯仁由我而死，幽冥之中，负此良友”。</p>
+<h2 id="2如此君王">2.如此君王</h2>
+<p>《功夫》中冯小刚饰演的黑帮老大被斧头帮老大砍死前说的台词是：“慢着，慢着，你还记得吗？我还请你吃过饭。”</p>
+<p>东晋前期，北方前赵后赵连连交战，最终前赵之主刘曜兵败被俘，面对后赵之主石勒，这位昔日并肩作战的同僚，曜深情地说道：“石王，颇忆重门之盟否？”结局可想而知。</p>
+<h2 id="3如此同僚">3.如此同僚</h2>
+<p>桓温晚年效仿伊、霍，行废立之事，诛异己之人，权侵朝野，人人自危。谢安见之遥拜，温惊曰：“安石，卿何事乃尔？”安曰：“未有君拜于前，臣揖于后。”</p>
+<p>温与郗超交好，于是朝中皆畏事之，谢安曾与王坦之拜访他，天黑也未得见，坦之欲去，安曰：“独不能为性命忍须臾邪？”后桓温至死未能篡位，皆赖王谢二家。</p>
+<h2 id="4如此君臣">4.如此君臣</h2>
+<p>东晋十六国时期，后赵石勒靠汉人张宾称霸北方，不久后赵被灭，前秦苻坚靠汉人王猛统一北方，可惜这两位顶级谋士都死得早。</p>
+<p>张宾死时，石勒大哭：“天不欲成吾事邪？何夺吾右侯之早也！”王猛死时，苻坚恸哭：“天不欲使吾平壹六合耶？何夺吾景略之速也？”</p>
+<p>另外，王猛临死，劝坚莫图东晋，苻坚不听，于是贡献了“草木皆兵、风声鹤唳”等成语。</p>
+<p>擅长意淫的“小说家”在《续三国演义》将张宾描绘成蜀国大将张飞的孙子，说其尽得孔明姜维真传，石勒成了赵云的孙子，他们“乱华”不过是为汉室报仇。而本来就打着刘氏旗号的刘渊被杜撰为刘备之孙，好吧，汉人的面子都在小说里被挣回来了。</p>
+<h2 id="5如此父子">5.如此父子</h2>
+<p>中国人的孝顺有很多种，有的很别样。东晋简文帝时期，桓温把持朝政，一度欲“取而代之”，死后其党未遭清算，比如郗超，竟得善终。其父郗愔忠于王室，超一直瞒着父亲与桓氏为党。临终前，他给了门生一箱书信，说，我死后，家父若太过悲痛，可呈此箱，否则立即焚之。后来，超死，其父果然哀惋成疾，门生呈箱，皆与桓温密谋奸计。愔看后，大怒曰：这小子死得太晚了。再也不为之痛哭了。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[我是怎么用两个多小时掌握盲打的]]></title>
+        <id>https://ixwu.github.io/how-do-i-master-touch-type-in-two-hours</id>
+        <link href="https://ixwu.github.io/how-do-i-master-touch-type-in-two-hours">
+        </link>
+        <updated>2019-01-18T12:08:29.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="人人都能学会盲打">人人都能学会盲打</h2>
+<p>不瞒各位，在2017年之前，我也是“二指禅”。打字时，两只眼睛不时瞄下键盘，两只手的食指和中指还得在键盘上找半天。</p>
+<p>我也曾以为，盲打是“熟能生巧”的结果，唯有经年累月的修炼才能习得；初中时，我曾对着计算机教材上的键位图学习指法，但是十几分钟后，便觉得索然无味，书扔到一边，仰天长叹，好难啊，看来我这辈子是不可能学会盲打的。</p>
+<p>我也曾以为，学习是靠毅力来维持，没有毅力，没有坚持，任何事也干不成。但后来，看了大量与“学习”相关的文章与视频，对自己的失败经历多次反省后，才知道这些想法都大错特错，一直以来阻碍我进步的源头就是这些错误的思想。</p>
+<p>所以，2017年，我决定推倒重来，于是我开始学习盲打。最终，只用了两个多小时就掌握了这个我曾以为遥不可及的技能。其实，学习盲打一点也不难，关键是学习方法，方法选对了，人人都能快速学会。比如，我女朋友的盲打就是我教会的。</p>
+<h2 id="最好的学习方法">最好的学习方法</h2>
+<p>首先澄清一点，不是说毅力无用，许多人都靠坚持和毅力品尝到胜利的果实。但<strong>唯毅力论</strong>会让你“误入歧途”，一旦你坚持了很长一段时间，却收效甚微时，你会陷入深深的自我怀疑，是不是我还不够努力？为什么别人行，而我不行，是不是我太笨了？我再也不想学了。而一旦你放弃了，可能很长一段时间里，你都不会再碰它了。比如，我们学了那么久的英语，毕业后，还有多少人会碰呢？</p>
+<p>学习的最佳方法其实是“把学习变成习惯”。“习惯”是和风细雨，润物无声；“毅力”是狂风暴雨，电闪雷鸣。一个得了老年痴呆的老人，可能忘了家人，却忘不了回家的路，因为他已经习惯了。一个整天被父母打气加油的少年，可能会得神经衰弱，因为他承受高压，筋疲力尽。</p>
+<p>关于学习习惯的养成，我放到最后再讲，先来说说如何学习盲打，主要是实操方法论，我坚信：授人以鱼，不如授人以渔。</p>
+<h2 id="学会降低认知负荷">学会降低认知负荷</h2>
+<p>学习盲打最主要的是指法，说到底，不过是搞清楚：十个手指，分别管那些键。其实是八个手指，两个大拇指只管空格键。初次学时，看着键盘上那么多键位，恐怕你脑壳都疼。这是因为<strong>认知负荷</strong>太大，我们不可能一下子把所有键位都学会，那是痴心妄想，所以很多人还没开始就已经结束了。这种情况下就需要降低“认知负荷”，即分解目标。两百级台阶，想想就觉得很累，但是跨过一两级台阶并不累，我们的目标也只关注这两级台阶，这个小目标很容易实现，认知负荷也低，不知不觉，登了不到100下，你成功登顶了。而不是像其他人一样站在底部望着高处，茫然无措，转身离去。学习盲打，同样如此，刚开始有点吃力，一天只学一个手指的键位好了，其他键位视而不见，然后是两个、三个，最后全部拿下。</p>
+<p>当然了，降低认知负荷，包括两个维度，一个是降低任务复杂度，另一个是降低任务时长。</p>
+<p>人的精力有限，做一件事尤其是一件无聊的事超过一定时间，大脑的警报系统就会报警。那么如何避开大脑的“警报系统”呢？</p>
+<p>不知道你有没有用过番茄钟，这是一种时间管理方法，一个番茄时间是25分钟，在这25分钟时间里，你要保持绝对的专注，每用完一个番茄时间，奖励自己5分钟休息时间，这样周而复始，良性循环，你就能很好地管理自己的时间了。一个小时太长，40分钟也长，25分钟够短了吧。这样，一天只学25分钟，只学一种指法，你不会太累，大脑的警报系统也就不会报警了。虽然如此，我还是把每天的学习时间降低到20分钟。</p>
+<p>注意，我说了要降低认知负荷，但并不是说一点负荷也不要，就像锻炼身体一样，如果都没感觉累，说明你锻炼的还没到位，但是如果你太累了，对身体反而是有害的。关于学习的研究中有个“必要难度”理论，那些在课堂上狂记笔记的人，学习成绩往往并不好，反而是课堂上不做笔记，课下通过回忆做笔记的那些人，对知识的掌握更牢靠。也就是说，输入越难，输出越易。输入越易，输出越难。</p>
+<p>我是怎么增加必要难度的呢？不光是练习指法，我还背指法，当天学习某个指法，我必须得知道该手指管那些键，不但如此，还得回忆出某个键归哪个手指管。等你真正掌握盲打后，你就会忘记这些，就像张无忌学太极剑，忘得干干净净时才真正学会。这时肌肉记忆已经让每个手指都知道了自己的归属地，完全不用过脑子。但刚开始时你必须得背指法，一天只记一个手指还是很容易记的，推荐用anki做成记忆卡片，根据记忆曲线来背诵。有时间我也会介绍下这个我心目中的学习神器。</p>
+<h2 id="利用打字软件及时反馈">利用打字软件及时反馈</h2>
+<p>有一本关于学习的畅销书叫《刻意练习》，“刻意练习”有一个重要的原则叫：及时反馈。我们练习盲打，绝对不是，打开记事本，对着某个文章就开始敲起来。而应该配合各种能够给予及时反馈的软件来练习。</p>
+<p>我用的是Mac系统上的<a href="https://itunes.apple.com/cn/app/keykey-typing-tutor/id1035137927?mt=12">KeyKey</a>，分为六个课程，每个课程达到满分时才会进入下一个课程，挑战过程中一旦出错就会发出刺耳的声音。如你所见，界面上有键位图，F和J上面也有下划线标识，F归左食指，J归右食指，这两个键位上都有微微的凸起，很好辨认。也就是说，从你开始练盲打起，就可以只看屏幕了。</p>
+<figure data-type="image" tabindex="1"><img src="https://ws1.sinaimg.cn/large/006tNc79ly1fz6jksmo8fj30tf0ha0t6.jpg" alt="" loading="lazy"></figure>
+<p>Windows系统上推荐<a href="http://www.51dzt.com">金山打字通</a>。</p>
+<blockquote>
+<p>记住一点，练习时间不要太长，超过二十分钟就要休息下，每天练习时间最好不要超过一个小时。哪怕你再想进步也不要铤而走险，否则之前的努力会毁于一旦。</p>
+</blockquote>
+<h2 id="利用锚定法养成微习惯">利用锚定法养成微习惯</h2>
+<p>我已经将每天的学习时长缩短为20分钟，这个时间短到不会触发大脑的警报系统，但是大脑是不会帮你记着你要每天练习打字这回事的。这就凸显了习惯的重要性，学习不能全靠兴趣，兴趣是最好的老师，这没错，但这个老师可能随时转身离开。那么如何养成每天学习的习惯呢？</p>
+<p>想一想，你很少忘记刷牙吧。早上起床，夜晚睡前，我们就像条件反射一样拿起牙刷。看到关键字没，“早上起床、夜晚睡前”，有具体时间，有具体事件，这个事件每天都会发生，它就像墙上的钩子一样，刷牙这件事挂在了上边，这就是锚定法。</p>
+<p>我为自己设计的锚定方法是：每天回家打开电脑，开始练盲打。有具体时间，具体事件，家我肯定是每天都回的，电脑也是每天都会打开的。如此一来，不需要调动太多资源，很快我就养成了每天练习盲打这个习惯。</p>
+<p>最终，我根据上面这些原则，只用了一个星期就掌握了盲打。满打满算，也就两个多小时。</p>
+<p>总结下：</p>
+<ul>
+<li>学会分解目标，降低认知负荷</li>
+<li>只做最小认知负荷以内的事</li>
+<li>利用打字软件的及时反馈及时纠正</li>
+<li>利用锚定法把习惯与固定的一个事件挂钩</li>
+</ul>
+<p>接下来，开启你的盲打之旅吧！相信我，这会是个让你受益终身的技能！</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[十分钟入门shell脚本]]></title>
+        <id>https://ixwu.github.io/shell-scripts-abc</id>
+        <link href="https://ixwu.github.io/shell-scripts-abc">
+        </link>
+        <updated>2019-01-13T13:05:22.000Z</updated>
+        <content type="html"><![CDATA[<p>在正式开始前，我们可以思考一个问题，学习一门技术难吗？不少人的答案可能是很难。</p>
+<p>来看一个案例，也可以说是两个。</p>
+<p>2017年苹果WWDC大会上，有两名开发者令世界瞩目。一个是已经82岁，来自日本的老太太，若宫正子；另一个是年仅10岁，来自澳大利亚的小朋友，Yuma。前者60岁时才接触电脑，81岁时用上Mac系统，然后花了半年时间开发出了自己的app；后者从6岁开始设计网站，随后四年为苹果商店贡献了五个app。有意思的是，两个人都有自己的编程课堂，老太太在自己家教老人电脑知识，小Yuma建了一个Youtube频道，叫 Anyone Can Code（人人皆可编程），主要教小孩编程。</p>
+<figure data-type="image" tabindex="1"><img src="https://ws3.sinaimg.cn/large/006tNc79ly1fz57hcfnf7j30fr08rq38.jpg" alt="若宫正子" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://ws1.sinaimg.cn/large/006tNc79ly1fz45v089etj30fr0bu0ti.jpg" alt="Yuma" loading="lazy"></figure>
+<p>或许有人想说，他们不过是天赋好罢了。但我只想说，这种想法不过是不敢跳出舒适区，为自己的懒惰和无能找借口罢了。</p>
+<p>如今，各种底层技术已经经过层层封装，可以说，只要你有想法，编程甚至能够像搭积木一样简单。</p>
+<p>首先，你有什么需求，你的这个需求可以被什么技术解决，了解它的基本概念，然后把它变成生活的一部分，想方设法<strong>用</strong>它。遇到问题了怎么办？把大问题拆分成小问题，找搜索引擎解答。</p>
+<blockquote>
+<p>记住一点：你没必要学习某技术的所有知识，了解基本概念，基本原理，就可以用它了。</p>
+</blockquote>
+<p>有人又会说了，我没啥需求怎么办？李敖曾说过：“作家不能等有了灵感才写作，一如妓女不能等有了性欲才接客。”</p>
+<p>下面我们来学习shell脚本吧。主要面向linux初学者以及对linux感兴趣的人。请自行准备linux系统或Mac系统。</p>
+<h2 id="什么是linux内核">什么是Linux内核？</h2>
+<p>我们大多知道操作系统，但少有人知道内核，像CenOS，Redhat，Ubuntu等，这是操作系统，内核是Linux kernel，它是操作系统的心脏，是操作系统的大脑，去掉它，操作系统将不复存在，你的电脑也会成为破铜烂铁。</p>
+<p>不用过于深究，你可以简单地将内核看做电脑的大管家，它的小弟们与它一起构成了操作系统，共同管理计算机资源。</p>
+<h2 id="什么是shell">什么是shell？</h2>
+<p>我们知道，计算机实际只懂0和1（二进制），我们与外国人沟通需要靠翻译，那么同计算机沟通当然也需要一个翻译，shell就是这个翻译。另外，你以为你是同计算机对话，其实不然，你实际上是同内核对话，你在电脑上看到的内存啊，磁盘啊，CPU等都是虚拟出来的，你的任何操作，最终都是由内核真正在计算机硬件上执行。</p>
+<p>总结下shell定义：</p>
+<ul>
+<li>一个命令语言解释器，你执行的命令都由它翻译给内核，由内核转交给CPU执行</li>
+<li>是用户与内核之间的接口程序</li>
+<li>不管是图形界面（GUI）还是命令行界面（CLI），用户的一切输入都先由shell解释后再交给内核</li>
+</ul>
+<h2 id="什么是bash-shell">什么是bash shell？</h2>
+<p>shell的版本有很多像什么sh、bash、csh、ksh等，其中bash是Linux世界使用最广泛的shell，也是很多Linux发行版的默认shell。</p>
+<p>获取当前系统可用shell</p>
+<pre><code class="language-bash">[root@localhost ~]# cat /etc/shells
+/bin/sh
+/bin/bash
+/sbin/nologin
+/usr/bin/sh
+/usr/bin/bash
+/usr/sbin/nologin
+</code></pre>
+<p>查看当前使用的shell</p>
+<pre><code class="language-bash">[root@localhost ~]# echo $SHELL
+/bin/bash
+</code></pre>
+<h2 id="什么是cli和gui">什么是CLI和GUI？</h2>
+<ul>
+<li>CLI：Command Line Interface（命令行接口）</li>
+<li>GUI：Graphical User Interface（图形用户接口）</li>
+<li>顾名思义，CLI就是命令行界面，GUI就是图形界面</li>
+<li>我们在电影看到的那些黑客的电脑界面，花花绿绿的，执行一条命令就会有一大堆输出的叫命令行界面，我们平时用的windows系统，用鼠标在上面点点点的，叫图形界面，Linux当然也有自己的图形界面</li>
+<li>我们同shell对话，就是通过这两种接口进行的</li>
+</ul>
+<p>尝试执行几个基本命令</p>
+<pre><code class="language-bash">[root@localhost ~]# echo &quot;hello,linux&quot;
+hello,linux
+[root@localhost ~]# date
+Sat Jan 12 23:48:13 CST 2019
+</code></pre>
+<h2 id="什么是标准输入-标准输出和标准错误输出">什么是标准输入、标准输出和标准错误输出？</h2>
+<ul>
+<li>或许你曾听说过：linux里面一切皆文件，所谓的标准输入、标准输出和标准错误输出其实都是文件</li>
+<li>标准输入，缺省是终端键盘，所谓缺省，即系统默认状态</li>
+<li>标准输出，缺省是终端屏幕，至于终端这个概念，你就简单理解为显示器加键盘吧</li>
+<li>标准错误输出，缺省是终端屏幕</li>
+</ul>
+<p>我们执行一条shell命令，就会打开这三个文件，你可以理解为三条管道，标准输入与键盘相连，标准输出和标准错误输出都默认与屏幕相连。没有特别指明的情况下，我们通过键盘输入的内容通过“标准输入”这条管道“流入”至相应的命令，命令的执行结果又会通过“标准输出”或“标准错误输出”这条管道“流出”至屏幕，展现在我们面前。</p>
+<p>比如输入<code>cat test.txt</code>，cat这个命令作用是从命令行给出的文本中读取数据并将数据送到标准输出。</p>
+<p>如果test.txt中有内容，那么标准输入就不是键盘了，而是该文件，文件内容通过“标准输入”这个“管道”流向cat命令，cat命令读取其内容，然后将内容“流出”至标准输出，即屏幕上。</p>
+<pre><code class="language-bash"># 将&quot;hello&quot;添加到test.txt这个文件中，如果不存在就创建
+[root@localhost ~]# echo &quot;hello&quot; &gt; test.txt   
+# 输出test.txt文件内容
+[root@localhost ~]# cat test.txt
+hello    #标准输出
+</code></pre>
+<p>假如<code>test.txt</code>不存在，那么就会报错，错误信息通过“标准错误输出”这条管道“流出”至屏幕上。</p>
+<pre><code class="language-bash">[root@localhost ~]# cat test.txt
+cat: test.txt: No such file or directory    #标准错误输出
+</code></pre>
+<p>假如<code>cat</code>命令后面没有参数，那么其标准输入便是键盘了，终端就会等待我们输入，<code>cat</code>获取标准输入，通过“标准输出”这条管道输出到屏幕上。</p>
+<pre><code class="language-bash">[root@localhost ~]# cat
+hello   # 标准输入
+hello   # 标准输出
+</code></pre>
+<h2 id="什么是重定向">什么是重定向？</h2>
+<p>比如一条命令<code>cat test.txt</code>，它会把<code>test.txt</code>这个文件的内容输出到屏幕上，但我不想输出到屏幕上，我想保存到一个文件里，就可以用”标准输出重定向“符号<code>&gt;</code>将其重定向到某个文件<code>cat test.txt &gt; temp.txt</code>，这样屏幕上就没有输出，也就改变了标准输出的流出方向，故而称之为”重定向“。</p>
+<ul>
+<li><code>&gt;</code>又称为”覆盖重定向“，就是说会覆盖输出文件原先的内容。</li>
+<li><code>&gt;&gt;</code>被称为”追加重定向“，也就是说不会覆盖输出文件的内容，而是把输出追加到原内容的后面</li>
+<li><code>&lt;</code>被称为”标准输入重定向“，一般命令的标准输入都是键盘，用了<code>&lt;</code>，其标准输入就变成其后的文件了。比如，cat本身就能够以文件作为其标准输入，但我们也可以利用<code>&lt;</code>来将文件变成其标准输入：<code>cat &lt; test.txt</code></li>
+<li>前面又说了，所谓的<code>标准输入</code>、<code>标准输出</code>以及<code>标准错误输出</code>其实都是文件，是文件就会有文件描述符，就像人的名字一样，不然内核哪知道哪个文件是哪个文件啊。</li>
+<li><code>标准输入</code>的文件描述符是<code>0</code>，<code>标准输出</code>是<code>1</code>，<code>标准错误输出</code>是2。所以，如果我们想把<code>cat test.txt</code>的标准输出重定向到<code>stdout.txt</code>，其标准错误输出重定向到<code>stderr.txt</code>，可以这样做：<code>cat test.txt 1&gt; stdout.txt 2&gt; stderr.txt</code>,<code>0</code>和<code>1</code>一般都可以省略。</li>
+<li>如何把<code>标准错误输出</code>与<code>标准输出</code>重定向到同一个文件？还是上面的例子：<code>cat test.txt &gt; temp.txt 2&gt;&amp;1</code>。还有一种方式是不区分<code>标准错误输出</code>与<code>标准输出</code>，统统重定向到同一个文件：<code>cat test.txt &amp;&gt; temp.txt</code></li>
+</ul>
+<h2 id="什么是管道">什么是管道？</h2>
+<p>前面我们了解到，命令的标准输出默认是屏幕，假如该命令的标准输出我们想再利用怎么办？那就需要利用管道了。强调一下，标准输出是指命令执行成功后的输出。</p>
+<p>举个例子：</p>
+<pre><code class="language-bash">[root@localhost ~]# echo “zhangsan” | useradd
+# 这条命令的意思是输出”zhangsan“，并利用useradd命令添加其为linux普通用户
+# ”zhangsan“为管道前的标准输出，管道将其变成后面useradd命令的标准输入
+</code></pre>
+<p>注意事项：</p>
+<ul>
+<li>管道只能处理前一个命令的标准输出，标准错误输出无法处理</li>
+<li>管道后面的命令必须能够接受标准输入才行，像<code>ls</code>命令就不接受标准输入，所以它不能放在管道后面。<code>ls</code>命令的作用是列举目录下的内容，当然了，在linux世界怎么能接受不能呢，利用xargs就可以把管道前的标准输出当作<code>ls</code>命令的标准输入了</li>
+</ul>
+<pre><code class="language-bash">[root@localhost ~]# echo &quot;/etc&quot;| xargs ls
+# 没有xargs的话，这里的ls只能列举当前目录的内容，而非/etc这个目录
+</code></pre>
+<h2 id="什么是shell脚本">什么是shell脚本？</h2>
+<p>前面说过，shell是一个命令语言解释器。另外，shell本身也是一个程序，有自己的命令，像什么ls、cd、pwd等都是其内置命令，还有一些其他命令，都是别人为linux添加的基本命令。我们知道，编程时通过各种库调用来实现功能，而shell没有库，他通过调用各种命令来实现相应功能。</p>
+<p>我们通过输入各种命令与shell交互，但有时我们不想手动输入各种命令，我们想把命令存在一个文件中，然后让shell执行该文件中的命令，于是就有了shell脚本。</p>
+<p>所谓的shell脚本其实就是一个包含一系列shell命令的文本，目的是减少重复工作，实现自动化。</p>
+<h2 id="shell脚本基本组件">shell脚本基本组件</h2>
+<p>shell脚本是由各种shell命令组成，但绝对不是简单的命令堆积，它像其他编程语言一样，有自己的基本组件。</p>
+<ul>
+<li>shell命令
+<ul>
+<li>shell内部命令，如ls、cd、pwd等</li>
+</ul>
+</li>
+<li>其他命令
+<ul>
+<li>who、du、free等各种丰富的功能命令</li>
+</ul>
+</li>
+<li>数据结构
+<ul>
+<li>变量、数组、字典</li>
+</ul>
+</li>
+<li>函数
+<ul>
+<li>将一系列命令组合成一个函数，减少重复工作</li>
+</ul>
+</li>
+<li>控制流
+<ul>
+<li>if、case等分支语句</li>
+<li>for、while等循环语句</li>
+</ul>
+</li>
+</ul>
+<h2 id="如何快速编写一个脚本">如何快速编写一个脚本？</h2>
+<h3 id="脚本组成">脚本组成</h3>
+<p>一个完整的脚本有三部分组成：脚本声明、注释以及可执行语句。</p>
+<ul>
+<li>脚本声明
+<ul>
+<li>前面说过，CPU只认识二进制，也就是说只能执行二进制程序文件</li>
+<li>我们的脚本是文本文件，需要一个解释者解释下，也就是shell，shell本身是二进制程序</li>
+<li>CPU运行shell程序，shell解释脚本的每一行内容，然后找到对应的二进制程序，由CPU执行</li>
+<li>所以，首先我们得告诉CPU，该脚本用哪个解释器来解释</li>
+<li>如何声明，在脚本第一行顶格写：#!/bin/bash</li>
+<li><code>#!</code>被称为shebang符号，用来声明所使用的解释器，一旦执行某个脚本，CPU看到第一行，就会去执行该解释器，再由解释器去找对应的命令程序</li>
+<li>/bin/bash指明bash二进制程序的位置</li>
+</ul>
+</li>
+<li>注释
+<ul>
+<li>简单的脚本还好，一旦复杂起来，可读性就大大降低，所以注释相当重要</li>
+<li>解释器会忽略注释</li>
+<li>shell脚本中的单行注释符号是<code>#</code></li>
+<li>至于多行注释，方法有很多，一般用不到的，想用的话，自己在<a href="https://blog.csdn.net/weixin_42167759/article/details/80703570">网上搜搜</a><br>
+吧</li>
+</ul>
+</li>
+<li>可执行语句
+<ul>
+<li>linux命令以及相应的控制流与数据结构</li>
+<li>相关语法可以在网上找</li>
+<li>需要条件判断了，就搜<code>shell if语法</code>或<code>shell case语法</code></li>
+<li>需要重复执行某命令，就搜<code>shell for循环</code>或<code>shell while循环</code></li>
+<li>某个需求不知道用什么命令，就搜<code>需求关键字</code>好了</li>
+<li>某个命令不知道怎么用，直接在命令行输入<code>man 命令</code>或者直接百度</li>
+</ul>
+</li>
+</ul>
+<h3 id="一个批量ping-ip脚本">一个批量ping ip脚本</h3>
+<p>说了这么多，让我们开始写一个脚本吧，先说一个命令，检测网络通不通，需要用到ping命令，我们想批量检测某一个网段的主机是否网络通畅，那就需要用到for循环。</p>
+<pre><code class="language-bash">#linux中默认编辑器通常是vi或vim，该文本编辑器分为三种模式
+#默认是普通模式（无法输入内容，但可以通过相应命令操作文本），普通模式下按i表示进入插入模式（可以插入内容了）
+#按:表示进入命令行模式（批量操作文本），在插入模式或命令行模式下按ESC进入普通模式。输入ZZ或:wq退出vim编辑器
+[root@localhost ~]# vim ping.sh
+ #默认进入普通模式，先按i开始编写脚本，下面是脚本完整内容
+ 
+ #!/bin/bash
+ NET=192.168.1    #声明一个变量并赋值
+ for i in {1..254}    #后面的{1..254}表示循环范围从1-254，如果你就是想测试下，这里就改成{1..10}吧
+ do
+ IP=$NET.$i    #字符拼接并赋值给IP这个变量
+ ping -c 3 $IP &amp;&gt; /dev/null    
+ #-c指明发包次数，&amp;&gt; /dev/null表示无论正确输出还是错误输出统统丢弃
+ #$?表示上条命令的执行结果，0表示成功，非0表示失败
+ #-eq代表”是否等于“，[]是条件测试语法，测试条件左右必须各留至少一个空格
+ if [ $? -eq 0 ];then    
+     echo &quot;$IP is up&quot; 
+ else 
+     echo &quot;$IP is down&quot;
+ fi
+ done
+ # 编写完毕，按ECS进入普通模式，然后输入:wq退出vim编辑器
+</code></pre>
+<h3 id="脚本执行">脚本执行</h3>
+<p>执行脚本主要有三种方法：</p>
+<ul>
+<li>直接运行脚本文件
+<ul>
+<li>这种方法需要脚本有可执行权限：chmod u+x ping.sh</li>
+<li>然后输入脚本的绝对路径或相对路径来执行文件</li>
+<li>比如相对路径，你得先进入脚本所在的目录，然后执行：./ping.sh</li>
+</ul>
+</li>
+<li>利用解释器执行
+<ul>
+<li>bash ping.sh</li>
+<li>sh ping.sh</li>
+</ul>
+</li>
+<li>利用source或.
+<ul>
+<li>source ping.sh</li>
+<li>. ping.sh</li>
+</ul>
+</li>
+</ul>
+<p>第一种方法，如果你没有shebang语句（即第一行声明解释器），可能会报错；第二种方法，你可以不声明解释器类型，因为你是直接用解释器来执行的，也可以不赋予执行权限；第三种方法，你是在当前shell环境来执行的，前两种实际上都是在子shell中执行，执行完毕才退回到当前shell。</p>
+<p>基本上用哪种方法都行，看你心情。</p>
+<pre><code class="language-bash"># 假如你想把执行结果保存到一个文件，也就会利用输出重定向
+# 但同时你又想输出其结果到屏幕上，那就会用到tee命令了
+[root@localhost ~]# bash ping.sh | tee out.txt
+192.168.1.1 is up
+192.168.1.2 is down
+...
+
+#现在你想知道有多少个ip是通的，这就用到涉及文本过滤命令grep以及统计命令wc
+[root@localhost ~]# grep &quot;up&quot; out.txt | wc -l
+   3
+</code></pre>
+<p>最后补充一点，同window不同，linux世界，文件后缀没有任何意义，加后缀名只是方便人类自己查看。</p>
+<blockquote>
+<p>学习一门新技术，最痛苦的过程只是前两小时，熬过了这两小时，后面就会越走越顺。</p>
+</blockquote>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Centos7上安装 elasticsearch-6.2.2及相关插件]]></title>
+        <id>https://ixwu.github.io/howto-setup-elasticsearch-6.2.2-in-centos</id>
+        <link href="https://ixwu.github.io/howto-setup-elasticsearch-6.2.2-in-centos">
+        </link>
+        <updated>2018-12-31T04:57:52.000Z</updated>
+        <content type="html"><![CDATA[<p>elasticsearch是一个开源的搜索服务器，提供了一个分布式多用户能力的全文搜索引擎，下面是我的安装笔记</p>
+<h2 id="准备工作">准备工作</h2>
+<h3 id="java版本">java版本</h3>
+<p>jdk版本必须是1.8及1.8以上</p>
+<pre><code class="language-bash">[root@localhost ~]# java -version
+java version &quot;1.8.0_161&quot;
+Java(TM) SE Runtime Environment (build 1.8.0_161-b12)
+Java HotSpot(TM) 64-Bit Server VM (build 25.161-b12, mixed mode)
+</code></pre>
+<h3 id="创建es用户">创建es用户</h3>
+<p>elasticsearch6 不允许root用户安装和使用，需要另外创建用户</p>
+<pre><code class="language-bash">[root@localhost ~]# useradd es &amp;&amp;  echo &quot;es123&quot;  | passwd --stdin es
+</code></pre>
+<h3 id="修改-etcsecuritylimitsconf">修改 /etc/security/limits.conf</h3>
+<pre><code class="language-bash">[root@localhost ~]#  vim /etc/security/limits.conf
+# 修改系统最大文件描述符限制
+* soft nofile 262144 
+* hard nofile 262144
+# 修改系统锁内存限制
+es soft memlock unlimited 
+es hard memlock unlimited
+# 更改用户可启用的最大线程数
+*  hard    nproc   4096
+*  soft    nproc   4096
+</code></pre>
+<h3 id="修改-etcsysctlconf">修改 /etc/sysctl.conf</h3>
+<pre><code class="language-bash">[root@localhost ~]#  vim /etc/sysctl.conf
+vm.max_map_count = 262144
+vm.swappiness = 1   # 禁用swapping
+</code></pre>
+<p>使修改生效</p>
+<pre><code>[root@localhost ~]#  sysctl -p
+</code></pre>
+<h2 id="安装-elasticsearch-622">安装 elasticsearch-6.2.2</h2>
+<h3 id="下载解压">下载解压</h3>
+<pre><code class="language-bash">[root@localhost ~]# cd /usr/local/src
+[root@localhost src]# wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.2.2.tar.gz
+[root@localhost src]#  tar xzvf elasticsearch-6.2.2.tar.gz
+[root@localhost src]# mv elasticsearch-6.2.2 /opt
+</code></pre>
+<h3 id="修改elasticsearch-622目录权限">修改elasticsearch-6.2.2目录权限</h3>
+<p>将该目录下所有文件的属主与属组均改为es</p>
+<pre><code class="language-bash">[root@localhost src]# chown -R es:es /opt/elasticsearch-6.2.2/
+</code></pre>
+<h3 id="创建数据目录与日志目录">创建数据目录与日志目录</h3>
+<p><strong>注意：后续操作需要切换至es账户</strong></p>
+<pre><code class="language-bash">[root@localhost src]# su - es
+[es@localhost src]$ cd /opt/elasticsearch-6.2.2/
+[es@localhost elasticsearch-6.2.2]$ mkdir -p elasticsearchdata/{data,log}
+</code></pre>
+<h3 id="修改配置文件">修改配置文件</h3>
+<pre><code class="language-bash">[es@localhost elasticsearch-6.2.2]$ cd /opt/elasticsearch-6.2.2/conf
+[es@localhost conf]$  vim elasticsearch.yml
+# 需要修改 cluster.name，node.name，path.data等参数值
+cluster.name: app_es	# 集群名字
+node.name: node-1	# 节点名字
+path.data: /opt/elasticsearch-6.2.2/elasticsearchdata/data # 指定数据存放路径
+path.logs: /opt/elasticsearch-6.2.2/elasticsearchdata/log # 指定日志存放路径
+bootstrap.memory_lock: false
+network.host: 0.0.0.0 # Set the bind address to a specific IP
+http.port: 9200	# 默认是9200，你也可以通过修改其值自定义端口
+transport.tcp.port: 9300    # 默认是9300，可自定义
+# 集群发现
+#集群节点ip或者主机，在这里添加各节点ip
+discovery.zen.ping.unicast.hosts: [&quot;ip1:9300&quot;, &quot;ip2:9300&quot;，&quot;ip3:9300&quot;]
+# 设置这个参数来保证集群中的节点可以知道其它N个有master资格的节点。默认为1，对于大的集群来说，可以设置大一点的值（2-4）
+discovery.zen.minimum_master_nodes: 3
+</code></pre>
+<h3 id="启动服务">启动服务</h3>
+<pre><code class="language-bash">[es@localhost elasticsearch-6.2.2]$ /opt/elasticsearch-6.2.2/bin/elasticsearch    #前台启动
+[es@localhost elasticsearch-6.2.2]$ nohup /opt/elasticsearch-6.2.2/bin/elasticsearch &amp;    #后台启动
+</code></pre>
+<h3 id="测试服务是否启动成功">测试服务是否启动成功</h3>
+<p>看到9200和9300端口就ok了,其中9300是es节点tcp通讯端口,9200是RESTful接口</p>
+<pre><code class="language-bash">[es@localhost ~]$ netstat -lntp | grep -E &quot;9200|9300&quot;
+(Not all processes could be identified, non-owned process info
+ will not be shown, you would have to be root to see it all.)
+tcp        0      0 0.0.0.0:9200            0.0.0.0:*               LISTEN      1022/java
+tcp        0      0 0.0.0.0:9300            0.0.0.0:*               LISTEN      1022/java
+</code></pre>
+<p>在浏览器输入 http://你的ip:9200，可看到如下内容</p>
+<pre><code class="language-bash">{
+  &quot;name&quot; : &quot;node-1&quot;,
+  &quot;cluster_name&quot; : &quot;app_es&quot;,
+ &quot;cluster_uuid&quot; : &quot;...&quot;, 
+  &quot;version&quot; : {
+    &quot;number&quot; : &quot;6.2.2&quot;,
+    &quot;build_hash&quot; : &quot;10b1edd&quot;,
+    &quot;build_date&quot; : &quot;2018-02-16T19:01:30.685723Z&quot;,
+    &quot;build_snapshot&quot; : false,
+    &quot;lucene_version&quot; : &quot;7.2.1&quot;,
+    &quot;minimum_wire_compatibility_version&quot; : &quot;5.6.0&quot;,
+    &quot;minimum_index_compatibility_version&quot; : &quot;5.0.0&quot;
+  },
+  &quot;tagline&quot; : &quot;You Know, for Search&quot;
+}
+证明启动成功
+</code></pre>
+<h2 id="解决启动报错">解决启动报错</h2>
+<h3 id="错误一cannot-allocate-memory">错误一：Cannot allocate memory</h3>
+<blockquote>
+<p>Java HotSpot(TM) 64-Bit Server VM warning: INFO: os::commit_memory(0x00000000ca660000, 899284992, 0) failed; error='Cannot allocate memory' (errno=12)<br>
+There is insufficient memory for the Java Runtime Environment to continue.<br>
+Native memory allocation (mmap) failed to map 899284992 bytes for committing reserved memory.<br>
+An error report file with more information is saved as:<br>
+/opt/elasticsearch-6.2.2/hs_err_pid17955.log</p>
+</blockquote>
+<p>由以上错误信息可知，分配给java的内存不足，elasticsearch6.2 默认分配 jvm 空间大小为1g，这个虚机的内存大小不足，需要修改 jvm 空间分配，我们可以将1g改成512m</p>
+<pre><code class="language-bash">[es@localhost ~]$ vim /opt/elasticsearch-6.2.2/config/jvm.options
+-Xms1g  修改为 -Xms512m
+-Xmx1g	修改为 -Xmx512m
+</code></pre>
+<h3 id="错误二文件描述符不足">错误二：文件描述符不足</h3>
+<pre><code>ERROR: [3] bootstrap checks failed
+[1]: max file descriptors [65535] for elasticsearch process is too low, increase to at least [65536]
+[2]: memory locking requested for elasticsearch process but memory is not locked
+[3]: max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]
+</code></pre>
+<p>如何你按我的教程顺序来就不会发生这个错误，请参照准备工作这一节，修改相应的内核参数</p>
+<h3 id="错误三不能以root启动">错误三：不能以root启动</h3>
+<p>不能以root身份来启动es服务，需要以相应的es来启动</p>
+<h2 id="插件下载">插件下载</h2>
+<h3 id="下载中文分词器-elasticsearch-analysis-ik-插件">下载中文分词器 elasticsearch-analysis-ik 插件</h3>
+<pre><code class="language-bash">[es@localhost ~]$ /opt/elasticsearch-6.2.2/bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.2.2/elasticsearch-analysis-ik-6.2.2.zip
+</code></pre>
+<h3 id="下载-elasticsearch-head-插件">下载 elasticsearch-head 插件</h3>
+<p>head插件是elasticsearch的客户端工具</p>
+<pre><code class="language-bash"># 下载必要组件
+[root@localhost ~]# yum -y install nodejs npm git bzip2
+[root@localhost ~]# cd /opt/
+[root@localhost opt]# git clone https://github.com/mobz/elasticsearch-head.git
+[root@localhost opt]# npm install -g grunt-cli
+[root@localhost opt]# cd /opt/elasticsearch-head
+[root@localhost /opt/elasticsearch-head]# npm install
+# 修改Gruntfile.js
+[root@localhost opt]# cd /opt/elasticsearch-head
+[root@localhost /opt/elasticsearch-head]# vim Gruntfile.js
+# 在appcss后添加server块
+appcss: {
+                                src: fileSets.srcCss,
+                                dest: '_site/app.css'
+                        },
+                        server: {
+                                options: {
+                                        hostname: '*',          
+                                        port: 9100,
+                                        base: '.',      
+                                        keepalive: true
+                                }
+                        }
+                },
+## 对外开放端口为9100，允许任何主机访问
+# 修改elasticsearch-head默认连接地址
+## 修改head/_site/app.js，修改head连接es的地址（修改localhost为本机的IP地址）
+[root@localhost /opt/elasticsearch-head]#  cd _site
+[root@localhost _site]# vim app.js
+## 将localhost修改为es服务的IP地址
+修改前：this.base_uri = this.config.base_uri || this.prefs.get(&quot;app-base_uri&quot;) || &quot;http://localhost:9200&quot;;
+修改后： this.base_uri = this.config.base_uri || this.prefs.get(&quot;app-base_uri&quot;) || &quot;http://你的ip:9200&quot;;
+# 启动head服务
+[root@localhost _site]# cd /opt/elasticsearch-head/node_modules/grunt/bin/
+[root@localhost bin]# nohup ./grunt server &amp;
+# 修改 elasticsearch-6.2.2 配置文件
+[root@localhost opt]# su - es 
+[es@localhost opt]$ vim /opt/elasticsearch-6.2.2/config/elasticsearch.yml
+## 在配置文件最后添加下面两条
+http.cors.enabled: true	# 允许跨域访问，为了配合elasticsearch-head可视化ES界面
+http.cors.allow-origin: &quot;*&quot;	# 允许所有地址跨域访问
+## 然后重启es服务
+</code></pre>
+<p>在浏览器输入：http://你的ip:9100，开始使用es服务吧</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[一个 jar 包启动脚本]]></title>
+        <id>https://ixwu.github.io/start-up-script-of-jar-package</id>
+        <link href="https://ixwu.github.io/start-up-script-of-jar-package">
+        </link>
+        <updated>2018-12-27T10:30:20.000Z</updated>
+        <content type="html"><![CDATA[<p>一个启 jar 包的脚本，你希望它还能有什么功能？</p>
+<p>我希望它还能<strong>停止</strong>，<strong>重启</strong>，<strong>上线</strong>，<strong>回滚</strong>，能<strong>查看运行状态</strong>，能<strong>查看日志</strong>，于是有了下面这个脚本。</p>
+<h2 id="如何使用">如何使用？</h2>
+<pre><code class="language-bash"># 在你放脚本的地方执行下面这条命令下载脚本，本例是放在root目录下
+[root@localhost ~]# curl -s https://devops.xwlearn.com/shell/boot-jar.sh &gt; boot-jar.sh
+
+# 查看使用帮助
+[root@localhost ~]# bash boot-jar.sh 
+========================================================================
+ usage: boot-jar.sh [option] ... [start | stop | status | restart | log | upgrade]
+ bash boot-jar.sh start        : start service			# 启动服务
+ bash boot-jar.sh stop         : stop service			# 停止服务
+ bash boot-jar.sh status       : service status			# 查看运行状态
+ bash boot-jar.sh log          : service log			# 查看日志
+ bash boot-jar.sh restart      : restart service		# 重启服务
+ bash boot-jar.sh upgrade/up   : upgrade service		# 更新包
+ bash boot-jar.sh rollback/back: rollback service		# 回滚包
+========================================================================
+
+# 修改变量
+
+[root@localhost ~]# vim boot-jar.sh 
+UPLOAD_PATH=                    		# 上包目录，如/opt/upload
+DEPLOY_PATH=            				# jar包安装路径,如/opt/test
+PACKAGE_NAME= 							# jar包名,如test-hello-1.0.0.jar
+SERVICE_NAME=${PACKAGE_NAME%-*}         # 去掉后缀及版本号,本例为test-hello
+LOG_NAME=${SERVICE_NAME}.log            # 日志名，本例为test-hello.log
+ACTIVE=&quot;test&quot;                           # 启动相应环境配置，如test|pre|pro
+PACKAGE_PATH=$DEPLOY_PATH/$PACKAGE_NAME # 安装包路径,本例为 /opt/test/test-hello-1.0.0.jar
+LOG_PATH=$DEPLOY_PATH/logs/$LOG_NAME    # 日志路径,本例为 /opt/test/logs/test-hello.log
+BACKUP_PATH=$DEPLOY_PATH/backup         # 备份目录,本例为 /opt/test/backup
+BACKUP_LAST=$(find $BACKUP_PATH -name &quot;${PACKAGE_NAME}*&quot; | xargs ls -t | head -1)
+BACKUP_LAST_NAME=$(basename $BACKUP_LAST)  # 上一个备份包文件名
+......
+
+# 按照上面例子，需提前创建好相关目录
+
+上包目录	/opt/upload
+jar包安装目录	/opt/test
+日志目录	/opt/test/logs
+备份目录	/opt/test/backup
+
+# 这里利用花括号的扩展功能快速创建目录及子目录，下面脚本中会有花括号另一个妙用
+
+[root@localhost ~]# mkdir -p /opt/{upload,test/{logs,backup}}
+[root@localhost ~]# tree /opt
+[root@vultr ~]# tree -L 2 /opt
+/opt
+├── test
+│   ├── backup
+│   └── logs
+├── upload
+...
+
+# 把你的jar包放入 /opt/upload 就行了
+
+[root@localhost ~]# bash boot-jar.sh upload		# 上包并启动服务
+[root@localhost ~]# bash boot-jar.sh status		# 查看运行状态
+
+# 还可以把你的脚本目录放入path，就可以全局执行了
+
+[root@localhost ~]# chmod u+x boot-jar.sh
+[root@localhost ~]# vim /etc/profile.d/boot-jar.sh
+export PATH=&quot;$PATH:/root&quot;
+[root@localhost ~]# source /etc/profile.d/boot-jar.sh
+[root@localhost ~]# boot-jar.sh upload		# 上包并启动服务
+[root@localhost ~]# boot-jar.sh status		# 查看运行状态
+[root@localhost ~]# boot-jar.sh log		        # 查看日志
+......
+</code></pre>
+<p>在展示完整脚本前，我先介绍下它的几个亮点。</p>
+<h2 id="如何判断某程序是否安装">如何判断某程序是否安装？</h2>
+<pre><code class="language-bash"># 比如 java 
+[root@localhost ~]#  command -v java
+</code></pre>
+<h3 id="为什么用-command-判断而非-which">为什么用 command 判断？而非 which</h3>
+<p>command 是 bash 内置命令，性能更好; 而 which 是外部命令，性能低些，这还不是主要的，我们来看看这两个命令的定义：</p>
+<blockquote>
+<p>Run command with args suppressing the normal shell function lookup. Only builtin commands or commands found in the PATH are executed<br>
+If either the  -V or  -v  option  is  supplied, a description of command is printed<br>
+......<br>
+If the -V or -v option is supplied, the exit status  is  0  if  command  was found, and 1 if not.</p>
+</blockquote>
+<p>由上可知，command是运行系统真正的命令，而非别名。换种说法，你先查看下你的<code>ls</code>命令别名</p>
+<pre><code class="language-bash">[root@localhost ~]# alias ls
+alias ls='ls --color=auto'
+</code></pre>
+<p>所以说你键入<code>ls</code>命令时，实际运行的是<code>ls --color=auto</code>，假如有人把<code>ls</code>变成<code>rm -rf /</code>，你是不是该跑路了？</p>
+<p>command命令能让你只运行真正的<code>ls</code>，而非其别名。其<code>-v</code>选项是打印给定命令的简要描述，是别名的输出别名，不是的打印其命令路径，内置命令就输出其名称。更重要的是，它明确告诉你，如果找到了命令，就退出0，找不到就退出1，我们就利用这点判断系统是否安装某命令，注意，如果你安装了某应用，但是没有把它加入PATH，那就没法判断了。</p>
+<p>再来看看which</p>
+<blockquote>
+<p>shows the full path of (shell) commands</p>
+<p>Which returns the number of failed arguments, or -1 when no `programname´ was given</p>
+</blockquote>
+<p>which 主要是用来寻找命令的完整路径，其返回值是失败参数个数，也就是说which后面可跟多个参数，都找到了就返回0，失败一个返回1，失败n个返回n。没有给定参数，返回-1，也就是255，这是因为exit只能使用0~255之间的值，-1 的unsigned值便是255。</p>
+<p>看起来好像which也能根据返回状态码判断某程序是否安装？但是which是外置命令，不同系统上的which实现方式是不一样的，很多系统上的which甚至不设置退出状态码，这样不管你找没找到某程序，都返回0，请问你如何判断？</p>
+<p>除了command，type和hash这两个内置命令也可以判断，具体请看<a href="https://stackoverflow.com/questions/592620/how-to-check-if-a-program-exists-from-a-bash-script/677212#677212">stackoverflow</a></p>
+<h3 id="写成函数">写成函数</h3>
+<pre><code class="language-bash">function check_cmd() {
+
+    command -v $1  &gt;/dev/null 2&gt;&amp;1 || { echo &gt;&amp;2 &quot; \033[31m  $1 is not installed.  Aborting. \033[0m&quot;; exit 1; }
+
+}
+</code></pre>
+<p>这里的花括号其实是一个匿名函数，所以里面的语句末尾都得加分号。在<a href="https://www.cnblogs.com/yasmi/articles/5129571.html">这里</a>查看更多shell中括号的总结</p>
+<h2 id="如何获得运行程序的pid">如何获得运行程序的pid？</h2>
+<p>通常做法是</p>
+<pre><code class="language-bash">PID=$(ps -ef |grep -v grep |grep &lt;keyword&gt; |awk '{print $2 }')
+</code></pre>
+<p>这种方法不是不能用，但是我觉得不够优雅，最优雅的方式是使用pgrep命令，上述命令可以改成</p>
+<pre><code class="language-bash">PID=$(pgrep -f &lt;keyword&gt;)
+</code></pre>
+<blockquote>
+<p>The pattern is normally only matched against the process name.  When -f is set, the full command line is used.<br>
+The running pgrep or pkill process will never report itself as a match</p>
+</blockquote>
+<h2 id="如何获得上一条命令的最后一个参数">如何获得上一条命令的最后一个参数？</h2>
+<p>命令行中可以用!<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">，</mi><mi mathvariant="normal">这</mi><mi mathvariant="normal">是</mi><mi mathvariant="normal">与</mi><mi mathvariant="normal">‘</mi><mi>h</mi><mi>i</mi><mi>s</mi><mi>t</mi><mi>o</mi><mi>r</mi><mi>y</mi><mi mathvariant="normal">‘</mi><mi mathvariant="normal">命</mi><mi mathvariant="normal">令</mi><mi mathvariant="normal">相</mi><mi mathvariant="normal">关</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">特</mi><mi mathvariant="normal">殊</mi><mi mathvariant="normal">变</mi><mi mathvariant="normal">量</mi><mi mathvariant="normal">，</mi><mi mathvariant="normal">脚</mi><mi mathvariant="normal">本</mi><mi mathvariant="normal">中</mi><mi mathvariant="normal">就</mi><mi mathvariant="normal">不</mi><mi mathvariant="normal">可</mi><mi mathvariant="normal">以</mi><mi mathvariant="normal">这</mi><mi mathvariant="normal">样</mi><mi mathvariant="normal">了</mi><mi mathvariant="normal">，</mi><mi mathvariant="normal">通</mi><mi mathvariant="normal">用</mi><mi mathvariant="normal">做</mi><mi mathvariant="normal">法</mi><mi mathvariant="normal">是</mi><mi mathvariant="normal">‘</mi></mrow><annotation encoding="application/x-tex">，这是与`history`命令相关的特殊变量，脚本中就不可以这样了，通用做法是`</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">这</span><span class="mord cjk_fallback">是</span><span class="mord cjk_fallback">与</span><span class="mord">‘</span><span class="mord mathdefault">h</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mord">‘</span><span class="mord cjk_fallback">命</span><span class="mord cjk_fallback">令</span><span class="mord cjk_fallback">相</span><span class="mord cjk_fallback">关</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">特</span><span class="mord cjk_fallback">殊</span><span class="mord cjk_fallback">变</span><span class="mord cjk_fallback">量</span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">脚</span><span class="mord cjk_fallback">本</span><span class="mord cjk_fallback">中</span><span class="mord cjk_fallback">就</span><span class="mord cjk_fallback">不</span><span class="mord cjk_fallback">可</span><span class="mord cjk_fallback">以</span><span class="mord cjk_fallback">这</span><span class="mord cjk_fallback">样</span><span class="mord cjk_fallback">了</span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">通</span><span class="mord cjk_fallback">用</span><span class="mord cjk_fallback">做</span><span class="mord cjk_fallback">法</span><span class="mord cjk_fallback">是</span><span class="mord">‘</span></span></span></span>_`，命令行和脚本中都可以。这个是我自己试出来了的，墙内还没找到相关资料，刚刚为了印证，才翻了墙找了找，果然如我所料。</p>
+<pre><code class="language-bash">mkdir test &amp;&amp; cd $_    # 创建test目录并进入
+# 通常我们进入目录前最好判断该目录是否存在，可以用 []、[[]]以及test来进行条件测试，但知道了$_后，我通通改成下面这样，因为用了 [ ] 和 [[ ]] 就不能使用$_
+test -d test &amp;&amp; cd $_
+# 万一不存在test目录，而我们希望创建后然后又进去，该如何做呢？
+test -d test &amp;&amp; cd $_ || mkdir $_ &amp;&amp; cd $_ 
+# 这就有点多余了，我们来优化下
+test -d test  || mkdir $_ &amp;&amp; cd $_ 
+# 扩展，删除文件时我们也会判断下某文件是否存在，比如
+[ -f /usr/local/src/justfortest.md ] &amp;&amp; rm -f /usr/local/src/justfortest.md
+# 这就显得臃肿了，我们来优化下
+test -f /usr/local/src/justfortest.md &amp;&amp; rm -f $_
+</code></pre>
+<h2 id="完整脚本">完整脚本</h2>
+<pre><code class="language-bash">#!/bin/bash
+
+UPLOAD_PATH=						# 上包目录
+DEPLOY_PATH=						# 安装路径
+PACKAGE_NAME=						# 包名
+SERVICE_NAME=${PACKAGE_NAME%-*}		# 切割包名，去掉后缀及版本号
+LOG_NAME=${SERVICE_NAME}.log		# 日志名
+ACTIVE=&quot;test&quot;						# 运行环境 test|pre|pro
+PACKAGE_PATH=$DEPLOY_PATH/$PACKAGE_NAME	# 安装包路径,如果是war的话, 改为$DEPLOY_PATH/webapps/$PACKAGE_NAME，$DEPLOY_PATH 值为tomcat路径，如/data/tomcat
+LOG_PATH=$DEPLOY_PATH/logs/$LOG_NAME	# 日志路径
+BACKUP_PATH=$DEPLOY_PATH/backup			# 备份目录
+BACKUP_LAST=$(find $BACKUP_PATH -name &quot;${PACKAGE_NAME}*&quot; | xargs ls -t | head -1)
+BACKUP_LAST_NAME=$(basename $BACKUP_LAST)
+
+RETVAL=&quot;0&quot;
+
+function check_ok() {
+
+        if [ $? != 0 ] 
+        then
+            echo -e &quot;\033[31m ERROR! $1 \033[0m&quot;
+            exit 1
+        fi  
+}
+
+function check_cmd() {
+
+    command -v $1  &gt;/dev/null 2&gt;&amp;1 || { echo &gt;&amp;2 &quot; \033[31m  $1 is not installed.  Aborting. \033[0m&quot;; exit 1; }
+
+}
+
+function get_pid() {
+
+    PID=$(pgrep -f $PACKAGE_NAME)
+}
+
+function backup() {
+
+local TIMESTAMP=$(date +%F-%H-%M)
+
+    test -d $BACKUP_PATH || mkdir -p $_
+    test -f $PACKAGE_PATH &amp;&amp; mv -b  $_ $BACKUP_PATH/${PACKAGE_NAME}_${TIMESTAMP}   
+}
+
+function upload() {
+
+
+    test -d $UPLOAD_PATH || mkdir -p $_
+
+# 判断上包目录是否存在新包
+    if [ -f $UPLOAD_PATH/$PACKAGE_NAME ];then
+# 关服务
+    stop
+
+check_ok &quot;stop $SERVICE_NAME&quot;
+# 判断安装目录是否存在
+
+    test -d $DEPLOY_PATH || mkdir -p $_ 
+    backup
+
+    mv $UPLOAD_PATH/$PACKAGE_NAME $DEPLOY_PATH
+# 起服务
+    start
+
+    else 
+
+	echo -e &quot; \033[31m there is no new package in $UPLOAD_PATH \033[0m&quot;
+	exit 1
+    fi
+}
+
+function rollback() {
+
+# 停服务
+stop
+# 删除安装目录中的包
+test -f $PACKAGE_PATH &amp;&amp; rm -f $_
+# 回滚上一个包
+test -f $BACKUP_PATH/$BACKUP_LAST_NAME &amp;&amp; mv $_ $PACKAGE_PATH
+# 起服务
+start
+}
+
+
+
+function start() {
+
+# 先判断java是否存在
+    check_cmd java
+
+#local  PID=$(pgrep -f $PACKAGE_NAME)
+
+    get_pid
+
+    if [ ${PID} ]; then
+    echo -e  &quot; $SERVICE_NAME is running, please run \033[34m $0 stop \033[0m first&quot;
+    exit 1
+    fi
+
+# 先判断日志文件是否存在
+	
+    test -d $DEPLOY_PATH/logs || mkdir -p $_ 
+
+    cd $DEPLOY_PATH/logs
+
+    test -f $LOG_NAME || touch $_
+# 判断安装目录中是否有包
+
+    test -f $PACKAGE_PATH || { echo &quot;there is no package in $_&quot;;exit 1;}
+
+    nohup java -jar $PACKAGE_PATH --spring.profiles.active=$ACTIVE  &gt; $LOG_PATH 2&gt;&amp;1 &amp;
+
+    check_ok &quot;running java -jar ...&quot;
+
+    echo -e  &quot;$SERVICE_NAME \033[34m Started \033[0m&quot;
+
+    echo  -e &quot;查看日志命令：\033[34m $0 log \033[0m 或者 \033[34m  tail -f $LOG_PATH \033[0m&quot;
+}
+
+function stop() {
+
+#local  PID=$(pgrep -f $PACKAGE_NAME)
+
+    get_pid
+
+    if [ ${PID} ]; then
+    echo $SERVICE_NAME 'Stop Process'[${PID}]
+    kill -15 $PID
+    fi
+
+    sleep 5
+    
+# local  PID=$(pgrep -f $PACKAGE_NAME)
+
+    get_pid
+
+    if [ ${PID} ]; then
+        echo $SERVICE_NAME' Kill Process'[${PID}]
+        kill -9 $PID
+    else
+        echo $SERVICE_NAME' Stop Success!'
+    fi
+}
+
+function status(){
+
+#local  PID=$(pgrep -f $PACKAGE_NAME)
+
+    get_pid
+
+    if [ &quot;$PID&quot; != &quot;&quot; ]; then
+        echo -e &quot;$SERVICE_NAME is \033[34m Running \033[0m [$PID] &quot;
+    else
+        echo -e &quot;$SERVICE_NAME is \033[31m Stopped \033[0m &quot;
+    fi
+}
+
+function log(){
+
+	tail -100f $LOG_PATH
+}
+
+function usage(){
+
+   echo &quot;========================================================================================&quot;
+   echo -e &quot;\033[34m usage: $0 [option] ... [start | stop | status | restart | log | upgrade]\033[0m&quot;
+   echo -e &quot;\033[34m bash $0 start \033[0m       : start service&quot;
+   echo -e &quot;\033[34m bash $0 stop \033[0m        : stop service&quot;
+   echo -e &quot;\033[34m bash $0 status \033[0m      : service status&quot;
+   echo -e &quot;\033[34m bash $0 log \033[0m         : service log&quot;
+   echo -e &quot;\033[34m bash $0 restart \033[0m     : restart service&quot;
+   echo -e &quot;\033[34m bash $0 upgrade/up\033[0m   : upgrade service&quot;	# 升级服务
+   echo -e &quot;\033[34m bash $0 rollback/back\033[0m: rollback service&quot;	# 回滚服务
+   echo &quot;========================================================================================&quot;
+
+   
+
+   RETVAL=&quot;2&quot;
+}
+
+RETVAL=&quot;0&quot;
+
+case &quot;$1&quot; in
+    start)
+	get_pid
+	if [ $PID ];then
+        echo -e &quot; $SERVICE_NAME is running, please run \033[34m $0 stop \033[0m or \033[34m $0 restart \033[0m&quot;
+        else
+	start
+	fi
+        ;;
+    stop)
+	echo &quot;will stop $SERVICE_NAME&quot;
+        stop
+        ;;
+    restart)
+	echo &quot;will stop $SERVICE_NAME&quot;
+	stop
+	echo &quot;will start $SERVICE_NAME&quot;
+	start
+        ;;
+    upgrade|up)
+	echo &quot;will upgrade $SERVICE_NAME&quot;
+	upload
+        ;;
+    log)
+        log
+        ;;
+    status)
+        status
+        ;;
+    rollback|back)
+	echo &quot;will rollback to the last version&quot;
+        rollback
+        ;;
+    *)
+       usage 
+        ;;
+esac
+
+exit $RETVAL
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[编译安装GraphicsMagick-1.3.28]]></title>
+        <id>https://ixwu.github.io/howto-compile-GraphicsMagick-1.3.28</id>
+        <link href="https://ixwu.github.io/howto-compile-GraphicsMagick-1.3.28">
+        </link>
+        <updated>2018-12-26T09:25:52.000Z</updated>
+        <content type="html"><![CDATA[<p>GraphicsMagick 号称为图像处理领域的瑞士军刀，下面是我的安装笔记，如果你想一键安装可以在命令行运行</p>
+<pre><code class="language-bash">curl -s https://devops.xwlearn.com/shell/gmagick.sh | bash 
+source /etc/profile.d/gmagick.sh
+</code></pre>
+<h2 id="系统版本">系统版本</h2>
+<pre><code class="language-bash">[root@localhost local]# uname -r
+3.10.0-693.2.2.el7.x86_64
+[root@localhost local]# cat /etc/redhat-release 
+CentOS Linux release 7.4.1708 (Core) 
+</code></pre>
+<h2 id="官网地址">官网地址</h2>
+<p>ftp://ftp.graphicsmagick.org/pub/GraphicsMagick/</p>
+<h2 id="下载版本">下载版本</h2>
+<p>GraphicsMagick-1.3.28</p>
+<h2 id="下载依赖">下载依赖</h2>
+<pre><code class="language-bash">yum install -y libjpeg-devel libjpeg
+yum install -y libpng-devel libpng
+yum install -y giflib-devel giflib
+</code></pre>
+<h2 id="安装过程">安装过程</h2>
+<pre><code class="language-bash"># 下载
+wget ftp://ftp.graphicsmagick.org/pub/GraphicsMagick/1.3/GraphicsMagick-1.3.28.tar.gz
+# 解压
+tar -zxvf GraphicsMagick-1.3.28.tar.gz 
+cd GraphicsMagick-1.3.28
+#编译
+./configure --prefix=/usr/local/GraphicsMagick-1.3.28 --with-quantum-depth=8   --enable-shared --enable-static
+make &amp;&amp; make install
+# 创建软链
+ln -s /usr/local/GraphicsMagick-1.3.28  /usr/local/GraphicsMagick
+</code></pre>
+<h2 id="设置环境变量">设置环境变量</h2>
+<pre><code class="language-bash">vim /etc/profile.d/gmagick.sh
+export GMAGICK_HOME=&quot;/usr/local/GraphicsMagick&quot;
+export PATH=&quot;$GMAGICK_HOME/bin:$PATH&quot;
+LD_LIBRARY_PATH=$GMAGICK_HOME/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH
+</code></pre>
+<blockquote>
+<p>生效配置 source /etc/profile.d/gmagick.sh</p>
+</blockquote>
+<h2 id="测试">测试</h2>
+<pre><code class="language-bash">gm convert -list formats
+</code></pre>
+<blockquote>
+<p>如果列表中显示PNG、JPEG、GIF等则表示已支持图片转换</p>
+</blockquote>
+<h2 id="一键安装脚本">一键安装脚本</h2>
+<p>我现在养成了一个习惯，每写一篇文档就会写一份相应的脚本，下面这个脚本已经在CentOS7和CentOS6环境测试过</p>
+<pre><code class="language-bash">#!/bin/bash
+
+SRC_PATH=/usr/local/src		#源码安装目录
+SRC_URL=ftp://ftp.graphicsmagick.org/pub/GraphicsMagick/1.3/GraphicsMagick-1.3.28.tar.gz		#源码地址
+PACKAGE_NAME=$(basename $SRC_URL)   	# GraphicsMagick-1.3.28.tar.gz
+PACKAGE_FILE=$(basename $PACKAGE_NAME .tar.gz) 		# GraphicsMagick-1.3.28
+PACKAGE_NAME_PURE=${PACKAGE_FILE%-*}    		# GraphicsMagick
+INSTALL_PATH=/usr/local		# 应用安装目录
+
+
+check_ok() {
+	if [ $? != 0 ] 
+	then
+	    echo -e &quot;\033[31m ERROR! $1 \033[0m&quot;
+	    exit 1
+	fi
+}
+
+check_yum() {
+	if ! rpm -qa|grep -q &quot;^$1&quot;
+	then
+	    yum install -y $1
+	    check_ok
+	else
+	    echo -e &quot;\033[34m $1 already installed \033[0m.&quot;
+	fi
+}
+
+deploy-gmagick() {
+
+# 下载依赖，把需要的依赖放在一个数组里
+arr_package=(&quot;libjpeg-devel&quot; &quot;libjpeg&quot; &quot;libpng-devel&quot; &quot;libpng&quot; &quot;giflib-devel&quot; &quot;giflib&quot;)
+
+for package in ${arr_package[@]};do
+	check_yum $package
+done
+
+# $_ 代表上一个命令最后一个参数
+
+test -d $SRC_PATH  &amp;&amp; cd $_  ||  mkdir -p $_ &amp;&amp; cd $_ 
+
+# 如果已经安装了就不需要下载了
+if [ ! -f  $PACKAGE_NAME -a ! -d $PACKAGE_FILE ];then
+
+wget $SRC_URL
+
+check_ok &quot;download $PACKAGE_NAME_PURE&quot;
+
+tar zxvf $PACKAGE_NAME 
+
+check_ok &quot;tar xf  $PACKAGE_NAME_PURE&quot;
+
+elif [ -f $PACKAGE_NAME -a ! -d $PACKAGE_FILE ];then
+
+tar zxvf $PACKAGE_NAME
+
+check_ok &quot;tar xf  $PACKAGE_NAME_PURE&quot;
+
+else 
+
+echo &quot;you have installed $PACKAGE_FILE &quot;
+
+fi
+
+
+cd $PACKAGE_FILE
+
+./configure --prefix=$INSTALL_PATH/$PACKAGE_FILE --with-quantum-depth=8   --enable-shared --enable-static
+
+check_ok &quot;configure&quot;
+
+make &amp;&amp; make install
+
+check_ok &quot;make install&quot;
+
+test -d $INSTALL_PATH  || mkdir -p $_ 
+
+test -h $INSTALL_PATH/$PACKAGE_NAME_PURE &amp;&amp; rm -f $_
+
+ln -s $INSTALL_PATH/$PACKAGE_FILE $INSTALL_PATH/$PACKAGE_NAME_PURE
+
+}
+
+config-gmagick(){
+
+# 利用 here document 创建环境变量
+cat &gt;&gt; /etc/profile.d/gmagick.sh  &lt;&lt; EOF
+export GMAGICK_HOME=&quot;$INSTALL_PATH/$PACKAGE_NAME_PURE&quot;
+export PATH=&quot;\$GMAGICK_HOME/bin:\$PATH&quot;
+LD_LIBRARY_PATH=\$GMAGICK_HOME/lib:\$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH
+EOF
+
+source /etc/profile.d/gmagick.sh		# 如果用bash执行这个脚本的话，此处不会生效，需要手动在命令行重新执行一次 source /etc/profile.d/gmagick.sh
+
+}
+
+deploy-gmagick
+
+check_ok &quot;deploy-gmagick&quot;
+
+echo &quot;start to configure GgraphMagick&quot;
+
+config-gmagick
+
+[ $? == &quot;0&quot; ] &amp;&amp; echo &quot;SUCCESS&quot;
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[如何替换jar/war包里的文件]]></title>
+        <id>https://ixwu.github.io/howto-replace-file-in-war-package</id>
+        <link href="https://ixwu.github.io/howto-replace-file-in-war-package">
+        </link>
+        <updated>2018-12-25T02:14:55.000Z</updated>
+        <content type="html"><![CDATA[<h2 id="要替换的文件在-jarwar-包的根目录">要替换的文件在 jar/war 包的根目录</h2>
+<pre><code class="language-shell"># 如要替换 test.war 包里的 test.xml
+[xuwu@localhost ~]$ jar uvf test.war test.xml
+</code></pre>
+<h2 id="要替换的文件在-jarwar-包的其他目录">要替换的文件在 jar/war 包的其他目录</h2>
+<pre><code class="language-shell"># 如果不知道想改的文件在哪个目录，可以用 grep 查看下
+[xuwu@localhost ~]$ jar tvf test.war | grep application.yml
+   507 Tue Dec 25 09:45:48 CST 2018 WEB-INF/classes/application.yml
+
+## 解压该文件,该目录下会生成该文件的目录结构
+[xuwu@localhost ~]$ jar xvf test.war
+[xuwu@localhost ~]$ ll
+drwxrwxr-x 3 xuwu xuwu     4096 12月  6 21:54 META-INF
+drwxrwxr-x 4 xuwu xuwu     4096 12月  6 21:54 WEB-INF
+
+## 修改 WEB-INF/classes/application.yml 修改的内容，然后替换 war 包相应文件
+[xuwu@localhost ~]$ jar uvf test.war WEB-INF/classes/application.yml
+
+</code></pre>
+<h2 id="扩展">扩展</h2>
+<ul>
+<li>可以把与环境相关的文件直接放在服务器上，上线时用服务器本地的文件替换，防止开发打错包</li>
+<li>增量打包，很多时候开发只是修改其中一个文件，没必要重新打包，直接替换该文件即可</li>
+</ul>
+<h2 id="jar-常见用法">jar 常见用法</h2>
+<pre><code class="language-shell"># 解压 .jar/.war 文件到当前目录
+jar -xvf file.jar
+
+# 列出 .jar/.war 文件内容
+jar -tf file.jar
+
+-v 在标准输出中生成详细输出
+-u 更新现有文件
+-c 创建新归档文件
+-f 指定归档文件名
+-x 解档文件
+-t 列出归档文件内容
+-0  仅存储; 不使用任何 ZIP 压缩（把jar包放进war必须把这个参数加上）
+</code></pre>
 ]]></content>
     </entry>
 </feed>

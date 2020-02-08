@@ -1,0 +1,754 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>一个 jar 包启动脚本 | 习吾学</title>
+<meta name="description" content="温故而知新" />
+<link rel="shortcut icon" href="https://ixwu.github.io/favicon.ico">
+<link rel="stylesheet" href="https://ixwu.github.io/styles/main.css">
+
+<script src="https://ixwu.github.io/media/js/jquery.min.js"></script>
+<script src="https://ixwu.github.io/media/js/masonry.pkgd.min.js"></script>
+<script src="https://ixwu.github.io/media/js/aos.js"></script>
+<script src="https://ixwu.github.io/media/js/pace.min.js"></script>
+<script src="https://ixwu.github.io/media/js/view-image.min.js"></script>
+<script src="https://ixwu.github.io/media/js/functions.js"></script>
+    <script src="https://ixwu.github.io/media/js/waterfall.min.js"></script>
+    <script src="https://ixwu.github.io/media/js/prism.min.js"></script>
+    
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min.js"></script>
+    
+  </head>
+  <body>
+            <header id="header" class="grid-container">
+        <!-- start: .menu-wrapper -->
+        <div class="menu-mobile"> 
+          <i class="fa fa-reorder"></i>
+        </div>
+        <div class="menu-wrapper">
+          <div class="">
+            <div class="logo">
+              <a href="https://ixwu.github.io"><img src="https://ixwu.github.io/media/images/logoo.png" alt=""></a>
+            </div>
+            <!-- start: .main-nav -->
+
+            <nav class="main-nav grid-container grid-parent">
+              <ul id="menu-header" class="menu gradient-effect">
+                
+                  <li class=""><a href="https://ixwu.github.io" class="menu">首页</a></li>
+                
+                
+                  <li class="" >
+                    <a href="/books" class="menu">
+                      阅读
+                    </a>
+                  </li>
+                
+                  <li class="" >
+                    <a href="/movies" class="menu">
+                      观影
+                    </a>
+                  </li>
+                
+                  <li class="" >
+                    <a href="/archives" class="menu">
+                      归档
+                    </a>
+                  </li>
+                
+                  <li class="" >
+                    <a href="/friends" class="menu">
+                      友链
+                    </a>
+                  </li>
+                
+              </ul>
+            </nav>
+            <!-- end: .main-nav -->
+            <div class="clear"></div>
+            <div class="border hide-on-tablet hide-on-mobile"></div>
+          </div>    
+          <div class="clear"></div>
+        </div>
+        <!-- end: .menu-wrapper -->
+        <div class="clear"></div>
+      </header>
+
+      <main id="single" class="main grid-container fullcover no-sidebar aos-init aos-animate" data-aos="fade">
+
+        <div class="center content">
+          <div class="featured-image cover" style="background-image: url('https://ixwu.github.io/media/images/4meKkICmMZ.jpg');">
+            <div class="meta top"> 
+              <time class="meta-info" style="float:left;" datetime="2018-12-27"><i class="fa fa-calendar"></i><span class="lately">1 年前</span></time>
+               
+               
+               <span id="/post/start-up-script-of-jar-package/" class="leancloud_visitors views-counter meta-info">
+                <i class="fa fa-leancloud"></i><span class="leancloud-visitors-count" style="vertical-align: middle;">0</span>
+               </span>
+               
+            </div>
+            <div class="info">
+              <div class="tags ">
+                
+                      <a href="https://ixwu.github.io/tag/4meKkICmMZ" class="ctag ctag-0 ctag-4meKkICmMZ" aria-label="">shell</a>
+                    
+              </div>
+              <h1 class="title ularge white bold">一个 jar 包启动脚本</h1>
+            </div>
+          </div>
+        </div>  
+
+        <div class="epcl-page-wrapper">
+          <div class="left-content grid-70 np-mobile">
+            <article class="main-article post">
+              <section class="post-content">
+                <div class="text">
+                  <p>一个启 jar 包的脚本，你希望它还能有什么功能？</p>
+<p>我希望它还能<strong>停止</strong>，<strong>重启</strong>，<strong>上线</strong>，<strong>回滚</strong>，能<strong>查看运行状态</strong>，能<strong>查看日志</strong>，于是有了下面这个脚本。</p>
+<h2 id="如何使用">如何使用？</h2>
+<pre><code class="language-bash"># 在你放脚本的地方执行下面这条命令下载脚本，本例是放在root目录下
+[root@localhost ~]# curl -s https://devops.xwlearn.com/shell/boot-jar.sh &gt; boot-jar.sh
+
+# 查看使用帮助
+[root@localhost ~]# bash boot-jar.sh 
+========================================================================
+ usage: boot-jar.sh [option] ... [start | stop | status | restart | log | upgrade]
+ bash boot-jar.sh start        : start service			# 启动服务
+ bash boot-jar.sh stop         : stop service			# 停止服务
+ bash boot-jar.sh status       : service status			# 查看运行状态
+ bash boot-jar.sh log          : service log			# 查看日志
+ bash boot-jar.sh restart      : restart service		# 重启服务
+ bash boot-jar.sh upgrade/up   : upgrade service		# 更新包
+ bash boot-jar.sh rollback/back: rollback service		# 回滚包
+========================================================================
+
+# 修改变量
+
+[root@localhost ~]# vim boot-jar.sh 
+UPLOAD_PATH=                    		# 上包目录，如/opt/upload
+DEPLOY_PATH=            				# jar包安装路径,如/opt/test
+PACKAGE_NAME= 							# jar包名,如test-hello-1.0.0.jar
+SERVICE_NAME=${PACKAGE_NAME%-*}         # 去掉后缀及版本号,本例为test-hello
+LOG_NAME=${SERVICE_NAME}.log            # 日志名，本例为test-hello.log
+ACTIVE=&quot;test&quot;                           # 启动相应环境配置，如test|pre|pro
+PACKAGE_PATH=$DEPLOY_PATH/$PACKAGE_NAME # 安装包路径,本例为 /opt/test/test-hello-1.0.0.jar
+LOG_PATH=$DEPLOY_PATH/logs/$LOG_NAME    # 日志路径,本例为 /opt/test/logs/test-hello.log
+BACKUP_PATH=$DEPLOY_PATH/backup         # 备份目录,本例为 /opt/test/backup
+BACKUP_LAST=$(find $BACKUP_PATH -name &quot;${PACKAGE_NAME}*&quot; | xargs ls -t | head -1)
+BACKUP_LAST_NAME=$(basename $BACKUP_LAST)  # 上一个备份包文件名
+......
+
+# 按照上面例子，需提前创建好相关目录
+
+上包目录	/opt/upload
+jar包安装目录	/opt/test
+日志目录	/opt/test/logs
+备份目录	/opt/test/backup
+
+# 这里利用花括号的扩展功能快速创建目录及子目录，下面脚本中会有花括号另一个妙用
+
+[root@localhost ~]# mkdir -p /opt/{upload,test/{logs,backup}}
+[root@localhost ~]# tree /opt
+[root@vultr ~]# tree -L 2 /opt
+/opt
+├── test
+│   ├── backup
+│   └── logs
+├── upload
+...
+
+# 把你的jar包放入 /opt/upload 就行了
+
+[root@localhost ~]# bash boot-jar.sh upload		# 上包并启动服务
+[root@localhost ~]# bash boot-jar.sh status		# 查看运行状态
+
+# 还可以把你的脚本目录放入path，就可以全局执行了
+
+[root@localhost ~]# chmod u+x boot-jar.sh
+[root@localhost ~]# vim /etc/profile.d/boot-jar.sh
+export PATH=&quot;$PATH:/root&quot;
+[root@localhost ~]# source /etc/profile.d/boot-jar.sh
+[root@localhost ~]# boot-jar.sh upload		# 上包并启动服务
+[root@localhost ~]# boot-jar.sh status		# 查看运行状态
+[root@localhost ~]# boot-jar.sh log		        # 查看日志
+......
+</code></pre>
+<p>在展示完整脚本前，我先介绍下它的几个亮点。</p>
+<h2 id="如何判断某程序是否安装">如何判断某程序是否安装？</h2>
+<pre><code class="language-bash"># 比如 java 
+[root@localhost ~]#  command -v java
+</code></pre>
+<h3 id="为什么用-command-判断而非-which">为什么用 command 判断？而非 which</h3>
+<p>command 是 bash 内置命令，性能更好; 而 which 是外部命令，性能低些，这还不是主要的，我们来看看这两个命令的定义：</p>
+<blockquote>
+<p>Run command with args suppressing the normal shell function lookup. Only builtin commands or commands found in the PATH are executed<br>
+If either the  -V or  -v  option  is  supplied, a description of command is printed<br>
+......<br>
+If the -V or -v option is supplied, the exit status  is  0  if  command  was found, and 1 if not.</p>
+</blockquote>
+<p>由上可知，command是运行系统真正的命令，而非别名。换种说法，你先查看下你的<code>ls</code>命令别名</p>
+<pre><code class="language-bash">[root@localhost ~]# alias ls
+alias ls='ls --color=auto'
+</code></pre>
+<p>所以说你键入<code>ls</code>命令时，实际运行的是<code>ls --color=auto</code>，假如有人把<code>ls</code>变成<code>rm -rf /</code>，你是不是该跑路了？</p>
+<p>command命令能让你只运行真正的<code>ls</code>，而非其别名。其<code>-v</code>选项是打印给定命令的简要描述，是别名的输出别名，不是的打印其命令路径，内置命令就输出其名称。更重要的是，它明确告诉你，如果找到了命令，就退出0，找不到就退出1，我们就利用这点判断系统是否安装某命令，注意，如果你安装了某应用，但是没有把它加入PATH，那就没法判断了。</p>
+<p>再来看看which</p>
+<blockquote>
+<p>shows the full path of (shell) commands</p>
+<p>Which returns the number of failed arguments, or -1 when no `programname´ was given</p>
+</blockquote>
+<p>which 主要是用来寻找命令的完整路径，其返回值是失败参数个数，也就是说which后面可跟多个参数，都找到了就返回0，失败一个返回1，失败n个返回n。没有给定参数，返回-1，也就是255，这是因为exit只能使用0~255之间的值，-1 的unsigned值便是255。</p>
+<p>看起来好像which也能根据返回状态码判断某程序是否安装？但是which是外置命令，不同系统上的which实现方式是不一样的，很多系统上的which甚至不设置退出状态码，这样不管你找没找到某程序，都返回0，请问你如何判断？</p>
+<p>除了command，type和hash这两个内置命令也可以判断，具体请看<a href="https://stackoverflow.com/questions/592620/how-to-check-if-a-program-exists-from-a-bash-script/677212#677212">stackoverflow</a></p>
+<h3 id="写成函数">写成函数</h3>
+<pre><code class="language-bash">function check_cmd() {
+
+    command -v $1  &gt;/dev/null 2&gt;&amp;1 || { echo &gt;&amp;2 &quot; \033[31m  $1 is not installed.  Aborting. \033[0m&quot;; exit 1; }
+
+}
+</code></pre>
+<p>这里的花括号其实是一个匿名函数，所以里面的语句末尾都得加分号。在<a href="https://www.cnblogs.com/yasmi/articles/5129571.html">这里</a>查看更多shell中括号的总结</p>
+<h2 id="如何获得运行程序的pid">如何获得运行程序的pid？</h2>
+<p>通常做法是</p>
+<pre><code class="language-bash">PID=$(ps -ef |grep -v grep |grep &lt;keyword&gt; |awk '{print $2 }')
+</code></pre>
+<p>这种方法不是不能用，但是我觉得不够优雅，最优雅的方式是使用pgrep命令，上述命令可以改成</p>
+<pre><code class="language-bash">PID=$(pgrep -f &lt;keyword&gt;)
+</code></pre>
+<blockquote>
+<p>The pattern is normally only matched against the process name.  When -f is set, the full command line is used.<br>
+The running pgrep or pkill process will never report itself as a match</p>
+</blockquote>
+<h2 id="如何获得上一条命令的最后一个参数">如何获得上一条命令的最后一个参数？</h2>
+<p>命令行中可以用!<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi mathvariant="normal">，</mi><mi mathvariant="normal">这</mi><mi mathvariant="normal">是</mi><mi mathvariant="normal">与</mi><mi mathvariant="normal">‘</mi><mi>h</mi><mi>i</mi><mi>s</mi><mi>t</mi><mi>o</mi><mi>r</mi><mi>y</mi><mi mathvariant="normal">‘</mi><mi mathvariant="normal">命</mi><mi mathvariant="normal">令</mi><mi mathvariant="normal">相</mi><mi mathvariant="normal">关</mi><mi mathvariant="normal">的</mi><mi mathvariant="normal">特</mi><mi mathvariant="normal">殊</mi><mi mathvariant="normal">变</mi><mi mathvariant="normal">量</mi><mi mathvariant="normal">，</mi><mi mathvariant="normal">脚</mi><mi mathvariant="normal">本</mi><mi mathvariant="normal">中</mi><mi mathvariant="normal">就</mi><mi mathvariant="normal">不</mi><mi mathvariant="normal">可</mi><mi mathvariant="normal">以</mi><mi mathvariant="normal">这</mi><mi mathvariant="normal">样</mi><mi mathvariant="normal">了</mi><mi mathvariant="normal">，</mi><mi mathvariant="normal">通</mi><mi mathvariant="normal">用</mi><mi mathvariant="normal">做</mi><mi mathvariant="normal">法</mi><mi mathvariant="normal">是</mi><mi mathvariant="normal">‘</mi></mrow><annotation encoding="application/x-tex">，这是与`history`命令相关的特殊变量，脚本中就不可以这样了，通用做法是`</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">这</span><span class="mord cjk_fallback">是</span><span class="mord cjk_fallback">与</span><span class="mord">‘</span><span class="mord mathdefault">h</span><span class="mord mathdefault">i</span><span class="mord mathdefault">s</span><span class="mord mathdefault">t</span><span class="mord mathdefault">o</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mord">‘</span><span class="mord cjk_fallback">命</span><span class="mord cjk_fallback">令</span><span class="mord cjk_fallback">相</span><span class="mord cjk_fallback">关</span><span class="mord cjk_fallback">的</span><span class="mord cjk_fallback">特</span><span class="mord cjk_fallback">殊</span><span class="mord cjk_fallback">变</span><span class="mord cjk_fallback">量</span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">脚</span><span class="mord cjk_fallback">本</span><span class="mord cjk_fallback">中</span><span class="mord cjk_fallback">就</span><span class="mord cjk_fallback">不</span><span class="mord cjk_fallback">可</span><span class="mord cjk_fallback">以</span><span class="mord cjk_fallback">这</span><span class="mord cjk_fallback">样</span><span class="mord cjk_fallback">了</span><span class="mord cjk_fallback">，</span><span class="mord cjk_fallback">通</span><span class="mord cjk_fallback">用</span><span class="mord cjk_fallback">做</span><span class="mord cjk_fallback">法</span><span class="mord cjk_fallback">是</span><span class="mord">‘</span></span></span></span>_`，命令行和脚本中都可以。这个是我自己试出来了的，墙内还没找到相关资料，刚刚为了印证，才翻了墙找了找，果然如我所料。</p>
+<pre><code class="language-bash">mkdir test &amp;&amp; cd $_    # 创建test目录并进入
+# 通常我们进入目录前最好判断该目录是否存在，可以用 []、[[]]以及test来进行条件测试，但知道了$_后，我通通改成下面这样，因为用了 [ ] 和 [[ ]] 就不能使用$_
+test -d test &amp;&amp; cd $_
+# 万一不存在test目录，而我们希望创建后然后又进去，该如何做呢？
+test -d test &amp;&amp; cd $_ || mkdir $_ &amp;&amp; cd $_ 
+# 这就有点多余了，我们来优化下
+test -d test  || mkdir $_ &amp;&amp; cd $_ 
+# 扩展，删除文件时我们也会判断下某文件是否存在，比如
+[ -f /usr/local/src/justfortest.md ] &amp;&amp; rm -f /usr/local/src/justfortest.md
+# 这就显得臃肿了，我们来优化下
+test -f /usr/local/src/justfortest.md &amp;&amp; rm -f $_
+</code></pre>
+<h2 id="完整脚本">完整脚本</h2>
+<pre><code class="language-bash">#!/bin/bash
+
+UPLOAD_PATH=						# 上包目录
+DEPLOY_PATH=						# 安装路径
+PACKAGE_NAME=						# 包名
+SERVICE_NAME=${PACKAGE_NAME%-*}		# 切割包名，去掉后缀及版本号
+LOG_NAME=${SERVICE_NAME}.log		# 日志名
+ACTIVE=&quot;test&quot;						# 运行环境 test|pre|pro
+PACKAGE_PATH=$DEPLOY_PATH/$PACKAGE_NAME	# 安装包路径,如果是war的话, 改为$DEPLOY_PATH/webapps/$PACKAGE_NAME，$DEPLOY_PATH 值为tomcat路径，如/data/tomcat
+LOG_PATH=$DEPLOY_PATH/logs/$LOG_NAME	# 日志路径
+BACKUP_PATH=$DEPLOY_PATH/backup			# 备份目录
+BACKUP_LAST=$(find $BACKUP_PATH -name &quot;${PACKAGE_NAME}*&quot; | xargs ls -t | head -1)
+BACKUP_LAST_NAME=$(basename $BACKUP_LAST)
+
+RETVAL=&quot;0&quot;
+
+function check_ok() {
+
+        if [ $? != 0 ] 
+        then
+            echo -e &quot;\033[31m ERROR! $1 \033[0m&quot;
+            exit 1
+        fi  
+}
+
+function check_cmd() {
+
+    command -v $1  &gt;/dev/null 2&gt;&amp;1 || { echo &gt;&amp;2 &quot; \033[31m  $1 is not installed.  Aborting. \033[0m&quot;; exit 1; }
+
+}
+
+function get_pid() {
+
+    PID=$(pgrep -f $PACKAGE_NAME)
+}
+
+function backup() {
+
+local TIMESTAMP=$(date +%F-%H-%M)
+
+    test -d $BACKUP_PATH || mkdir -p $_
+    test -f $PACKAGE_PATH &amp;&amp; mv -b  $_ $BACKUP_PATH/${PACKAGE_NAME}_${TIMESTAMP}   
+}
+
+function upload() {
+
+
+    test -d $UPLOAD_PATH || mkdir -p $_
+
+# 判断上包目录是否存在新包
+    if [ -f $UPLOAD_PATH/$PACKAGE_NAME ];then
+# 关服务
+    stop
+
+check_ok &quot;stop $SERVICE_NAME&quot;
+# 判断安装目录是否存在
+
+    test -d $DEPLOY_PATH || mkdir -p $_ 
+    backup
+
+    mv $UPLOAD_PATH/$PACKAGE_NAME $DEPLOY_PATH
+# 起服务
+    start
+
+    else 
+
+	echo -e &quot; \033[31m there is no new package in $UPLOAD_PATH \033[0m&quot;
+	exit 1
+    fi
+}
+
+function rollback() {
+
+# 停服务
+stop
+# 删除安装目录中的包
+test -f $PACKAGE_PATH &amp;&amp; rm -f $_
+# 回滚上一个包
+test -f $BACKUP_PATH/$BACKUP_LAST_NAME &amp;&amp; mv $_ $PACKAGE_PATH
+# 起服务
+start
+}
+
+
+
+function start() {
+
+# 先判断java是否存在
+    check_cmd java
+
+#local  PID=$(pgrep -f $PACKAGE_NAME)
+
+    get_pid
+
+    if [ ${PID} ]; then
+    echo -e  &quot; $SERVICE_NAME is running, please run \033[34m $0 stop \033[0m first&quot;
+    exit 1
+    fi
+
+# 先判断日志文件是否存在
+	
+    test -d $DEPLOY_PATH/logs || mkdir -p $_ 
+
+    cd $DEPLOY_PATH/logs
+
+    test -f $LOG_NAME || touch $_
+# 判断安装目录中是否有包
+
+    test -f $PACKAGE_PATH || { echo &quot;there is no package in $_&quot;;exit 1;}
+
+    nohup java -jar $PACKAGE_PATH --spring.profiles.active=$ACTIVE  &gt; $LOG_PATH 2&gt;&amp;1 &amp;
+
+    check_ok &quot;running java -jar ...&quot;
+
+    echo -e  &quot;$SERVICE_NAME \033[34m Started \033[0m&quot;
+
+    echo  -e &quot;查看日志命令：\033[34m $0 log \033[0m 或者 \033[34m  tail -f $LOG_PATH \033[0m&quot;
+}
+
+function stop() {
+
+#local  PID=$(pgrep -f $PACKAGE_NAME)
+
+    get_pid
+
+    if [ ${PID} ]; then
+    echo $SERVICE_NAME 'Stop Process'[${PID}]
+    kill -15 $PID
+    fi
+
+    sleep 5
+    
+# local  PID=$(pgrep -f $PACKAGE_NAME)
+
+    get_pid
+
+    if [ ${PID} ]; then
+        echo $SERVICE_NAME' Kill Process'[${PID}]
+        kill -9 $PID
+    else
+        echo $SERVICE_NAME' Stop Success!'
+    fi
+}
+
+function status(){
+
+#local  PID=$(pgrep -f $PACKAGE_NAME)
+
+    get_pid
+
+    if [ &quot;$PID&quot; != &quot;&quot; ]; then
+        echo -e &quot;$SERVICE_NAME is \033[34m Running \033[0m [$PID] &quot;
+    else
+        echo -e &quot;$SERVICE_NAME is \033[31m Stopped \033[0m &quot;
+    fi
+}
+
+function log(){
+
+	tail -100f $LOG_PATH
+}
+
+function usage(){
+
+   echo &quot;========================================================================================&quot;
+   echo -e &quot;\033[34m usage: $0 [option] ... [start | stop | status | restart | log | upgrade]\033[0m&quot;
+   echo -e &quot;\033[34m bash $0 start \033[0m       : start service&quot;
+   echo -e &quot;\033[34m bash $0 stop \033[0m        : stop service&quot;
+   echo -e &quot;\033[34m bash $0 status \033[0m      : service status&quot;
+   echo -e &quot;\033[34m bash $0 log \033[0m         : service log&quot;
+   echo -e &quot;\033[34m bash $0 restart \033[0m     : restart service&quot;
+   echo -e &quot;\033[34m bash $0 upgrade/up\033[0m   : upgrade service&quot;	# 升级服务
+   echo -e &quot;\033[34m bash $0 rollback/back\033[0m: rollback service&quot;	# 回滚服务
+   echo &quot;========================================================================================&quot;
+
+   
+
+   RETVAL=&quot;2&quot;
+}
+
+RETVAL=&quot;0&quot;
+
+case &quot;$1&quot; in
+    start)
+	get_pid
+	if [ $PID ];then
+        echo -e &quot; $SERVICE_NAME is running, please run \033[34m $0 stop \033[0m or \033[34m $0 restart \033[0m&quot;
+        else
+	start
+	fi
+        ;;
+    stop)
+	echo &quot;will stop $SERVICE_NAME&quot;
+        stop
+        ;;
+    restart)
+	echo &quot;will stop $SERVICE_NAME&quot;
+	stop
+	echo &quot;will start $SERVICE_NAME&quot;
+	start
+        ;;
+    upgrade|up)
+	echo &quot;will upgrade $SERVICE_NAME&quot;
+	upload
+        ;;
+    log)
+        log
+        ;;
+    status)
+        status
+        ;;
+    rollback|back)
+	echo &quot;will rollback to the last version&quot;
+        rollback
+        ;;
+    *)
+       usage 
+        ;;
+esac
+
+exit $RETVAL
+</code></pre>
+
+                </div>
+                <div class="clear"></div>
+              </section>
+            </article>
+            <div class="clear"></div>
+
+            <section class="related section">
+              
+              <article class="prev grid-50 tablet-grid-50 grid-parent">
+                <div class="thumb cover lazy loaded" style="background-image: url('https://ixwu.github.io/media/images/gridea.jpg');"></div>
+                 <a href="https://ixwu.github.io/howto-setup-elasticsearch-6.2.2-in-centos" class="full-link"></a>
+                 <div class="info">
+                  <time datetime="2018-12-31">2018-12-31</time>
+                  <h4 class="title white no-margin">Centos7上安装 elasticsearch-6.2.2及相关插件</h4>
+                </div>
+                 <span class="epcl-button red">
+                  <img src="https://ixwu.github.io/media/images/left-arrow.svg" width="15" alt="Left Arrow">
+                </span>
+                <div class="overlay"></div>
+              </article>
+              
+              
+              <article class="next grid-50 tablet-grid-50 grid-parent">
+                <div class="thumb cover lazy loaded" style="background-image: url('https://ixwu.github.io/media/images/4meKkICmMZ.jpg');"></div>
+                 <a href="https://ixwu.github.io/howto-compile-GraphicsMagick-1.3.28" class="full-link"></a>
+                 <div class="info">
+                  <time datetime="2018-12-26">2018-12-26</time>
+                  <h4 class="title white no-margin">编译安装GraphicsMagick-1.3.28</h4>
+                </div>
+                 <span class="epcl-button red">
+                  <img src="https://ixwu.github.io/media/images/right-arrow.svg" width="15" alt="Left Arrow">
+                </span>
+                <div class="overlay"></div>
+              </article>
+              
+
+                <div class="clear"></div>
+            </section>
+
+              <div class="clear"></div>
+
+              <div id="comments" class="bg-white hosted ">
+
+              
+                <script type="text/javascript" src="https://cdn.staticfile.org/valine/1.3.10/Valine.Pure.min.js"></script>
+
+<script>
+    var valine = new Valine();
+    valine.init({
+        el: '#comments',
+        appId: 'RGYOfzCpcS6pfauthuh4L4Td-gzGzoHsz' ,
+        appKey: 'QzGtXIuPFad8kd83rFHKoM1p',
+        pageSize: 30,
+        placeholder: '既然来了，那就留个痕迹吧~',
+        visitor: true // 阅读量统计
+    })
+
+jQuery(document).ready(function($){
+    $('.vemoji-btn').text('😀');
+    $("#comments").on('click', 'span.vat',function(){
+        $(this).parent('div.vmeta').next("div.vcontent").after($("div.vwrap"));
+        $('textarea#veditor').focus();
+    })
+    if(window.location.hash){
+        var checkExist = setInterval(function() {
+            if ($(window.location.hash).length) {
+                $('html, body').animate({scrollTop: $(window.location.hash).offset().top-200}, 600);
+                clearInterval(checkExist);
+            }
+        }, 100);
+    }
+})
+</script>
+
+                <div class="clear"></div>
+              
+                <div class="clear"></div>
+              </div>
+
+              <div class="clear"></div>
+            </div>
+          </div>
+      </main>
+
+          <footer id="footer" class="grid-container">
+        <div class="widgets row gradient-effect">
+            <div class="default-sidebar border-effect">
+              <div class="grid-33 tablet-grid-50 mobile-grid-100">
+                <section id="tag_cloud-2" class="widget widget_epcl_posts_thumbs underline-effect">
+                  <h4 class="widget-title title white bordered">最新文章</h4>
+                  
+                  
+                  <article class="item post-0 post type-post status-publish format-standard has-post-thumbnail hentry">
+                    <a href="https://ixwu.github.io/config-k8s-1.17.2-with-kubeadm" class="thumb hover-effect">
+                      <span class="fullimage cover" style="display: block;background-image: url('https://images.unsplash.com/photo-1575714223081-7912ca3255a7?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1189&amp;q=80');"></span>
+                    </a>
+                    <div class="info gradient-effect">
+                      <time datetime="2020-01-27">2020-01-27</time>
+                      <h4 class="title usmall">
+                        <a href="https://ixwu.github.io/config-k8s-1.17.2-with-kubeadm">利用kubeadm部署kubernetes1.17.2</a>
+                      </h4>
+                    </div>
+                    <div class="clear"></div>
+                  </article>
+                  
+                  
+                  
+                  <article class="item post-1 post type-post status-publish format-standard has-post-thumbnail hentry">
+                    <a href="https://ixwu.github.io/how-to-config-go-python-kernel-for-jupyter-notebook" class="thumb hover-effect">
+                      <span class="fullimage cover" style="display: block;background-image: url('https://ixwu.github.io/media/images/vls4c4gtn.jpg');"></span>
+                    </a>
+                    <div class="info gradient-effect">
+                      <time datetime="2019-06-02">2019-06-02</time>
+                      <h4 class="title usmall">
+                        <a href="https://ixwu.github.io/how-to-config-go-python-kernel-for-jupyter-notebook">利用Jupyter Notebook打造go及python交互式编程环境</a>
+                      </h4>
+                    </div>
+                    <div class="clear"></div>
+                  </article>
+                  
+                  
+                  
+                  <article class="item post-2 post type-post status-publish format-standard has-post-thumbnail hentry">
+                    <a href="https://ixwu.github.io/history-cards-201902" class="thumb hover-effect">
+                      <span class="fullimage cover" style="display: block;background-image: url('https://ixwu.github.io/media/images/j-nUZCxFY8.jpg');"></span>
+                    </a>
+                    <div class="info gradient-effect">
+                      <time datetime="2019-02-02">2019-02-02</time>
+                      <h4 class="title usmall">
+                        <a href="https://ixwu.github.io/history-cards-201902">读史杂草-201902</a>
+                      </h4>
+                    </div>
+                    <div class="clear"></div>
+                  </article>
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  
+                  <div class="clear"></div>
+                </section>
+              </div>
+
+              <div class="grid-33 tablet-grid-50 mobile-grid-100">
+                <section id="tag_cloud-2" class="widget widget_tag_cloud underline-effect">
+                  <h4 class="widget-title title white bordered">标签云</h4>
+                  <div class="tagcloud">
+                    
+                      <a href="https://ixwu.github.io/tag/_EKFMpzqo" class="ctag ctag-0 ctag-_EKFMpzqo" aria-label="">k8s</a>
+                    
+                      <a href="https://ixwu.github.io/tag/_gH_Mk6DzM" class="ctag ctag-1 ctag-_gH_Mk6DzM" aria-label="">kubeadm</a>
+                    
+                      <a href="https://ixwu.github.io/tag/vls4c4gtn" class="ctag ctag-2 ctag-vls4c4gtn" aria-label="">jupyter</a>
+                    
+                      <a href="https://ixwu.github.io/tag/j-nUZCxFY8" class="ctag ctag-3 ctag-j-nUZCxFY8" aria-label="">历史</a>
+                    
+                      <a href="https://ixwu.github.io/tag/4meKkICmMZ" class="ctag ctag-4 ctag-4meKkICmMZ" aria-label="">shell</a>
+                    
+                      <a href="https://ixwu.github.io/tag/q1bnKcFRe" class="ctag ctag-5 ctag-q1bnKcFRe" aria-label="">命令行</a>
+                    
+                      <a href="https://ixwu.github.io/tag/vbe67JvZV" class="ctag ctag-6 ctag-vbe67JvZV" aria-label="">vim</a>
+                    
+                      <a href="https://ixwu.github.io/tag/JXo12WH2Q" class="ctag ctag-7 ctag-JXo12WH2Q" aria-label="">王小波</a>
+                    
+                  </div>
+                  <div class="clear"></div>
+                </section>
+              </div>
+
+              <div class="grid-33 tablet-grid-50 mobile-grid-100">
+                <section id="epcl_about-2" class="widget widget_epcl_about underline-effect">
+                  <h4 class="widget-title title white bordered">关于我</h4>
+                  <div class="avatar">
+                    <a href="" class="translate-effect thumb"><span class="fullimage cover" style="background-image: url(https://ixwu.github.io/images/avatar.png);"></span></a>
+                  </div>
+                  <div class="info">
+                    <h4 class="title small author-name gradient-effect no-margin"><a href="">习吾学</a></h4>
+                    <p class="founder">温故而知新</p>
+                    <div class="social">
+                      
+                          
+                            <a href="https://github.com/imxw" class="translate-effect" target="_blank"><i class="fa fa-github"></i></a>
+                        
+                      
+                          
+                            <a href="https://twitter.com/ixw1991" class="translate-effect" target="_blank"><i class="fa fa-twitter"></i></a>
+                        
+                      
+                        
+                      
+                        
+                      
+                        
+                      
+                    </div> 
+                  </div>
+                  <div class="clear"></div>
+                  </section>
+              </div>
+
+            </div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="logo">
+          <a href="https://ixwu.github.io"><img class="" src="https://ixwu.github.io/media/images/logo.png" alt=""></a>
+        </div>
+        <p class="published border-effect">
+          ©2019 共 19 篇文章
+          <br/>
+          Theme <a href="https://gridea.dev/" target="_blank">「breek」</a> Powered by <a href="https://gridea.dev/" target="_blank">「Gridea」</a>
+        </p>
+        
+        <a href="javascript:void(0)" id="back-to-top" class="epcl-button dark" style="display:none">
+          <i class="fa fa-arrow"></i>
+        </a>
+    </footer>
+    <div class="clear"></div>
+
+      <script type="text/javascript">
+       jQuery(document).ready(function($){
+          $("photos img").each(function(){
+              var _a = $("<a></a>").attr("href",this.src);
+              $(this).wrap("<div class='photo'></div>").wrap(_a);
+          })
+          $("figure img").each(function(){
+              var _b = $("<a></a>").attr("href",this.src);
+              $(this).wrap(_b);
+          })
+          isImgLoad(function(){
+            var photos = document.querySelector('photos');
+            if(photos){
+              waterfall(photos);
+            }
+            $(window).resize(function() {
+             if(photos){
+                  waterfall(photos);
+            }
+          });
+        });
+        var t_img;
+        var isLoad = true;
+        function isImgLoad(callback){
+          $('photos img').each(function(){
+            if(this.height === 0){
+              isLoad = false;
+              return false;
+            }
+          });
+          if(isLoad){
+            clearTimeout(t_img);
+            callback();
+          }else{
+            isLoad = true;
+            t_img = setTimeout(function(){
+              isImgLoad(callback);
+            },500);
+          }
+        }
+      });
+      </script>
+
+    </div>
+    <!-- end: #wrapper -->
+  </body>
+</html>

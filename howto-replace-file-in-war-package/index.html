@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>k8s | 习吾学</title>
+<title>如何替换jar/war包里的文件 | 习吾学</title>
 <meta name="description" content="温故而知新" />
 <link rel="shortcut icon" href="https://ixwu.github.io/favicon.ico">
 <link rel="stylesheet" href="https://ixwu.github.io/styles/main.css">
@@ -13,11 +13,13 @@
 <script src="https://ixwu.github.io/media/js/pace.min.js"></script>
 <script src="https://ixwu.github.io/media/js/view-image.min.js"></script>
 <script src="https://ixwu.github.io/media/js/functions.js"></script>
+    <script src="https://ixwu.github.io/media/js/waterfall.min.js"></script>
+    <script src="https://ixwu.github.io/media/js/prism.min.js"></script>
+    
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min.js"></script>
+    
   </head>
   <body>
-    <!-- start: #wrapper -->
-    <div class="wrapper">
-      
             <header id="header" class="grid-container">
         <!-- start: .menu-wrapper -->
         <div class="menu-mobile"> 
@@ -72,45 +74,160 @@
         <div class="clear"></div>
       </header>
 
-      <main id="home" class="main fullcover no-sidebar content">
-        <div class="grid-container module-wrapper enable-masonry aos-init aos-animate" data-aos="fade-up">
-        <div class="epcl-page-wrapper">
-          <div class="left-content grid-70 np-mobile widget_epcl_related_articles">
-                
-            <!-- start: .articles -->
-            <div class="main-article post">
-  <h2 class="year"># k8s</h2>
-    
-      <article class="item default grid-33 tablet-grid-50 np-mobile">
-        <a href="https://ixwu.github.io/config-k8s-1.17.2-with-kubeadm" class="thumb hover-effect">
-          <span class="fullimage cover" style="display: block;background-image: url('https://images.unsplash.com/photo-1575714223081-7912ca3255a7?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1189&amp;q=80');"></span>
-        </a>
-        <div class="info gradient-effect">
-          <time datetime="2020-01-27">2020-01-27</time>
-          <h4 class="title usmall">
-            <a href="https://ixwu.github.io/config-k8s-1.17.2-with-kubeadm">利用kubeadm部署kubernetes1.17.2</a>
-          </h4>
-        </div>
-      </article>
+      <main id="single" class="main grid-container fullcover no-sidebar aos-init aos-animate" data-aos="fade">
 
-    
-    <div class="clear"></div>
-</div>
-            <!-- end: .articles -->
-            
-                        <div class="epcl-pagination section">
-              <div class="nav">
-                
-                
-              </div>
+        <div class="center content">
+          <div class="featured-image cover" style="background-image: url('https://ixwu.github.io/media/images/q1bnKcFRe.jpg');">
+            <div class="meta top"> 
+              <time class="meta-info" style="float:left;" datetime="2018-12-25"><i class="fa fa-calendar"></i><span class="lately">1 年前</span></time>
+               
+               
+               <span id="/post/howto-replace-file-in-war-package/" class="leancloud_visitors views-counter meta-info">
+                <i class="fa fa-leancloud"></i><span class="leancloud-visitors-count" style="vertical-align: middle;">0</span>
+               </span>
+               
             </div>
-            
+            <div class="info">
+              <div class="tags ">
+                
+                      <a href="https://ixwu.github.io/tag/q1bnKcFRe" class="ctag ctag-0 ctag-q1bnKcFRe" aria-label="">命令行</a>
+                    
+              </div>
+              <h1 class="title ularge white bold">如何替换jar/war包里的文件</h1>
+            </div>
           </div>
+        </div>  
+
+        <div class="epcl-page-wrapper">
+          <div class="left-content grid-70 np-mobile">
+            <article class="main-article post">
+              <section class="post-content">
+                <div class="text">
+                  <h2 id="要替换的文件在-jarwar-包的根目录">要替换的文件在 jar/war 包的根目录</h2>
+<pre><code class="language-shell"># 如要替换 test.war 包里的 test.xml
+[xuwu@localhost ~]$ jar uvf test.war test.xml
+</code></pre>
+<h2 id="要替换的文件在-jarwar-包的其他目录">要替换的文件在 jar/war 包的其他目录</h2>
+<pre><code class="language-shell"># 如果不知道想改的文件在哪个目录，可以用 grep 查看下
+[xuwu@localhost ~]$ jar tvf test.war | grep application.yml
+   507 Tue Dec 25 09:45:48 CST 2018 WEB-INF/classes/application.yml
+
+## 解压该文件,该目录下会生成该文件的目录结构
+[xuwu@localhost ~]$ jar xvf test.war
+[xuwu@localhost ~]$ ll
+drwxrwxr-x 3 xuwu xuwu     4096 12月  6 21:54 META-INF
+drwxrwxr-x 4 xuwu xuwu     4096 12月  6 21:54 WEB-INF
+
+## 修改 WEB-INF/classes/application.yml 修改的内容，然后替换 war 包相应文件
+[xuwu@localhost ~]$ jar uvf test.war WEB-INF/classes/application.yml
+
+</code></pre>
+<h2 id="扩展">扩展</h2>
+<ul>
+<li>可以把与环境相关的文件直接放在服务器上，上线时用服务器本地的文件替换，防止开发打错包</li>
+<li>增量打包，很多时候开发只是修改其中一个文件，没必要重新打包，直接替换该文件即可</li>
+</ul>
+<h2 id="jar-常见用法">jar 常见用法</h2>
+<pre><code class="language-shell"># 解压 .jar/.war 文件到当前目录
+jar -xvf file.jar
+
+# 列出 .jar/.war 文件内容
+jar -tf file.jar
+
+-v 在标准输出中生成详细输出
+-u 更新现有文件
+-c 创建新归档文件
+-f 指定归档文件名
+-x 解档文件
+-t 列出归档文件内容
+-0  仅存储; 不使用任何 ZIP 压缩（把jar包放进war必须把这个参数加上）
+</code></pre>
+
+                </div>
+                <div class="clear"></div>
+              </section>
+            </article>
+            <div class="clear"></div>
+
+            <section class="related section">
+              
+              <article class="prev grid-50 tablet-grid-50 grid-parent">
+                <div class="thumb cover lazy loaded" style="background-image: url('https://ixwu.github.io/media/images/4meKkICmMZ.jpg');"></div>
+                 <a href="https://ixwu.github.io/howto-compile-GraphicsMagick-1.3.28" class="full-link"></a>
+                 <div class="info">
+                  <time datetime="2018-12-26">2018-12-26</time>
+                  <h4 class="title white no-margin">编译安装GraphicsMagick-1.3.28</h4>
+                </div>
+                 <span class="epcl-button red">
+                  <img src="https://ixwu.github.io/media/images/left-arrow.svg" width="15" alt="Left Arrow">
+                </span>
+                <div class="overlay"></div>
+              </article>
+              
+              
+              <article class="next grid-50 tablet-grid-50 grid-parent">
+                <div class="thumb cover lazy loaded" style="background-image: url('https://ixwu.github.io/media/images/vbe67JvZV.jpg');"></div>
+                 <a href="https://ixwu.github.io/vimgolf-comma-trouble" class="full-link"></a>
+                 <div class="info">
+                  <time datetime="2018-12-19">2018-12-19</time>
+                  <h4 class="title white no-margin">vim高尔夫解说之逗号问题</h4>
+                </div>
+                 <span class="epcl-button red">
+                  <img src="https://ixwu.github.io/media/images/right-arrow.svg" width="15" alt="Left Arrow">
+                </span>
+                <div class="overlay"></div>
+              </article>
+              
+
+                <div class="clear"></div>
+            </section>
+
+              <div class="clear"></div>
+
+              <div id="comments" class="bg-white hosted ">
+
+              
+                <script type="text/javascript" src="https://cdn.staticfile.org/valine/1.3.10/Valine.Pure.min.js"></script>
+
+<script>
+    var valine = new Valine();
+    valine.init({
+        el: '#comments',
+        appId: 'RGYOfzCpcS6pfauthuh4L4Td-gzGzoHsz' ,
+        appKey: 'QzGtXIuPFad8kd83rFHKoM1p',
+        pageSize: 30,
+        placeholder: '既然来了，那就留个痕迹吧~',
+        visitor: true // 阅读量统计
+    })
+
+jQuery(document).ready(function($){
+    $('.vemoji-btn').text('😀');
+    $("#comments").on('click', 'span.vat',function(){
+        $(this).parent('div.vmeta').next("div.vcontent").after($("div.vwrap"));
+        $('textarea#veditor').focus();
+    })
+    if(window.location.hash){
+        var checkExist = setInterval(function() {
+            if ($(window.location.hash).length) {
+                $('html, body').animate({scrollTop: $(window.location.hash).offset().top-200}, 600);
+                clearInterval(checkExist);
+            }
+        }, 100);
+    }
+})
+</script>
+
+                <div class="clear"></div>
+              
+                <div class="clear"></div>
+              </div>
+
+              <div class="clear"></div>
+            </div>
           </div>
-        </div>
       </main>
 
-        <footer id="footer" class="grid-container">
+          <footer id="footer" class="grid-container">
         <div class="widgets row gradient-effect">
             <div class="default-sidebar border-effect">
               <div class="grid-33 tablet-grid-50 mobile-grid-100">
@@ -273,6 +390,50 @@
         </a>
     </footer>
     <div class="clear"></div>
+
+      <script type="text/javascript">
+       jQuery(document).ready(function($){
+          $("photos img").each(function(){
+              var _a = $("<a></a>").attr("href",this.src);
+              $(this).wrap("<div class='photo'></div>").wrap(_a);
+          })
+          $("figure img").each(function(){
+              var _b = $("<a></a>").attr("href",this.src);
+              $(this).wrap(_b);
+          })
+          isImgLoad(function(){
+            var photos = document.querySelector('photos');
+            if(photos){
+              waterfall(photos);
+            }
+            $(window).resize(function() {
+             if(photos){
+                  waterfall(photos);
+            }
+          });
+        });
+        var t_img;
+        var isLoad = true;
+        function isImgLoad(callback){
+          $('photos img').each(function(){
+            if(this.height === 0){
+              isLoad = false;
+              return false;
+            }
+          });
+          if(isLoad){
+            clearTimeout(t_img);
+            callback();
+          }else{
+            isLoad = true;
+            t_img = setTimeout(function(){
+              isImgLoad(callback);
+            },500);
+          }
+        }
+      });
+      </script>
+
     </div>
     <!-- end: #wrapper -->
   </body>

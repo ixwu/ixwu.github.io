@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>k8s | 习吾学</title>
+<title>谈装 | 习吾学</title>
 <meta name="description" content="温故而知新" />
 <link rel="shortcut icon" href="https://ixwu.github.io/favicon.ico">
 <link rel="stylesheet" href="https://ixwu.github.io/styles/main.css">
@@ -13,11 +13,13 @@
 <script src="https://ixwu.github.io/media/js/pace.min.js"></script>
 <script src="https://ixwu.github.io/media/js/view-image.min.js"></script>
 <script src="https://ixwu.github.io/media/js/functions.js"></script>
+    <script src="https://ixwu.github.io/media/js/waterfall.min.js"></script>
+    <script src="https://ixwu.github.io/media/js/prism.min.js"></script>
+    
+      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min.js"></script>
+    
   </head>
   <body>
-    <!-- start: #wrapper -->
-    <div class="wrapper">
-      
             <header id="header" class="grid-container">
         <!-- start: .menu-wrapper -->
         <div class="menu-mobile"> 
@@ -72,45 +74,129 @@
         <div class="clear"></div>
       </header>
 
-      <main id="home" class="main fullcover no-sidebar content">
-        <div class="grid-container module-wrapper enable-masonry aos-init aos-animate" data-aos="fade-up">
-        <div class="epcl-page-wrapper">
-          <div class="left-content grid-70 np-mobile widget_epcl_related_articles">
-                
-            <!-- start: .articles -->
-            <div class="main-article post">
-  <h2 class="year"># k8s</h2>
-    
-      <article class="item default grid-33 tablet-grid-50 np-mobile">
-        <a href="https://ixwu.github.io/config-k8s-1.17.2-with-kubeadm" class="thumb hover-effect">
-          <span class="fullimage cover" style="display: block;background-image: url('https://images.unsplash.com/photo-1575714223081-7912ca3255a7?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1189&amp;q=80');"></span>
-        </a>
-        <div class="info gradient-effect">
-          <time datetime="2020-01-27">2020-01-27</time>
-          <h4 class="title usmall">
-            <a href="https://ixwu.github.io/config-k8s-1.17.2-with-kubeadm">利用kubeadm部署kubernetes1.17.2</a>
-          </h4>
-        </div>
-      </article>
+      <main id="single" class="main grid-container fullcover no-sidebar aos-init aos-animate" data-aos="fade">
 
-    
-    <div class="clear"></div>
-</div>
-            <!-- end: .articles -->
-            
-                        <div class="epcl-pagination section">
-              <div class="nav">
-                
+        <div class="center content">
+          <div class="featured-image cover" style="background-image: url('https://ixwu.github.io/media/images/gridea.jpg');">
+            <div class="meta top"> 
+              <time class="meta-info" style="float:left;" datetime="2013-06-23"><i class="fa fa-calendar"></i><span class="lately">7 年前</span></time>
+               
+               
+               <span id="/post/talk-about-hypocrisy/" class="leancloud_visitors views-counter meta-info">
+                <i class="fa fa-leancloud"></i><span class="leancloud-visitors-count" style="vertical-align: middle;">0</span>
+               </span>
+               
+            </div>
+            <div class="info">
+              <div class="tags ">
                 
               </div>
+              <h1 class="title ularge white bold">谈装</h1>
             </div>
-            
           </div>
+        </div>  
+
+        <div class="epcl-page-wrapper">
+          <div class="left-content grid-70 np-mobile">
+            <article class="main-article post">
+              <section class="post-content">
+                <div class="text">
+                  <p>常感古人造字之形象之会意。</p>
+<p>譬如“装”，何义？《说文解字》：装，裹也。此乃本义，后人又引申、衍生无数。</p>
+<p>有装束，有装备，有装扮，有装腔作势，有装模作样，有装聋作哑等等。</p>
+<p>近来爱读小品文，如张岱之谈山水，周作人之谈思想，汪曾祺之谈吃。爱山水，却踏足不多；爱思想，却所获无几；爱吃，却不甚讲究，皆无从谈起。思来想去，我这人，别的不多，牢骚多矣！索性发一通牢骚，凑一篇小品。</p>
+<p>我喜欢拆字游戏，虽说多数解释皆有那么一点牵强附会。比如我名中这个“武”字，“止戈为武”还不是“以暴制暴”。战争是为了带来和平？</p>
+<p>闲话休提，且看“装”字，上为“壮”，下为“衣。”看来，衣是形而下的，壮是形而上的。我们看人，首先看到的便是衣，或曰表象。只因看形而下的靠得是常人皆有之眼，看形而上的却远非肉眼所能及。于是，便有人单从衣着手，穿华丽之服，化媚人之妆，说漂亮之辞，也能欺世盗名，赢得满楼红袖招。何也？我等俗人阅读时由于懒惰或为了掩饰无知，常望文生义，阅人时便也常望“衣”生义。人常说，透过现象看本质。其实，透过现象看到的也还只是现象，望“衣”生义生得也还只是“衣”之义，却误以为是形而上之“壮”。</p>
+<p>壮者，强壮也。引申一下，如不可捉摸之所谓内涵，不易验证之所谓智慧。常见所谓成功学大师、国学大师等各种“大湿”招摇过市，媒体热捧，观众膜拜，身后喽啰无数，摇旗呐喊助威。他们也真敢说，“要成功先发疯，头脑简单向前冲”；他们也真敢扯，“国学救国”；他们也真敢吹，“我的成功谁都可以复制”。天花乱坠，鸡血横生。追随者们目眩神迷如沐圣谛，已然进入太虚幻境，飘飘欲仙，不知今夕何夕了。</p>
+<p>《逍遥游》：朝菌不知晦朔，蟪蛄不知春秋。小知自大，臧否大知；竖子成名，菲薄英雄。无知者或眼界小见识浅，或急功利求速成，哪识真谛？只能跟着瞎起哄，鹦鹉学舌，焚天灭地，痛哉快哉！以其牛逼之至，不可一世矣！</p>
+<p>这样一来，“壮”又可解释为内心强大，无视一切了。案上泥像，腹中虽空空，若塑金身居大庙，香火能不旺否？</p>
+<p>当然喽，“装”字的发明者有无此意，就不得而知了。我也不过是望人望字生义罢了！</p>
+
+                </div>
+                <div class="clear"></div>
+              </section>
+            </article>
+            <div class="clear"></div>
+
+            <section class="related section">
+              
+              <article class="prev grid-50 tablet-grid-50 grid-parent">
+                <div class="thumb cover lazy loaded" style="background-image: url('https://ixwu.github.io/media/images/gridea.jpg');"></div>
+                 <a href="https://ixwu.github.io/doggerel" class="full-link"></a>
+                 <div class="info">
+                  <time datetime="2013-09-20">2013-09-20</time>
+                  <h4 class="title white no-margin">打油诗一首</h4>
+                </div>
+                 <span class="epcl-button red">
+                  <img src="https://ixwu.github.io/media/images/left-arrow.svg" width="15" alt="Left Arrow">
+                </span>
+                <div class="overlay"></div>
+              </article>
+              
+              
+              <article class="next grid-50 tablet-grid-50 grid-parent">
+                <div class="thumb cover lazy loaded" style="background-image: url('https://ixwu.github.io/media/images/gridea.jpg');"></div>
+                 <a href="https://ixwu.github.io/my-feeling" class="full-link"></a>
+                 <div class="info">
+                  <time datetime="2013-05-31">2013-05-31</time>
+                  <h4 class="title white no-margin">碎语闲言</h4>
+                </div>
+                 <span class="epcl-button red">
+                  <img src="https://ixwu.github.io/media/images/right-arrow.svg" width="15" alt="Left Arrow">
+                </span>
+                <div class="overlay"></div>
+              </article>
+              
+
+                <div class="clear"></div>
+            </section>
+
+              <div class="clear"></div>
+
+              <div id="comments" class="bg-white hosted ">
+
+              
+                <script type="text/javascript" src="https://cdn.staticfile.org/valine/1.3.10/Valine.Pure.min.js"></script>
+
+<script>
+    var valine = new Valine();
+    valine.init({
+        el: '#comments',
+        appId: 'RGYOfzCpcS6pfauthuh4L4Td-gzGzoHsz' ,
+        appKey: 'QzGtXIuPFad8kd83rFHKoM1p',
+        pageSize: 30,
+        placeholder: '既然来了，那就留个痕迹吧~',
+        visitor: true // 阅读量统计
+    })
+
+jQuery(document).ready(function($){
+    $('.vemoji-btn').text('😀');
+    $("#comments").on('click', 'span.vat',function(){
+        $(this).parent('div.vmeta').next("div.vcontent").after($("div.vwrap"));
+        $('textarea#veditor').focus();
+    })
+    if(window.location.hash){
+        var checkExist = setInterval(function() {
+            if ($(window.location.hash).length) {
+                $('html, body').animate({scrollTop: $(window.location.hash).offset().top-200}, 600);
+                clearInterval(checkExist);
+            }
+        }, 100);
+    }
+})
+</script>
+
+                <div class="clear"></div>
+              
+                <div class="clear"></div>
+              </div>
+
+              <div class="clear"></div>
+            </div>
           </div>
-        </div>
       </main>
 
-        <footer id="footer" class="grid-container">
+          <footer id="footer" class="grid-container">
         <div class="widgets row gradient-effect">
             <div class="default-sidebar border-effect">
               <div class="grid-33 tablet-grid-50 mobile-grid-100">
@@ -273,6 +359,50 @@
         </a>
     </footer>
     <div class="clear"></div>
+
+      <script type="text/javascript">
+       jQuery(document).ready(function($){
+          $("photos img").each(function(){
+              var _a = $("<a></a>").attr("href",this.src);
+              $(this).wrap("<div class='photo'></div>").wrap(_a);
+          })
+          $("figure img").each(function(){
+              var _b = $("<a></a>").attr("href",this.src);
+              $(this).wrap(_b);
+          })
+          isImgLoad(function(){
+            var photos = document.querySelector('photos');
+            if(photos){
+              waterfall(photos);
+            }
+            $(window).resize(function() {
+             if(photos){
+                  waterfall(photos);
+            }
+          });
+        });
+        var t_img;
+        var isLoad = true;
+        function isImgLoad(callback){
+          $('photos img').each(function(){
+            if(this.height === 0){
+              isLoad = false;
+              return false;
+            }
+          });
+          if(isLoad){
+            clearTimeout(t_img);
+            callback();
+          }else{
+            isLoad = true;
+            t_img = setTimeout(function(){
+              isImgLoad(callback);
+            },500);
+          }
+        }
+      });
+      </script>
+
     </div>
     <!-- end: #wrapper -->
   </body>
