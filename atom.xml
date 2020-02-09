@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://ixwu.github.io</id>
     <title>习吾学</title>
-    <updated>2020-02-09T03:32:56.809Z</updated>
+    <updated>2020-02-09T03:45:57.351Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://ixwu.github.io"/>
     <link rel="self" href="https://ixwu.github.io/atom.xml"/>
@@ -24,6 +24,11 @@
 <th>主机名</th>
 <th>角色</th>
 <th>内网ip</th>
+<th>CPU核数</th>
+<th>内存</th>
+<th>磁盘</th>
+<th>操作系统</th>
+<th>内核</th>
 </tr>
 </thead>
 <tbody>
@@ -31,26 +36,34 @@
 <td>JD1</td>
 <td>master</td>
 <td>10.0.0.3</td>
+<td>2</td>
+<td>4GB</td>
+<td>40GB</td>
+<td>CentOS 7.3</td>
+<td>3.10.0</td>
 </tr>
 <tr>
 <td>JD2</td>
 <td>worker</td>
 <td>10.0.0.4</td>
+<td>2</td>
+<td>4GB</td>
+<td>40GB</td>
+<td>CentOS 7.3</td>
+<td>3.10.0</td>
 </tr>
 <tr>
 <td>JD3</td>
 <td>worker</td>
 <td>10.0.0.5</td>
+<td>2</td>
+<td>4GB</td>
+<td>40GB</td>
+<td>CentOS 7.3</td>
+<td>3.10.0</td>
 </tr>
 </tbody>
 </table>
-<p>共同配置如下</p>
-<pre><code>CPU核数：2
-内存：4GB
-磁盘：40GB
-操作系统：CentOS7.3
-内核版本：3.10.0
-</code></pre>
 <h2 id="配置kubernetes-yum源">配置kubernetes yum源</h2>
 <p>京东云自带的yum源无kubernetes，需要添加阿里云的源</p>
 <pre><code class="language-Bash">vim /etc/yum.repos.d/kubernetes.repo
@@ -297,56 +310,56 @@ scheduler: {}
 </code></pre>
 <h2 id="添加worker节点至集群">添加worker节点至集群</h2>
 <p>在另外两台机器上执行如下命令即可</p>
-<pre><code class="language-bash">    [root@JD3 ~]# kubeadm join 10.0.0.3:6443 --token abcdef.0123456789abcdef \
-        --discovery-token-ca-cert-hash sha256:2957de566c5bcf9bee9fb2211d1bf0d9cb85eeefb2c5eed35443390728e45957
-    
-    W0126 21:15:58.144981    6559 join.go:346] [preflight] WARNING: JoinControlPane.controlPlane settings will be ignored when control-plane flag is not set.
-    [preflight] Running pre-flight checks
-    [preflight] Reading configuration from the cluster...
-    [preflight] FYI: You can look at this config file with 'kubectl -n kube-system get cm kubeadm-config -oyaml'
-    [kubelet-start] Downloading configuration for the kubelet from the &quot;kubelet-config-1.17&quot; ConfigMap in the kube-system namespace
-    [kubelet-start] Writing kubelet configuration to file &quot;/var/lib/kubelet/config.yaml&quot;
-    [kubelet-start] Writing kubelet environment file with flags to file &quot;/var/lib/kubelet/kubeadm-flags.env&quot;
-    [kubelet-start] Starting the kubelet
-    [kubelet-start] Waiting for the kubelet to perform the TLS Bootstrap...
-    
-    This node has joined the cluster:
-    * Certificate signing request was sent to apiserver and a response was received.
-    * The Kubelet was informed of the new secure connection details.
-    
-    Run 'kubectl get nodes' on the control-plane to see this node join the cluster.
+<pre><code class="language-bash">[root@JD3 ~]# kubeadm join 10.0.0.3:6443 --token abcdef.0123456789abcdef \
+    --discovery-token-ca-cert-hash sha256:2957de566c5bcf9bee9fb2211d1bf0d9cb85eeefb2c5eed35443390728e45957
+
+W0126 21:15:58.144981    6559 join.go:346] [preflight] WARNING: JoinControlPane.controlPlane settings will be ignored when control-plane flag is not set.
+[preflight] Running pre-flight checks
+[preflight] Reading configuration from the cluster...
+[preflight] FYI: You can look at this config file with 'kubectl -n kube-system get cm kubeadm-config -oyaml'
+[kubelet-start] Downloading configuration for the kubelet from the &quot;kubelet-config-1.17&quot; ConfigMap in the kube-system namespace
+[kubelet-start] Writing kubelet configuration to file &quot;/var/lib/kubelet/config.yaml&quot;
+[kubelet-start] Writing kubelet environment file with flags to file &quot;/var/lib/kubelet/kubeadm-flags.env&quot;
+[kubelet-start] Starting the kubelet
+[kubelet-start] Waiting for the kubelet to perform the TLS Bootstrap...
+
+This node has joined the cluster:
+* Certificate signing request was sent to apiserver and a response was received.
+* The Kubelet was informed of the new secure connection details.
+
+Run 'kubectl get nodes' on the control-plane to see this node join the cluster.
 </code></pre>
 <p>查看节点信息</p>
 <p>在master节点查看</p>
-<pre><code class="language-bash">    [root@JD1 ~]# kubectl get nodes
-    NAME   STATUS   ROLES    AGE     VERSION
-    jd1    Ready    master   19m     v1.17.2
-    jd2    Ready    &lt;none&gt;   9m55s   v1.17.2
-    jd3    Ready    &lt;none&gt;   105s    v1.17.2
+<pre><code class="language-bash">[root@JD1 ~]# kubectl get nodes
+NAME   STATUS   ROLES    AGE     VERSION
+jd1    Ready    master   19m     v1.17.2
+jd2    Ready    &lt;none&gt;   9m55s   v1.17.2
+jd3    Ready    &lt;none&gt;   105s    v1.17.2
 </code></pre>
 <p>查看集群状态信息</p>
-<pre><code class="language-bash">    [root@JD1 ~]# kubectl cluster-info
-    Kubernetes master is running at https://10.0.0.3:6443
-    KubeDNS is running at https://10.0.0.3:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
-    
-    To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+<pre><code class="language-bash">[root@JD1 ~]# kubectl cluster-info
+Kubernetes master is running at https://10.0.0.3:6443
+KubeDNS is running at https://10.0.0.3:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 </code></pre>
 <p>查看k8s集群server端与client端的版本信息</p>
-<pre><code class="language-bash">    [root@JD1 ~]# kubectl version --short=true
-    Client Version: v1.17.2
-    Server Version: v1.17.2
+<pre><code class="language-bash">[root@JD1 ~]# kubectl version --short=true
+Client Version: v1.17.2
+Server Version: v1.17.2
 </code></pre>
 <h2 id="拷贝adminconf到worker节点">拷贝admin.conf到worker节点</h2>
 <p>worker节点运行kubectl命令报错</p>
-<pre><code class="language-bash">    The connection to the server localhost:8080 was refused - did you specify the right host or port?
+<pre><code class="language-bash">The connection to the server localhost:8080 was refused - did you specify the right host or port?
 </code></pre>
 <p>kubectl命令需要使用kubernetes-admin来运行，将主节点中的/etc/kubernetes/admin.conf文件拷贝到worker节点相同目录下</p>
-<pre><code class="language-bash">    [root@JD2 ~]# scp root@jd1:/etc/kubernetes/admin.conf /etc/kubernetes/
+<pre><code class="language-bash">[root@JD2 ~]# scp root@jd1:/etc/kubernetes/admin.conf /etc/kubernetes/
 </code></pre>
 <p>然后执行</p>
-<pre><code class="language-bash">    [root@JD2 ~]# mkdir -p $HOME/.kube
-    [root@JD2 ~]# cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-    [root@JD2 ~]# chown $(id -u):$(id -g) $HOME/.kube/config
+<pre><code class="language-bash">[root@JD2 ~]# mkdir -p $HOME/.kube
+[root@JD2 ~]# cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+[root@JD2 ~]# chown $(id -u):$(id -g) $HOME/.kube/config
 </code></pre>
 <p>jd3主机也作同样操作，再次执行kubectl命令查看</p>
 <pre><code class="language-bash"># 检查nodes
