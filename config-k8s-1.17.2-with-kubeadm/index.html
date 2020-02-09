@@ -79,7 +79,7 @@
         <div class="center content">
           <div class="featured-image cover" style="background-image: url('https://images.unsplash.com/photo-1575714223081-7912ca3255a7?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1189&amp;q=80');">
             <div class="meta top"> 
-              <time class="meta-info" style="float:left;" datetime="2020-01-27"><i class="fa fa-calendar"></i><span class="lately">12 天前</span></time>
+              <time class="meta-info" style="float:left;" datetime="2020-01-27"><i class="fa fa-calendar"></i><span class="lately">13 天前</span></time>
                
                
                <span id="/post/config-k8s-1.17.2-with-kubeadm/" class="leancloud_visitors views-counter meta-info">
@@ -106,18 +106,13 @@
               <section class="post-content">
                 <div class="text">
                   <h2 id="准备工作">准备工作</h2>
-<p>在京东云买了三台云主机，配置如下</p>
+<p>在京东云买了三台云主机</p>
 <table>
 <thead>
 <tr>
 <th>主机名</th>
 <th>角色</th>
 <th>内网ip</th>
-<th>CPU核数</th>
-<th>内存</th>
-<th>磁盘</th>
-<th>操作系统</th>
-<th>内核</th>
 </tr>
 </thead>
 <tbody>
@@ -125,34 +120,26 @@
 <td>JD1</td>
 <td>master</td>
 <td>10.0.0.3</td>
-<td>2</td>
-<td>4GB</td>
-<td>40GB</td>
-<td>CentOS 7.3</td>
-<td>3.10.0</td>
 </tr>
 <tr>
 <td>JD2</td>
 <td>worker</td>
 <td>10.0.0.4</td>
-<td>2</td>
-<td>4GB</td>
-<td>40GB</td>
-<td>CentOS 7.3</td>
-<td>3.10.0</td>
 </tr>
 <tr>
 <td>JD3</td>
 <td>worker</td>
 <td>10.0.0.5</td>
-<td>2</td>
-<td>4GB</td>
-<td>40GB</td>
-<td>CentOS 7.3</td>
-<td>3.10.0</td>
 </tr>
 </tbody>
 </table>
+<p>共同配置如下</p>
+<pre><code>CPU核数：2
+内存：4GB
+磁盘：40GB
+操作系统：CentOS7.3
+内核版本：3.10.0
+</code></pre>
 <h2 id="配置kubernetes-yum源">配置kubernetes yum源</h2>
 <p>京东云自带的yum源无kubernetes，需要添加阿里云的源</p>
 <pre><code class="language-Bash">vim /etc/yum.repos.d/kubernetes.repo

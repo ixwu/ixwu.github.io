@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://ixwu.github.io</id>
     <title>习吾学</title>
-    <updated>2020-02-08T18:13:40.192Z</updated>
+    <updated>2020-02-09T03:32:56.809Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://ixwu.github.io"/>
     <link rel="self" href="https://ixwu.github.io/atom.xml"/>
@@ -17,18 +17,13 @@
         </link>
         <updated>2020-01-27T11:34:26.000Z</updated>
         <content type="html"><![CDATA[<h2 id="准备工作">准备工作</h2>
-<p>在京东云买了三台云主机，配置如下</p>
+<p>在京东云买了三台云主机</p>
 <table>
 <thead>
 <tr>
 <th>主机名</th>
 <th>角色</th>
 <th>内网ip</th>
-<th>CPU核数</th>
-<th>内存</th>
-<th>磁盘</th>
-<th>操作系统</th>
-<th>内核</th>
 </tr>
 </thead>
 <tbody>
@@ -36,34 +31,26 @@
 <td>JD1</td>
 <td>master</td>
 <td>10.0.0.3</td>
-<td>2</td>
-<td>4GB</td>
-<td>40GB</td>
-<td>CentOS 7.3</td>
-<td>3.10.0</td>
 </tr>
 <tr>
 <td>JD2</td>
 <td>worker</td>
 <td>10.0.0.4</td>
-<td>2</td>
-<td>4GB</td>
-<td>40GB</td>
-<td>CentOS 7.3</td>
-<td>3.10.0</td>
 </tr>
 <tr>
 <td>JD3</td>
 <td>worker</td>
 <td>10.0.0.5</td>
-<td>2</td>
-<td>4GB</td>
-<td>40GB</td>
-<td>CentOS 7.3</td>
-<td>3.10.0</td>
 </tr>
 </tbody>
 </table>
+<p>共同配置如下</p>
+<pre><code>CPU核数：2
+内存：4GB
+磁盘：40GB
+操作系统：CentOS7.3
+内核版本：3.10.0
+</code></pre>
 <h2 id="配置kubernetes-yum源">配置kubernetes yum源</h2>
 <p>京东云自带的yum源无kubernetes，需要添加阿里云的源</p>
 <pre><code class="language-Bash">vim /etc/yum.repos.d/kubernetes.repo

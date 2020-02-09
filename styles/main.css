@@ -6988,7 +6988,6 @@ div.code-toolbar > .toolbar span:hover {
   div.text pre[class*="language-"] {
     max-height: 300px;
     white-space: pre;
-    word-break: break-word;
   }
   div.text table {
     display: block;
