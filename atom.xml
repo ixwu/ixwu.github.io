@@ -2,11 +2,11 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://ixwu.github.io</id>
     <title>习吾学</title>
-    <updated>2020-02-09T06:50:02.127Z</updated>
+    <updated>2020-02-09T06:56:56.901Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://ixwu.github.io"/>
     <link rel="self" href="https://ixwu.github.io/atom.xml"/>
-    <subtitle>温故而知新</subtitle>
+    <subtitle>A Life-long Learner</subtitle>
     <logo>https://ixwu.github.io/images/avatar.png</logo>
     <icon>https://ixwu.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 习吾学</rights>
