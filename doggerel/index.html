@@ -12,12 +12,21 @@
 <script src="https://ixwu.github.io/media/js/aos.js"></script>
 <script src="https://ixwu.github.io/media/js/pace.min.js"></script>
 <script src="https://ixwu.github.io/media/js/view-image.min.js"></script>
+<script src="https://ixwu.github.io/media/js/jquery.magnific-popup.min.js"></script>
 <script src="https://ixwu.github.io/media/js/functions.js"></script>
+    <meta name="referrer" content="never">
+    <meta name="description" content="寂寂兮书蠹，至今乎三年。
+去日无新伴，来时有旧缘。
+既而成萧郎，或可绝尘念。
+正是弱冠龄，却为老朽言。
+也曾寄时政，佯狂作奇谈。
+无关从此弃，代庖不复现。
+我本一俗子 ，常想戏人间。
+之前多极端，今后归平淡。
+..." />
+    <meta name="keywords" content="旧文" />
     <script src="https://ixwu.github.io/media/js/waterfall.min.js"></script>
     <script src="https://ixwu.github.io/media/js/prism.min.js"></script>
-    
-      <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min.js"></script>
-    
   </head>
   <body>
             <header id="header" class="grid-container">
@@ -28,15 +37,13 @@
         <div class="menu-wrapper">
           <div class="">
             <div class="logo">
-              <a href="https://ixwu.github.io"><img src="https://ixwu.github.io/media/images/logoo.png" alt=""></a>
+              <a href="https://ixwu.github.io"><img src="/media/images/logoo.png" alt=""></a>
             </div>
             <!-- start: .main-nav -->
 
             <nav class="main-nav grid-container grid-parent">
               <ul id="menu-header" class="menu gradient-effect">
-                
-                  <li class=""><a href="https://ixwu.github.io" class="menu">首页</a></li>
-                
+                <li class=""><a href="https://ixwu.github.io" class="menu">首页</a></li>
                 
                   <li class="" >
                     <a href="/books" class="menu">
@@ -62,8 +69,10 @@
                     </a>
                   </li>
                 
+                <li class="search-menu-item hide-on-mobile hide-on-tablet"><a href="#search-lightbox" class="lightbox mfp-inline"><i class="fa fa-search-line"></i></a></li>
               </ul>
             </nav>
+            <a href="#search-lightbox" class="lightbox epcl-search-button mfp-inline hide-on-tablet hide-on-desktop"><i class="fa fa-search-line"></i></a>
             <!-- end: .main-nav -->
             <div class="clear"></div>
             <div class="border hide-on-tablet hide-on-mobile"></div>
@@ -73,6 +82,18 @@
         <!-- end: .menu-wrapper -->
         <div class="clear"></div>
       </header>
+      <div class="hide-on-mobile hide-on-tablet hide-on-desktop">
+        <div id="search-lightbox" class="grid-container grid-small grid-parent mfp-hide">
+          <div class="search-wrapper section">
+            <form id="gridea-search-form" data-update="1582606883987" action="/search/index.html" class="search-form" _lpchecked="1">
+              <input type="text" name="q" id="s" value="" class="search-field" placeholder="搜点啥..." aria-label="搜点啥..." required="">
+              <button type="submit" class="submit" aria-label="Submit">
+                <i class="fa fa-search-line"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
 
       <main id="single" class="main grid-container fullcover no-sidebar aos-init aos-animate" data-aos="fade">
 
@@ -80,12 +101,12 @@
           <div class="featured-image cover" style="background-image: url('https://images.unsplash.com/photo-1472162072942-cd5147eb3902?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=750&amp;q=80');">
             <div class="meta top"> 
               <time class="meta-info" style="float:left;" datetime="2013-09-20"><i class="fa fa-calendar"></i><span class="lately">6 年前</span></time>
-               
-               
-               <span id="/post/doggerel/" class="leancloud_visitors views-counter meta-info">
-                <i class="fa fa-leancloud"></i><span class="leancloud-visitors-count" style="vertical-align: middle;">0</span>
-               </span>
-               
+              
+              <a href="https://ixwu.github.io/doggerel#comments" class="comments meta-info" title="">
+                <i class="fa fa-comment remixicon"></i><span class="comment-count valine-comment-count" data-xid="/doggerel/"> </span>
+              </a>
+              <span id="/doggerel/" class="leancloud_visitors views-counter meta-info" title=""><i class="fa fa-leancloud remixicon"></i><span class="leancloud-visitors-count"></span></span>
+              
             </div>
             <div class="info">
               <div class="tags ">
@@ -152,23 +173,11 @@
             </section>
 
               <div class="clear"></div>
-
-              <div id="comments" class="bg-white hosted ">
-
               
-                <script type="text/javascript" src="https://cdn.staticfile.org/valine/1.3.10/Valine.Pure.min.js"></script>
-
+            
+              <div id="comments" class="bg-white hosted ">
+                <div class="clear"></div>
 <script>
-    var valine = new Valine();
-    valine.init({
-        el: '#comments',
-        appId: 'RGYOfzCpcS6pfauthuh4L4Td-gzGzoHsz' ,
-        appKey: 'QzGtXIuPFad8kd83rFHKoM1p',
-        pageSize: 30,
-        placeholder: '既然来了，那就留个痕迹吧~',
-        visitor: true // 阅读量统计
-    })
-
 jQuery(document).ready(function($){
     $('.vemoji-btn').text('😀');
     $("#comments").on('click', 'span.vat',function(){
@@ -186,12 +195,9 @@ jQuery(document).ready(function($){
 })
 </script>
 
-                <div class="clear"></div>
-              
-                <div class="clear"></div>
               </div>
+            
 
-              <div class="clear"></div>
             </div>
           </div>
       </main>
@@ -206,7 +212,7 @@ jQuery(document).ready(function($){
                   
                   <article class="item post-0 post type-post status-publish format-standard has-post-thumbnail hentry">
                     <a href="https://ixwu.github.io/build-static-blog-with-pelican-and-github-pages" class="thumb hover-effect">
-                      <span class="fullimage cover" style="display: block;background-image: url('https://cdn.pixabay.com/photo/2014/08/01/15/49/typewriter-407695_960_720.jpg');"></span>
+                      <span class="fullimage cover" style="display:block;border-radius:50%;background-image: url('https://cdn.pixabay.com/photo/2014/08/01/15/49/typewriter-407695_960_720.jpg');"></span>
                     </a>
                     <div class="info gradient-effect">
                       <time datetime="2020-02-09">2020-02-09</time>
@@ -221,7 +227,7 @@ jQuery(document).ready(function($){
                   
                   <article class="item post-1 post type-post status-publish format-standard has-post-thumbnail hentry">
                     <a href="https://ixwu.github.io/config-k8s-1.17.2-with-kubeadm" class="thumb hover-effect">
-                      <span class="fullimage cover" style="display: block;background-image: url('https://images.unsplash.com/photo-1575714223081-7912ca3255a7?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1189&amp;q=80');"></span>
+                      <span class="fullimage cover" style="display:block;border-radius:50%;background-image: url('https://images.unsplash.com/photo-1575714223081-7912ca3255a7?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1189&amp;q=80');"></span>
                     </a>
                     <div class="info gradient-effect">
                       <time datetime="2020-01-27">2020-01-27</time>
@@ -236,7 +242,7 @@ jQuery(document).ready(function($){
                   
                   <article class="item post-2 post type-post status-publish format-standard has-post-thumbnail hentry">
                     <a href="https://ixwu.github.io/howto-config-go-python-kernel-for-jupyter-notebook" class="thumb hover-effect">
-                      <span class="fullimage cover" style="display: block;background-image: url('https://images.unsplash.com/photo-1550645612-83f5d594b671?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=750&amp;q=80');"></span>
+                      <span class="fullimage cover" style="display:block;border-radius:50%;background-image: url('https://images.unsplash.com/photo-1550645612-83f5d594b671?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=750&amp;q=80');"></span>
                     </a>
                     <div class="info gradient-effect">
                       <time datetime="2019-06-02">2019-06-02</time>
@@ -354,10 +360,10 @@ jQuery(document).ready(function($){
         </div>
 
         <div class="logo">
-          <a href="https://ixwu.github.io"><img class="" src="https://ixwu.github.io/media/images/logo.png" alt=""></a>
+          <a href="https://ixwu.github.io"><img src="/media/images/custom-footerLogo.png" alt=""></a>
         </div>
         <p class="published border-effect">
-          ©2020 共 20 篇文章
+          ©2019 共 20 篇文章
           <br/>
           Theme <a href="https://gridea.dev/" target="_blank">「breek」</a> Powered by <a href="https://gridea.dev/" target="_blank">「Gridea」</a>
         </p>
@@ -366,51 +372,26 @@ jQuery(document).ready(function($){
           <i class="fa fa-arrow"></i>
         </a>
     </footer>
+    
     <div class="clear"></div>
 
+        
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/leancloud-storage/dist/av-min.js"></script>
+<script type="text/javascript" src="https://cdn.staticfile.org/valine/1.3.10/Valine.Pure.min.js"></script>
+<script>
+    new Valine({
+        el: '#comments',
+        appId: 'RGYOfzCpcS6pfauthuh4L4Td-gzGzoHsz' ,
+        appKey: 'QzGtXIuPFad8kd83rFHKoM1p',
+        pageSize: 30,
+        placeholder: '既然来了，那就留个痕迹吧~',
+        visitor: true // 阅读量统计
+    })
+</script>
+    
 
-      <script type="text/javascript">
-       jQuery(document).ready(function($){
-          $("photos img").each(function(){
-              var _a = $("<a></a>").attr("href",this.src);
-              $(this).wrap("<div class='photo'></div>").wrap(_a);
-          })
-          $("figure img").each(function(){
-              var _b = $("<a></a>").attr("href",this.src);
-              $(this).wrap(_b);
-          })
-          isImgLoad(function(){
-            var photos = document.querySelector('photos');
-            if(photos){
-              waterfall(photos);
-            }
-            $(window).resize(function() {
-             if(photos){
-                  waterfall(photos);
-            }
-          });
-        });
-        var t_img;
-        var isLoad = true;
-        function isImgLoad(callback){
-          $('photos img').each(function(){
-            if(this.height === 0){
-              isLoad = false;
-              return false;
-            }
-          });
-          if(isLoad){
-            clearTimeout(t_img);
-            callback();
-          }else{
-            isLoad = true;
-            t_img = setTimeout(function(){
-              isImgLoad(callback);
-            },500);
-          }
-        }
-      });
-      </script>
+      
+    <script src="https://ixwu.github.io/media/js/functions-post.js"></script>
 
     </div>
     <!-- end: #wrapper -->
