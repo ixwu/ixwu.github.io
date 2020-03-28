@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>搜索结果 | 习吾学</title>
+<title>如何在Notion中计算某日属于当年第几周？ | 习吾学</title>
 <meta name="description" content="A Life-long Learner" />
 <link rel="shortcut icon" href="https://ixwu.github.io/favicon.ico">
 <link rel="stylesheet" href="https://ixwu.github.io/styles/main.css">
@@ -14,16 +14,14 @@
 <script src="https://ixwu.github.io/media/js/view-image.min.js"></script>
 <script src="https://ixwu.github.io/media/js/jquery.magnific-popup.min.js"></script>
 <script src="https://ixwu.github.io/media/js/functions.js"></script>
-    <script src="/media/gridea-search/fuse.js"></script>
-    <script src="/media/gridea-search/ejs.min.js"></script>
-    <script src="/media/gridea-search/gridea-search.js"></script>
-    <script src="/media/gridea-search/result-template.ejs" type="text/ejs"></script>
-</head>
-
+    <meta name="referrer" content="never">
+    <meta name="description" content="玩Notion已近一年，今天才知道怎么用最简单的方式轻松计算某日属于当年第几周。不过，也怪不得我啊，官方示例根本就没有，各个notion达人也没见哪一位提到这一点，下面说说我是怎么误打误撞发现的吧。
+几天前，看到Linmi大佬的视频号在推一..." />
+    <meta name="keywords" content="notion" />
+    <script src="https://ixwu.github.io/media/js/waterfall.min.js"></script>
+    <script src="https://ixwu.github.io/media/js/prism.min.js"></script>
+  </head>
   <body>
-    <!-- start: #wrapper -->
-    <div class="wrapper">
-      
             <header id="header" class="grid-container">
         <!-- start: .menu-wrapper -->
         <div class="menu-mobile"> 
@@ -90,22 +88,155 @@
         </div>
       </div>
 
-      <main id="home" class="main fullcover no-sidebar content">
-        <div class="grid-container module-wrapper enable-masonry aos-init aos-animate" data-aos="fade-up">
-        <div class="epcl-page-wrapper">
-          <div class="left-content grid-70 np-mobile widget_epcl_related_articles">
-          <div class="main-article post">
-            <div id="gridea-search-result">
-              <h2 class="searching">搜索中......</h2>
-              <h2 class="no-result" style="display:none">未搜索到相关文章</h2>
+      <main id="single" class="main grid-container fullcover no-sidebar aos-init aos-animate" data-aos="fade">
+
+        <div class="center content">
+          <div class="featured-image cover" style="background-image: url('/media/images/gridea.jpg');">
+            <div class="meta top"> 
+              <time class="meta-info" style="float:left;" datetime="2020-03-28"><i class="fa fa-calendar"></i><span class="lately">42 分钟前</span></time>
+              
+              <a href="https://ixwu.github.io/howto-get-the-week-of-year-in-notion/#comments" class="comments meta-info" title="">
+                <i class="fa fa-comment remixicon"></i><span class="comment-count valine-comment-count" data-xid="/howto-get-the-week-of-year-in-notion/"> </span>
+              </a>
+              <span id="/howto-get-the-week-of-year-in-notion/" class="leancloud_visitors views-counter meta-info" title=""><i class="fa fa-leancloud remixicon"></i><span class="leancloud-visitors-count"></span></span>
+              
+            </div>
+            <div class="info">
+              <div class="tags ">
+                
+                      <a href="https://ixwu.github.io/tag/notion/" class="ctag ctag-0 ctag-notion" aria-label="">notion</a>
+                    
+              </div>
+              <h1 class="title ularge white bold">如何在Notion中计算某日属于当年第几周？</h1>
             </div>
           </div>
+        </div>  
+
+        <div class="epcl-page-wrapper">
+          <div class="left-content grid-70 np-mobile">
+            <article class="main-article post">
+              <section class="post-content">
+                <div class="text">
+                  <p>玩Notion已近一年，今天才知道怎么用最简单的方式轻松计算某日属于当年第几周。不过，也怪不得我啊，官方示例根本就没有，各个notion达人也没见哪一位提到这一点，下面说说我是怎么误打误撞发现的吧。</p>
+<p>几天前，看到<a href="https://linmi.cc">Linmi大佬</a>的视频号在推一个「<a href="https://www.notion.so/cnotion/2020-8fa0b3f42d2742c38440b3549de99b5b">2020年习惯打卡</a>」的模板，感觉不错，就去Notion中文社区找到了这个模板。一看，确实不错，美中不足的是周数是由人工填写的（对于直接使用该模板的人没啥影响，但对于制作者来说就有些痛苦啦）。</p>
+<figure data-type="image" tabindex="1"><img src="https://ixwu.github.io/post-images/1585398195332.png" alt="" loading="lazy"></figure>
+<p>本周视图是根据「周数」字段的值过滤（Filter）出来的，而「周数」字段值并非公式（Formula）计算得出。</p>
+<figure data-type="image" tabindex="2"><img src="https://ixwu.github.io/post-images/1585398214608.png" alt="" loading="lazy"></figure>
+<p>也就是说，每新增一条「习惯打卡」就要手动填写这个「周数」字段值。下图中 ∑ 图标字段代表是由公式（Formula）计算得出。</p>
+<figure data-type="image" tabindex="3"><img src="https://ixwu.github.io/post-images/1585398269225.png" alt="" loading="lazy"></figure>
+<p>Notion中公式有不少，可惜就是没有这个计算周数的。</p>
+<figure data-type="image" tabindex="4"><img src="https://ixwu.github.io/post-images/1585398229000.png" alt="" loading="lazy"></figure>
+<p>当然，Notion支持csv导入，先在excel中用相应公式处理下，转换为csv文件，再导入Notion也是可行的。不过，我更喜欢用官方原生方法来处理。几经折腾，最终还是找到了最优方法。折腾过程就不多啰嗦了，各种看官时间宝贵，我还是直接说答案吧。</p>
+<pre><code class="language-bash">formatDate(prop(&quot;Date&quot;), &quot;W&quot;)
+</code></pre>
+<p>先来看下<code>formatDate()</code>这个公式的官方示例。</p>
+<pre><code class="language-bash"># 语法
+formatDate(date, text)
+# 示例
+formatDate(now(), &quot;MMMM D YYYY, HH:mm&quot;) == March 30 2010, 12:00
+formatDate(now(), &quot;YYYY/MM/DD, HH:mm&quot;) == 2010/03/30, 12:00
+formatDate(now(), &quot;MM/DD/YYYY, HH:mm&quot;) == 03/30/2010, 12:00
+formatDate(now(), &quot;HH:mm A&quot;) == 12:00 PM
+formatDate(now(), &quot;M/D/YY&quot;) == 3/30/10
+</code></pre>
+<p>就是用格式化（FORMAT）日期字符串格式化输出日期（date），很多编程语言都有这种用法。</p>
+<p>比如shell中Date命令</p>
+<pre><code class="language-bash">$ date +&quot;%Y/%m/%d %H-%M-%S&quot;
+2020/03/28 18-51-24
+</code></pre>
+<p>python中datetime模块</p>
+<pre><code class="language-bash">&gt;&gt;&gt; a = datetime.datetime.now()
+&gt;&gt;&gt; a.strftime(&quot;%Y/%m/%d&quot;)
+'2020/03/28'
+</code></pre>
+<p>shell与python中计算当日属于第几周的格式（FORMAT）如下</p>
+<pre><code class="language-bash"># 一年中第几周，以周一(大写W)为每星期第一天（1-53）
+formatDate(Date, &quot;W&quot;)
+# 一年中第几周，以周日（小写w）为每星期第一天（1-53）
+formatDate(Date, &quot;w&quot;)
+</code></pre>
+<p>比如，2019年12月29日是周日，按照第一种方式的话，计算出来就是2019年第52周，用第二种方式计算出来是2020年第1周。显然，第一种方式更符合我们的要求。</p>
+<p>趁热打铁，我又试出了其他几个Notion未公布的FORMAT。</p>
+<pre><code class="language-bash"># 毫秒时间戳（x小写）
+formatDate(Date, &quot;x&quot;)
+# 秒时间戳（x大写）
+formatDate(Date, &quot;X&quot;)
+# 时区（CST），z小写
+formatDate(Date, &quot;z&quot;)
+# 时区（+08:00），z大写
+formatDate(Date, &quot;z&quot;)
+# 长格式时间（3/28/2020），l小写
+formatDate(Date, &quot;l&quot;)
+# 长格式时间（03/28/2020），L大写
+formatDate(Date, &quot;L&quot;)
+# 周几（周日的话输出0，其它为1-6），e小写
+formatDate(Date, &quot;e&quot;)
+# 周几（周日的话输出7，其它为1-6），e大写
+formatDate(Date, &quot;E&quot;)
+</code></pre>
+<h2 id="后记">后记</h2>
+<p>极限测试发现该方法有问题：2000年12月31日是星期日，该日应属于当年第53周，不过上述公式计算出来的结果是：第52周。2000年1月1日属于第一周，上述计算出来的结果是：第52周。</p>
+<p>所以，各位如果有计算某日属于第几周的需求可以用我这个公式，虽然复杂了点（使用公式前把&quot;Date&quot;字段替换为要计算周数的日期字段）。</p>
+<pre><code class="language-bash">if(day(dateAdd(fromTimestamp(-115200000), year(prop(&quot;Date&quot;)) - year(fromTimestamp(-115200000)), &quot;years&quot;)) != 0 and ceil(dateBetween(prop(&quot;Date&quot;), dateSubtract(dateAdd(fromTimestamp(-115200000), year(prop(&quot;Date&quot;)) - year(fromTimestamp(-115200000)) - 1, &quot;years&quot;), day(dateAdd(fromTimestamp(-115200000), year(prop(&quot;Date&quot;)) - year(fromTimestamp(-115200000)) - 1, &quot;years&quot;)), &quot;days&quot;), &quot;days&quot;) / 7) == 53, 1, ceil(dateBetween(prop(&quot;Date&quot;), dateSubtract(dateAdd(fromTimestamp(-115200000), year(prop(&quot;Date&quot;)) - year(fromTimestamp(-115200000)) - 1, &quot;years&quot;), day(dateAdd(fromTimestamp(-115200000), year(prop(&quot;Date&quot;)) - year(fromTimestamp(-115200000)) - 1, &quot;years&quot;)), &quot;days&quot;), &quot;days&quot;) / 7))
+</code></pre>
+
+                </div>
+                <div class="clear"></div>
+              </section>
+            </article>
+            <div class="clear"></div>
+
+            <section class="related section">
+              
+              
+              <article class="next grid-50 tablet-grid-50 grid-parent">
+                <div class="thumb cover lazy loaded" style="background-image: url('https://images.unsplash.com/photo-1575714223081-7912ca3255a7?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1189&amp;q=80');"></div>
+                 <a href="https://ixwu.github.io/config-k8s-1.17.2-with-kubeadm/" class="full-link"></a>
+                 <div class="info">
+                  <time datetime="2020-01-27">2020-01-27</time>
+                  <h4 class="title white no-margin">利用kubeadm部署kubernetes1.17.2</h4>
+                </div>
+                 <span class="epcl-button red">
+                  <img src="https://ixwu.github.io/media/images/right-arrow.svg" width="15" alt="Left Arrow">
+                </span>
+                <div class="overlay"></div>
+              </article>
+              
+
+                <div class="clear"></div>
+            </section>
+
+              <div class="clear"></div>
+              
+            
+              <div id="comments" class="bg-white hosted ">
+                <div class="clear"></div>
+<script>
+jQuery(document).ready(function($){
+    $('.vemoji-btn').text('😀');
+    $("#comments").on('click', 'span.vat',function(){
+        $(this).parent('div.vmeta').next("div.vcontent").after($("div.vwrap"));
+        $('textarea#veditor').focus();
+    })
+    if(window.location.hash){
+        var checkExist = setInterval(function() {
+            if ($(window.location.hash).length) {
+                $('html, body').animate({scrollTop: $(window.location.hash).offset().top-200}, 600);
+                clearInterval(checkExist);
+            }
+        }, 100);
+    }
+})
+</script>
+
+              </div>
+            
+
+            </div>
           </div>
-        </div>
-        </div>
       </main>
 
-        <footer id="footer" class="grid-container">
+          <footer id="footer" class="grid-container">
         <div class="widgets row gradient-effect">
             <div class="default-sidebar border-effect">
               <div class="grid-33 tablet-grid-50 mobile-grid-100">
@@ -294,6 +425,9 @@
     })
 </script>
     
+
+      
+    <script src="https://ixwu.github.io/media/js/functions-post.js"></script>
 
     </div>
     <!-- end: #wrapper -->
