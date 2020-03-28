@@ -78,7 +78,7 @@
       <div class="hide-on-mobile hide-on-tablet hide-on-desktop">
         <div id="search-lightbox" class="grid-container grid-small grid-parent mfp-hide">
           <div class="search-wrapper section">
-            <form id="gridea-search-form" data-update="1585399272652" action="/search/index.html" class="search-form" _lpchecked="1">
+            <form id="gridea-search-form" data-update="1585400205842" action="/search/index.html" class="search-form" _lpchecked="1">
               <input type="text" name="q" id="s" value="" class="search-field" placeholder="搜点啥..." aria-label="搜点啥..." required="">
               <button type="submit" class="submit" aria-label="Submit">
                 <i class="fa fa-search-line"></i>
@@ -91,9 +91,9 @@
       <main id="single" class="main grid-container fullcover no-sidebar aos-init aos-animate" data-aos="fade">
 
         <div class="center content">
-          <div class="featured-image cover" style="background-image: url('/media/images/gridea.jpg');">
+          <div class="featured-image cover" style="background-image: url('https://images.unsplash.com/photo-1489844981779-7f06e8e0fdbb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1189&amp;q=80');">
             <div class="meta top"> 
-              <time class="meta-info" style="float:left;" datetime="2020-03-28"><i class="fa fa-calendar"></i><span class="lately">42 分钟前</span></time>
+              <time class="meta-info" style="float:left;" datetime="2020-03-28"><i class="fa fa-calendar"></i><span class="lately">1 小时前</span></time>
               
               <a href="https://ixwu.github.io/howto-get-the-week-of-year-in-notion/#comments" class="comments meta-info" title="">
                 <i class="fa fa-comment remixicon"></i><span class="comment-count valine-comment-count" data-xid="/howto-get-the-week-of-year-in-notion/"> </span>
@@ -117,12 +117,12 @@
             <article class="main-article post">
               <section class="post-content">
                 <div class="text">
-                  <p>玩Notion已近一年，今天才知道怎么用最简单的方式轻松计算某日属于当年第几周。不过，也怪不得我啊，官方示例根本就没有，各个notion达人也没见哪一位提到这一点，下面说说我是怎么误打误撞发现的吧。</p>
-<p>几天前，看到<a href="https://linmi.cc">Linmi大佬</a>的视频号在推一个「<a href="https://www.notion.so/cnotion/2020-8fa0b3f42d2742c38440b3549de99b5b">2020年习惯打卡</a>」的模板，感觉不错，就去Notion中文社区找到了这个模板。一看，确实不错，美中不足的是周数是由人工填写的（对于直接使用该模板的人没啥影响，但对于制作者来说就有些痛苦啦）。</p>
+                  <p>玩<a href="https://www.notion.so/Notion-Official-83715d7703ee4b8699b5e659a4712dd8">Notion</a>已近一年，今天才知道怎么用最简单的方式轻松计算某日属于当年第几周。不过，也怪不得我啊，官方示例根本就没有，各个notion达人也没见哪一位提到这一点，下面说说我是怎么误打误撞发现的吧。</p>
+<p>几天前，看到<a href="https://linmi.cc">Linmi大佬</a>的视频号在推一个「<a href="https://www.notion.so/cnotion/2020-8fa0b3f42d2742c38440b3549de99b5b">2020年习惯打卡</a>」的模板，感觉不错，就去Notion中文社区找到了这个模板。一看，确实不错，美中不足的是周数是由人工填写的（对于直接使用该模板的人没啥影响，但对于制作者Melody来说就有些痛苦啦）。</p>
 <figure data-type="image" tabindex="1"><img src="https://ixwu.github.io/post-images/1585398195332.png" alt="" loading="lazy"></figure>
 <p>本周视图是根据「周数」字段的值过滤（Filter）出来的，而「周数」字段值并非公式（Formula）计算得出。</p>
 <figure data-type="image" tabindex="2"><img src="https://ixwu.github.io/post-images/1585398214608.png" alt="" loading="lazy"></figure>
-<p>也就是说，每新增一条「习惯打卡」就要手动填写这个「周数」字段值。下图中 ∑ 图标字段代表是由公式（Formula）计算得出。</p>
+<p>也就是说，每新增一条「习惯打卡」就要手动填写这个「周数」字段值。下图中 <code>∑</code> 图标字段代表是由公式（Formula）计算得出。</p>
 <figure data-type="image" tabindex="3"><img src="https://ixwu.github.io/post-images/1585398269225.png" alt="" loading="lazy"></figure>
 <p>Notion中公式有不少，可惜就是没有这个计算周数的。</p>
 <figure data-type="image" tabindex="4"><img src="https://ixwu.github.io/post-images/1585398229000.png" alt="" loading="lazy"></figure>
@@ -150,6 +150,11 @@ formatDate(now(), &quot;M/D/YY&quot;) == 3/30/10
 '2020/03/28'
 </code></pre>
 <p>shell与python中计算当日属于第几周的格式（FORMAT）如下</p>
+<pre><code class="language-bash">%W	一年中的第几周，以周一为每星期第一天(00-53)
+%V	ISO-8601 格式规范下的一年中第几周，以周一为每星期第一天(01-53)
+%U	一年中的第几周，以周日为每星期第一天(00-53)
+</code></pre>
+<p>Notion中对应FORMAT如下。</p>
 <pre><code class="language-bash"># 一年中第几周，以周一(大写W)为每星期第一天（1-53）
 formatDate(Date, &quot;W&quot;)
 # 一年中第几周，以周日（小写w）为每星期第一天（1-53）
@@ -179,6 +184,11 @@ formatDate(Date, &quot;E&quot;)
 <p>所以，各位如果有计算某日属于第几周的需求可以用我这个公式，虽然复杂了点（使用公式前把&quot;Date&quot;字段替换为要计算周数的日期字段）。</p>
 <pre><code class="language-bash">if(day(dateAdd(fromTimestamp(-115200000), year(prop(&quot;Date&quot;)) - year(fromTimestamp(-115200000)), &quot;years&quot;)) != 0 and ceil(dateBetween(prop(&quot;Date&quot;), dateSubtract(dateAdd(fromTimestamp(-115200000), year(prop(&quot;Date&quot;)) - year(fromTimestamp(-115200000)) - 1, &quot;years&quot;), day(dateAdd(fromTimestamp(-115200000), year(prop(&quot;Date&quot;)) - year(fromTimestamp(-115200000)) - 1, &quot;years&quot;)), &quot;days&quot;), &quot;days&quot;) / 7) == 53, 1, ceil(dateBetween(prop(&quot;Date&quot;), dateSubtract(dateAdd(fromTimestamp(-115200000), year(prop(&quot;Date&quot;)) - year(fromTimestamp(-115200000)) - 1, &quot;years&quot;), day(dateAdd(fromTimestamp(-115200000), year(prop(&quot;Date&quot;)) - year(fromTimestamp(-115200000)) - 1, &quot;years&quot;)), &quot;days&quot;), &quot;days&quot;) / 7))
 </code></pre>
+<h2 id="附录">附录</h2>
+<ul>
+<li><a href="https://www.notion.so/Habit-tracker-9bba62739d744103a1e7c4000d4b4251">2020年习惯打卡原版</a></li>
+<li><a href="https://www.notion.so/cnotion/2020-8fa0b3f42d2742c38440b3549de99b5b">2020年习惯打卡中文版</a></li>
+</ul>
 
                 </div>
                 <div class="clear"></div>
@@ -246,7 +256,7 @@ jQuery(document).ready(function($){
                   
                   <article class="item post-0 post type-post status-publish format-standard has-post-thumbnail hentry">
                     <a href="https://ixwu.github.io/howto-get-the-week-of-year-in-notion/" class="thumb hover-effect">
-                      <span class="fullimage cover" style="display:block;border-radius:50%;background-image: url('/media/images/gridea.jpg');"></span>
+                      <span class="fullimage cover" style="display:block;border-radius:50%;background-image: url('https://images.unsplash.com/photo-1489844981779-7f06e8e0fdbb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1189&amp;q=80');"></span>
                     </a>
                     <div class="info gradient-effect">
                       <time datetime="2020-03-28">2020-03-28</time>
