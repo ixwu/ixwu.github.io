@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://ixwu.github.io</id>
     <title>习吾学</title>
-    <updated>2020-04-27T15:47:40.509Z</updated>
+    <updated>2020-04-27T15:55:10.570Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://ixwu.github.io"/>
     <link rel="self" href="https://ixwu.github.io/atom.xml"/>
@@ -41,7 +41,7 @@
 <p>下载作者<a href="https://github.com/daibor/nonsense.fun">仓库</a>中 index.html ，替换文件中的 AppID 与 AppKey，然后上传到你在 GitHub 上创建的仓库中。</p>
 </li>
 </ol>
-<p>作者命名其为「b言b语」，索性我就将在该平台上发表内容称为bb了。Windows、iOS、安卓端都有现成的内容发布方案，唯独MacOS端没有。作为平日里的白嫖党，我也终于可以贡献一份力量了，于是有了下述方案。</p>
+<p>做完以上三步，你的「私人微博」就搭建完成了，下面该考虑内容发布的事了。作者将平台命名为「b言b语」，索性我就将在该平台上发布内容称为bb了。Windows、iOS、安卓端都有现成的内容发布方案，唯独MacOS端没有。作为平日里的白嫖党，我也终于可以贡献一份力量了，于是有了下述方案。</p>
 <p>内容发布其实就是调 leanCloud 接口在Content表中插入一条数据，常用的shell、Python都能实现，官方甚至有对应的SDK。不过在终端上总觉得不够优雅，我想整一个大众都能用的。思来想去，我想到了久未打开的uTools。用过Mac的，必然知道Splotlight，再进一步，必然知道传说中的Alfred。而uTools就是一款国人开发的类Alfred软件，上面有大量的生产力相关的插件工具，而且是免费的哦。</p>
 <p>uTools上有一款插件叫：快捷命令。你可以用熟悉的编程语言编写脚本，然后通过uTools调用。</p>
 <figure data-type="image" tabindex="1"><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1ge8ogoeiv2j30s50gfq3o.jpg" alt="" loading="lazy"></figure>
