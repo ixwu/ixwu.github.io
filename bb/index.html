@@ -1,8 +1,8 @@
 <html>
   <head>
-    <meta charset="utf-8" />
+  <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>如何在Mac上使用uTools优雅地bb | 习吾学</title>
+<title>bb | 习吾学</title>
 <meta name="description" content="A Life-long Learner" />
 <link rel="shortcut icon" href="https://ixwu.github.io/favicon.ico">
 <link rel="stylesheet" href="https://ixwu.github.io/styles/main.css">
@@ -14,16 +14,11 @@
 <script src="https://ixwu.github.io/media/js/view-image.min.js"></script>
 <script src="https://ixwu.github.io/media/js/jquery.magnific-popup.min.js"></script>
 <script src="https://ixwu.github.io/media/js/functions.js"></script>
-    <meta name="referrer" content="never">
-    <meta name="description" content="几天前看了少数派一篇教程「保卫表达：用后端 BaaS 快速搭建专属无点赞评论版微博——b言b语 」，顿时兴奋不已，这不正是我期盼已久的东西么。像新浪微博、之前 qq 空间里的说说以及现在的朋友圈，都有作者总结的如下问题。
-
-
-会被点赞、评论..." />
-    <meta name="keywords" content="折腾" />
-    <script src="https://ixwu.github.io/media/js/waterfall.min.js"></script>
-    <script src="https://ixwu.github.io/media/js/prism.min.js"></script>
   </head>
   <body>
+    <!-- start: #wrapper -->
+
+    <div class="post">
             <header id="header" class="grid-container">
         <!-- start: .menu-wrapper -->
         <div class="menu-mobile"> 
@@ -89,159 +84,27 @@
           </div>
         </div>
       </div>
-
-      <main id="single" class="main grid-container fullcover no-sidebar aos-init aos-animate" data-aos="fade">
-
-        <div class="center content">
-          <div class="featured-image cover" style="background-image: url('https://images.unsplash.com/photo-1522021140916-00ca89bfe033?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1050&amp;q=80');">
-            <div class="meta top"> 
-              <time class="meta-info" style="float:left;" datetime="2020-04-27"><i class="fa fa-calendar"></i><span class="lately">19 小时前</span></time>
-              
-              <a href="https://ixwu.github.io/howto-graciously-bb-in-mac/#comments" class="comments meta-info" title="">
-                <i class="fa fa-comment remixicon"></i><span class="comment-count valine-comment-count" data-xid="/howto-graciously-bb-in-mac/"> </span>
-              </a>
-              <span id="/howto-graciously-bb-in-mac/" class="leancloud_visitors views-counter meta-info" title=""><i class="fa fa-leancloud remixicon"></i><span class="leancloud-visitors-count"></span></span>
-              
-            </div>
-            <div class="info">
-              <div class="tags ">
-                
-                      <a href="https://ixwu.github.io/tag/zhe-teng/" class="ctag ctag-0 ctag-zhe-teng" aria-label="">折腾</a>
-                    
+      <div class="post-content" id="app">
+        <p v-show="count == 0">别急，加载呢……</p>
+        <div v-show="count">
+        <p >总共 b 了 {{count}} 条</p>
+        <section class="timeline">
+          <ul>
+            <li class="item" v-for="item in contents" v-cloak>
+              <div>
+                <p v-html='item.attributes.content'></p>
+                <time v-bind:datetime="item.attributes.time"><small>{{item.attributes.time}}</small></time>
               </div>
-              <h1 class="title ularge white bold">如何在Mac上使用uTools优雅地bb</h1>
-            </div>
-          </div>
-        </div>  
-
-        <div class="epcl-page-wrapper">
-          <div class="left-content grid-70 np-mobile">
-            <article class="main-article post">
-              <section class="post-content">
-                <div class="text">
-                  <p>几天前看了少数派一篇教程「<a href="https://sspai.com/post/60024">保卫表达：用后端 BaaS 快速搭建专属无点赞评论版微博——b言b语 </a>」，顿时兴奋不已，这不正是我期盼已久的东西么。像新浪微博、之前 qq 空间里的说说以及现在的朋友圈，都有作者总结的如下问题。</p>
-<blockquote>
-<ol>
-<li>会被点赞、评论机制刺激分泌多巴胺，导致莫名兴奋、并对此产生期待。这些情绪不仅干扰后续表达，也带来了回复的社交压力；</li>
-<li>时间线+订阅的机制使我认为频繁发布无价值内容会打扰关注者；</li>
-<li>为避免引战、被攻击以及各种原因需要进行严格的自我审查；</li>
-<li>发布内容的路径长，经常被首页其他内容分散，浪费时间；</li>
-</ol>
-</blockquote>
-<p>这些年，我逐渐在这些平台上&quot;销声匿迹&quot;，上述几个原因所占比重不可谓不大，毕竟我曾经也是文字表达欲极强的愤青一个，也被删过贴，也曾论过战，如今咬舌闭口，蒙眼塞耳，身困五斗稻粮谋，表达欲已然奄奄一息。所幸，照着作者教程搭完这个「私人微博」后，表达欲顿时重焕新生。</p>
-<p>如果你也想有一个「无点赞评论私人微博」，至少需要做如下准备（具体可看<a href="https://sspai.com/post/60024">作者所写教程</a>，非常详尽，我就不叠床架屋了）。</p>
-<ol>
-<li>
-<p>注册 <a href="https://leancloud.app">leanCloud</a> (有国际版与国内版，当然选国际版了，再慢也选)并新建应用。创建一个class，命名为content，接着创建一个column（列），同样命名为content。说白了，content class 就是一张表，而 content column(列)就是这张表里的一个字段，后续「b 言 b 语」前端数据的呈现就是对这张表里数据的渲染，而客户端的操作就是对这张表进行增删改查。<br>
-接下来在设置中找到你的关键认证信息。<br>
-<img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1ge8juns26xj30ut0atdgi.jpg" alt="" loading="lazy"><br>
-找一个地方把这几个关键信息存下来，后面都会用到。</p>
-</li>
-<li>
-<p>注册 <a href="https://github.com">GitHub</a>，并创建一个仓库，命名为: <code>用户名.github.io</code>，比如用户名为 bb，那仓库命名为:<code>bb.github.io</code>，利用的是 GitHub 提供的 Pages 服务，如果嫌慢，可以使用国内的码云、coding 托管。不过，我更愿意用 GitHub，原因你懂的。</p>
-</li>
-<li>
-<p>下载作者<a href="https://github.com/daibor/nonsense.fun">仓库</a>中 index.html ，替换文件中的 AppID 与 AppKey，然后上传到你在 GitHub 上创建的仓库中。</p>
-</li>
-</ol>
-<p>做完以上三步，你的「私人微博」就搭建完成了，下面该考虑内容发布的事了。作者将平台命名为「b言b语」，索性我就将在该平台上发布内容称为bb了。Windows、iOS、安卓端都有现成的内容发布方案，唯独MacOS端没有。作为平日里的白嫖党，我也终于可以贡献一份力量了，于是有了下述方案。</p>
-<p>内容发布其实就是调 leanCloud 接口在Content表中插入一条数据，常用的shell、Python都能实现，官方甚至有对应的SDK。不过在终端上总觉得不够优雅，我想整一个大众都能用的。思来想去，我想到了久未打开的uTools。用过Mac的，必然知道Splotlight，再进一步，必然知道传说中的Alfred。而uTools就是一款国人开发的类Alfred软件，上面有大量的生产力相关的插件工具，而且是免费的哦。</p>
-<p>uTools上有一款插件叫：快捷命令。你可以用熟悉的编程语言编写脚本，然后通过uTools调用。</p>
-<figure data-type="image" tabindex="1"><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1ge8ogoeiv2j30s50gfq3o.jpg" alt="" loading="lazy"></figure>
-<p>进入该插件后，可以新建一条命令。如下图所示，使用shell中curl命令调leanCloud接口发布信息。</p>
-<figure data-type="image" tabindex="2"><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1ge8poa121lj30m30i6gn0.jpg" alt="" loading="lazy"></figure>
-<p>下面是Python版<br>
-<img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1ge8pve2fyoj30m30i13zc.jpg" alt="" loading="lazy"></p>
-<pre><code class="language-python">#!/usr/local/bin/python3
-# _*_ coding: utf-8 _*_
-
-import urllib3
-import json
-
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
-data = {&quot;content&quot;: &quot;{{subinput}}&quot;}
-
-headers = {
-    'Content-Type': 'application/json',
-    'X-LC-Id': '',   # 填入AppID
-    'X-LC-Key': ',master' # 逗号前填入masterKey
-}
-
-url = 'https://AppID前八位.api.lncldglobal.com/1.1/classes/content'
-
-http = urllib3.PoolManager(timeout = 3)
-
-r = http.request('POST', url, body=json.dumps(data), headers = headers)
-
-if str(r.status) == &quot;201&quot;:
-    print('success!')
-    print(json.loads(r.data.decode('utf-8')))
-else:
-    print('something is wrong!')
-</code></pre>
-<p>具体脚本内容及后续优化可在<a href="https://github.com/imxw/bb">仓库</a>中找到</p>
-<p>从上述描述可知，要发布的内容是通过uTools的变量传递到脚本中的。我只推荐其中两个变量，一个是<code>{{ClipText}}</code>即剪贴板中的文本，另一个是<code>{{subinput}}</code>，指的是子输入框文本，也是我最终采用的变量，可能不如剪贴板好理解，所以我做了一个动图。</p>
-<figure data-type="image" tabindex="3"><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1ge8qh1ugbkg313s0d0azj.gif" alt="" loading="lazy"></figure>
-<p>ok，让我们一起bb吧。</p>
-
-                </div>
-                <div class="clear"></div>
-              </section>
-            </article>
-            <div class="clear"></div>
-
-            <section class="related section">
-              
-              
-              <article class="next grid-50 tablet-grid-50 grid-parent">
-                <div class="thumb cover lazy loaded" style="background-image: url('https://images.unsplash.com/photo-1489844981779-7f06e8e0fdbb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1189&amp;q=80');"></div>
-                 <a href="https://ixwu.github.io/howto-get-the-week-of-year-in-notion/" class="full-link"></a>
-                 <div class="info">
-                  <time datetime="2020-03-28">2020-03-28</time>
-                  <h4 class="title white no-margin">如何在Notion中计算某日属于当年第几周？</h4>
-                </div>
-                 <span class="epcl-button red">
-                  <img src="https://ixwu.github.io/media/images/right-arrow.svg" width="15" alt="Left Arrow">
-                </span>
-                <div class="overlay"></div>
-              </article>
-              
-
-                <div class="clear"></div>
-            </section>
-
-              <div class="clear"></div>
-              
-            
-              <div id="comments" class="bg-white hosted ">
-                <div class="clear"></div>
-<script>
-jQuery(document).ready(function($){
-    $('.vemoji-btn').text('😀');
-    $("#comments").on('click', 'span.vat',function(){
-        $(this).parent('div.vmeta').next("div.vcontent").after($("div.vwrap"));
-        $('textarea#veditor').focus();
-    })
-    if(window.location.hash){
-        var checkExist = setInterval(function() {
-            if ($(window.location.hash).length) {
-                $('html, body').animate({scrollTop: $(window.location.hash).offset().top-200}, 600);
-                clearInterval(checkExist);
-            }
-        }, 100);
-    }
-})
-</script>
-
-              </div>
-            
-
-            </div>
-          </div>
-      </main>
-
-          <footer id="footer" class="grid-container">
+            </li>
+          </ul>
+        </section>
+        <div class="load-ctn">
+          <button class="load-btn" v-on:click="loadMore" v-if="contents" v-cloak>再翻翻</button>
+          <p class="tip" v-else>别急，加载呢</p>
+        </div>
+      </div>
+      </div>
+        <footer id="footer" class="grid-container">
         <div class="widgets row gradient-effect">
             <div class="default-sidebar border-effect">
               <div class="grid-33 tablet-grid-50 mobile-grid-100">
@@ -435,10 +298,84 @@ jQuery(document).ready(function($){
 </script>
     
 
-      
-    <script src="https://ixwu.github.io/media/js/functions-post.js"></script>
-
     </div>
+    <style>
+      .timeline ul {margin:0;padding-bottom:2rem;}
+      .timeline ul li {background:#eaeaea;list-style-type:none;position:relative;width:2px;margin-left:20px;padding:10px 0 50px;}
+      .timeline ul li::after {content:'';position:absolute;left:50%;top:25px;transform:translateX(-50%);width:8px;height:8px;border-radius:50%;background:inherit;}
+      .timeline ul li div {background:#eaeaea;border-radius:5px;position:relative;top:0;left:40px;width:670px;padding:8px 16px;}
+      .timeline ul li div p{margin:0;}
+      .timeline ul li div::before{content:'';position:absolute;top:10px;width:0;height:0;border-style:solid;left:-15px;border-width:8px 16px 8px 0;border-color:transparent #eaeaea transparent transparent;}
+      .dark-theme .timeline ul li,.dark-theme .timeline ul li div{background:#3b3d42;}
+      .dark-theme .timeline ul li div::before{border-color:transparent #3b3d42 transparent transparent;}
+      @media (max-width:860px) {
+        .timeline ul li{margin-left:0;}
+        .timeline ul li div{width:calc(100vw - 75px);left:30px;}
+    
+      }
+    </style>
+    <link type="text/css" rel="stylesheet" href="https://at.alicdn.com/t/font_1755564_z4mhxbw13mq.css"></link>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leancloud-storage@4.5.3/dist/av-min.js"></script>
+    <script type="text/javascript">
+        var {
+            Query
+        } = AV;
+        AV.init({
+            appId:"Xq4li4CYL95Qv9GsJSiB8B2M-MdYXbMMI", //你的 leancloud 应用 id （设置-应用keys-AppID）
+            appKey:"ig246mC92F7Hokvqa7E99Koa", //你的 leancloud 应用 AppKey （设置-应用keys-AppKey）
+        });
+    
+        var query = new AV.Query('content');
+    
+        var app = new Vue({
+            el:'#app',
+            data:{
+                isShow: true,
+                page:0,
+                count:0,
+                contents:[]
+            },
+            methods:{
+                loadMore:function(event) { 
+                  getData(++this.page);
+                }
+            }
+        })
+    
+        function urlToLink(str) {
+            var re = /(http|ftp|https):\/\/[\w-]+(.[\w-]+)+([\w-.,@?^=%&:/~+#]*[\w-\@?^=%&/~+#])?/g;;
+    
+            str = str.replace(re, function(website) {
+                return "<a href='" + website + "' target='_blank'> <i class='iconfont icon-lianjie-copy'></i>链接 </a>";
+            });
+            return str;
+        }
+    
+        function getData(page = 0) {
+            query.descending('createdAt').skip(page * 20).limit(20).find().then(function(results) {
+                if (results.length == 0) {
+                    alert('b 尽，待续')
+                } else {
+                    let resC = results;
+                    reqData = false;
+                    resC.forEach((i) => {
+                        let dateTmp = new Date(i.createdAt);
+                        i.attributes.time = `${dateTmp.getFullYear()}-${(dateTmp.getMonth() + 1) < 10 ? ('0' + (dateTmp.getMonth()+1)) :dateTmp.getMonth()+1}-${(dateTmp.getDate() + 1) < 10 ? ('0' + dateTmp.getDate()) :dateTmp.getDate()} ${(dateTmp.getHours() + 1) <= 10 ? ('0' + dateTmp.getHours()) :dateTmp.getHours()}:${(dateTmp.getMinutes() + 1) <= 10 ? ('0' + dateTmp.getMinutes()) :dateTmp.getMinutes()}`;
+                        i.attributes.content = urlToLink(i.attributes.content);
+                        app.contents.push(i);
+                    })
+                }
+    
+            }, function(error) {});
+        }
+    
+        getData(0);
+    
+        query.count().then(function(count) {
+            app.count = count;
+        }, function(error) {});
+    </script>
     <!-- end: #wrapper -->
   </body>
 </html>
