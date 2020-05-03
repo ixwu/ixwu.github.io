@@ -2,7 +2,7 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>k8s | 习吾学</title>
+<title>如何快速开发一款小鹤双拼查询工具 | 习吾学</title>
 <meta name="description" content="A Life-long Learner" />
 <link rel="shortcut icon" href="https://ixwu.github.io/favicon.ico">
 <link rel="stylesheet" href="https://ixwu.github.io/styles/main.css">
@@ -14,11 +14,16 @@
 <script src="https://ixwu.github.io/media/js/view-image.min.js"></script>
 <script src="https://ixwu.github.io/media/js/jquery.magnific-popup.min.js"></script>
 <script src="https://ixwu.github.io/media/js/functions.js"></script>
+    <meta name="referrer" content="never">
+    <meta name="description" content="学生生涯结束，踏入社会，没有成绩、学分约束，没有老师、学校监督，完全凭个人兴趣、意志自学的技能，挑出三个你最有成就感的。
+另外两个暂且不提，对于我来说，肯定会有小鹤双拼。
+
+其实说「小鹤双拼」还不太准确，应该说「小鹤音形」。因为它不仅仅是一..." />
+    <meta name="keywords" content="折腾" />
+    <script src="https://ixwu.github.io/media/js/waterfall.min.js"></script>
+    <script src="https://ixwu.github.io/media/js/prism.min.js"></script>
   </head>
   <body>
-    <!-- start: #wrapper -->
-    <div class="wrapper">
-      
             <header id="header" class="grid-container">
         <!-- start: .menu-wrapper -->
         <div class="menu-mobile"> 
@@ -85,45 +90,157 @@
         </div>
       </div>
 
-      <main id="home" class="main fullcover no-sidebar content">
-        <div class="grid-container module-wrapper enable-masonry aos-init aos-animate" data-aos="fade-up">
-        <div class="epcl-page-wrapper">
-          <div class="left-content grid-70 np-mobile widget_epcl_related_articles">
-                
-            <!-- start: .articles -->
-            <div class="main-article post">
-  <h2 class="year"># k8s</h2>
-    
-      <article class="item default grid-33 tablet-grid-50 np-mobile">
-        <a href="https://ixwu.github.io/config-k8s-1.17.2-with-kubeadm/" class="thumb hover-effect">
-          <span class="fullimage cover" style="display: block;background-image: url('https://images.unsplash.com/photo-1575714223081-7912ca3255a7?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1189&amp;q=80');"></span>
-        </a>
-        <div class="info gradient-effect">
-          <time datetime="2020-01-27">2020-01-27</time>
-          <h4 class="title usmall">
-            <a href="https://ixwu.github.io/config-k8s-1.17.2-with-kubeadm/">利用kubeadm部署kubernetes1.17.2</a>
-          </h4>
-        </div>
-      </article>
+      <main id="single" class="main grid-container fullcover no-sidebar aos-init aos-animate" data-aos="fade">
 
-    
-    <div class="clear"></div>
-</div>
-            <!-- end: .articles -->
-            
-                        <div class="epcl-pagination section">
-              <div class="nav">
-                
-                
-              </div>
+        <div class="center content">
+          <div class="featured-image cover" style="background-image: url('/media/images/gridea.jpg');">
+            <div class="meta top"> 
+              <time class="meta-info" style="float:left;" datetime="2020-05-03"><i class="fa fa-calendar"></i><span class="lately">10 小时前</span></time>
+              
+              <a href="https://ixwu.github.io/howto-quickly-make-a-tool-for-xhup/#comments" class="comments meta-info" title="">
+                <i class="fa fa-comment remixicon"></i><span class="comment-count valine-comment-count" data-xid="/howto-quickly-make-a-tool-for-xhup/"> </span>
+              </a>
+              <span id="/howto-quickly-make-a-tool-for-xhup/" class="leancloud_visitors views-counter meta-info" title=""><i class="fa fa-leancloud remixicon"></i><span class="leancloud-visitors-count"></span></span>
+              
             </div>
+            <div class="info">
+              <div class="tags ">
+                
+                      <a href="https://ixwu.github.io/tag/zhe-teng/" class="ctag ctag-0 ctag-zhe-teng" aria-label="">折腾</a>
+                    
+              </div>
+              <h1 class="title ularge white bold">如何快速开发一款小鹤双拼查询工具</h1>
+            </div>
+          </div>
+        </div>  
+
+        <div class="epcl-page-wrapper">
+          <div class="left-content grid-70 np-mobile">
+            <article class="main-article post">
+              <section class="post-content">
+                <div class="text">
+                  <p>学生生涯结束，踏入社会，没有成绩、学分约束，没有老师、学校监督，完全凭个人兴趣、意志自学的技能，挑出三个你最有成就感的。</p>
+<p>另外两个暂且不提，对于我来说，肯定会有<a href="https://www.flypy.com">小鹤双拼</a>。</p>
+<figure data-type="image" tabindex="1"><img src="https://www.flypy.com/images/hejp.png" alt="小鹤双拼" loading="lazy"></figure>
+<p>其实说「小鹤双拼」还不太准确，应该说「小鹤音形」。因为它不仅仅是一个双拼方案，还有双形方案。</p>
+<blockquote>
+<p>双形即从每个字中提取首末两部分形态各异的组字单元，以区分同音字，组字单元即字根</p>
+</blockquote>
+<figure data-type="image" tabindex="2"><img src="https://www.flypy.com/images/hebu.png" alt="小鹤字根" loading="lazy"></figure>
+<p>比如「<strong>武</strong>」字，拆分是:<code>一戈止</code>，首字根是<code>一</code>(形码是 a，笔画中「横」对应 a)，末字根是<code>止</code>(形码是 v，zh 对应 v)，完整的小鹤音形码是: 「<strong>双拼+双形</strong>」，即<code>wuav</code>。小鹤的字根基本都取声母，不需要特别记忆。所以，学起来也不难，主要是要多练习，形成肌肉记忆。<br>
+基本坚持学习一个月就能掌握「小鹤音形」，此后四码上屏，打字如飞。我的意外收获是:借机<a href="https://xwlearn.com/how-do-i-master-touch-type-in-two-hours/">学会了盲打</a>，如虎添翼。</p>
+<figure data-type="image" tabindex="3"><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gefk8r67w2g30fe06045x.gif" alt="" loading="lazy"></figure>
+<p>尽管我已熟练掌握小鹤音形，但是偶尔部分字还是会忘记编码。这时，我希望手边有一个工具能够辅助我快速查询编码。有爱好者制作了一款<strong>微信小程序</strong>，不过因为<strong>某些原因</strong>，该小程序需要<strong>看广告换积分</strong>来查询。<strong>pass</strong>。</p>
+<figure data-type="image" tabindex="4"><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gefmprjvc3j30ku112gm5.jpg" alt="" loading="lazy"></figure>
+<p>另外还有一个<a href="http://react.xhup.club/search">网站</a>可以查询编码。</p>
+<figure data-type="image" tabindex="5"><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gefmvn90ggj30ie0hjaaa.jpg" alt="" loading="lazy"></figure>
+<p>如果不想折腾，这里已经可以打住了，iOS 端只需要将该网页「<strong>添加到主屏幕</strong>」即可，参见<a href="https://xwlearn.com/howto-graciously-bb-in-ios/">上篇文章</a>。</p>
+<p>但我喜欢折腾，下面，我将说说我是如何利用该网站的接口自己开发了一款小鹤编码查询工具。</p>
+<p>先说说如何找接口。使用谷歌浏览器访问该网站，然后按 F12 进入开发者模式，执行查询时会发现多了一个叫 searchCode 的请求。</p>
+<figure data-type="image" tabindex="6"><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gefni8sbkkj318b0m677i.jpg" alt="" loading="lazy"></figure>
+<p>这是一个 <strong>POST</strong> 请求，请求 URL 是 http://www.xhup.club/Xhup/Search/searchCode。</p>
+<p>请求头如下</p>
+<figure data-type="image" tabindex="7"><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gefo28zl6qj30l007qwev.jpg" alt="" loading="lazy"></figure>
+<p>其中，<strong>Host</strong> 告诉后台，浏览器想访问的 web 服务器的<strong>域名/IP 地址和端口号</strong>，这里是 www.xhup.club。<strong>Origin</strong> 告诉后台请求发起方是 http://react.xhup.club，所以后面假如我们想用 Python 模拟该请求必须带上该头部，否则后台判定该请求不合法，后面响应头部中有个: <code>Access-Control-Allow-Origin: http://react.xhup.club</code>，意思是只接受 http://react.xhup.club 发起的请求。</p>
+<p>再来看看这个 <strong>Referer</strong>，跟 Origin 类似，我们是访问 http://react.xhup.club/search 后再发起的查询请求，所以这里记录的是上一个页面的 URL(<strong>协议+域名+查询参数</strong>) 即是 http://react.xhup.club/search。另外，还需要注意这个 User-Agent，当我们用 Python 调该接口时需要带上该头部以欺骗后台服务: <strong>请求是浏览器发起的</strong>。</p>
+<p>代码中请求头如下：</p>
+<pre><code class="language-python">headers = {
+  'Origin': 'http://react.xhup.club',
+  'Referer': 'http://react.xhup.club/search',
+  'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36',
+  'Host': 'www.xhup.club',
+  'Content-Type': 'application/x-www-form-urlencoded',
+  'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
+  'Accept': 'application/json, text/plain, */*',
+}
+</code></pre>
+<p>接下来是最关键的一步了。</p>
+<figure data-type="image" tabindex="8"><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gefomth3qcj30kx06ht8z.jpg" alt="" loading="lazy"></figure>
+<p>我们执行查询时实际上是提交了一个表单，该表单包括<strong>所要查询的汉字</strong>与一个 <strong>sign</strong>。当表单上传编码格式为<code>application/x-www-form-urlencoded</code>，参数的格式（点击view source）如下</p>
+<pre><code>search_word=%E4%B8%AD&amp;sign=fa8d52dc60388d70b092c7f34db8f0c2
+</code></pre>
+<p>其中，汉字需要进行百分号转义。那么这里的 sign 是从哪来的呢? 通常是一个 md5 值。我们来看下相关 js 代码，打一些断点调试。</p>
+<figure data-type="image" tabindex="9"><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gefp7nk4q1j30hz057t8v.jpg" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="10"><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gefpfpmovej30ej08674i.jpg" alt="" loading="lazy"></figure>
+<p>图中变量 <code>e</code> 为 <strong>key_xhup</strong> 的值，即 <strong>fjc_xhup</strong>，变量 <code>r</code> 为 <strong>search_word</strong> 的值，即所要查询的汉字，<code>W()</code> 不用管，姑且猜测为 md5 加密函数，这里对 <strong>fjc_xhup</strong> 与 <strong>search_word</strong> 合并后的字符串进行了加密作为 <strong>sign</strong> 的值。</p>
+<p>在浏览器查询「<strong>中</strong>」的编码时，<strong>sign</strong> 值为: <strong>fa8d52dc60388d70b092c7f34db8f0c2</strong>。下面我们用 Python 的 md5 测试下。</p>
+<pre><code class="language-python">In [1]: import hashlib
+
+In [2]: key_xhup = 'fjc_xhup'
+
+In [3]: search_word = '中'
+
+In [4]: sign = hashlib.md5((key_xhup + search_word).encode('utf-8')).hexdigest()
+   ...:
+
+In [5]: print(sign)
+fa8d52dc60388d70b092c7f34db8f0c2
+</code></pre>
+<p>猜测正确。好了，剩下的事情就非常简单了。</p>
+<p>我分别用 <a href="http://omz-software.com/pythonista/">Pythonista</a> 与苹果自带的<a href="https://support.apple.com/zh-cn/guide/shortcuts/apdf22b0444c/2.2/ios/12.0">快捷指令</a>实现了该功能。其中，由于<strong>捷径</strong>的局限性，我设计为一次只能查询一个字的编码。</p>
+<p><photos><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gefqadrulng30ku112nhs.gif" alt="" loading="lazy"><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gefqd474l8g30ku112kbp.gif" alt="" loading="lazy"></photos></p>
+<ul>
+<li><a href="https://github.com/imxw/xhup/blob/master/xhup.py">完整代码</a></li>
+<li><a href="https://www.icloud.com/shortcuts/c3610835668145b5aa3436fc5c608dec">捷径下载</a></li>
+</ul>
+
+                </div>
+                <div class="clear"></div>
+              </section>
+            </article>
+            <div class="clear"></div>
+
+            <section class="related section">
+              
+              
+              <article class="next grid-50 tablet-grid-50 grid-parent">
+                <div class="thumb cover lazy loaded" style="background-image: url('http://omz-software.com/pythonista/images/DeviceScreenshots.png');"></div>
+                 <a href="https://ixwu.github.io/howto-graciously-bb-in-ios/" class="full-link"></a>
+                 <div class="info">
+                  <time datetime="2020-05-01">2020-05-01</time>
+                  <h4 class="title white no-margin">如何在iOS端优雅地bb？</h4>
+                </div>
+                 <span class="epcl-button red">
+                  <img src="https://ixwu.github.io/media/images/right-arrow.svg" width="15" alt="Left Arrow">
+                </span>
+                <div class="overlay"></div>
+              </article>
+              
+
+                <div class="clear"></div>
+            </section>
+
+              <div class="clear"></div>
+              
             
+              <div id="comments" class="bg-white hosted ">
+                <div class="clear"></div>
+<script>
+jQuery(document).ready(function($){
+    $('.vemoji-btn').text('😀');
+    $("#comments").on('click', 'span.vat',function(){
+        $(this).parent('div.vmeta').next("div.vcontent").after($("div.vwrap"));
+        $('textarea#veditor').focus();
+    })
+    if(window.location.hash){
+        var checkExist = setInterval(function() {
+            if ($(window.location.hash).length) {
+                $('html, body').animate({scrollTop: $(window.location.hash).offset().top-200}, 600);
+                clearInterval(checkExist);
+            }
+        }, 100);
+    }
+})
+</script>
+
+              </div>
+            
+
+            </div>
           </div>
-          </div>
-        </div>
       </main>
 
-        <footer id="footer" class="grid-container">
+          <footer id="footer" class="grid-container">
         <div class="widgets row gradient-effect">
             <div class="default-sidebar border-effect">
               <div class="grid-33 tablet-grid-50 mobile-grid-100">
@@ -320,6 +437,9 @@
     })
 </script>
     
+
+      
+    <script src="https://ixwu.github.io/media/js/functions-post.js"></script>
 
     </div>
     <!-- end: #wrapper -->

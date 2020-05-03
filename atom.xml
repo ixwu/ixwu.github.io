@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://ixwu.github.io</id>
     <title>习吾学</title>
-    <updated>2020-05-01T11:19:37.232Z</updated>
+    <updated>2020-05-03T17:47:23.092Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://ixwu.github.io"/>
     <link rel="self" href="https://ixwu.github.io/atom.xml"/>
@@ -10,6 +10,78 @@
     <logo>https://ixwu.github.io/images/avatar.png</logo>
     <icon>https://ixwu.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, 习吾学</rights>
+    <entry>
+        <title type="html"><![CDATA[如何快速开发一款小鹤双拼查询工具]]></title>
+        <id>https://ixwu.github.io/howto-quickly-make-a-tool-for-xhup/</id>
+        <link href="https://ixwu.github.io/howto-quickly-make-a-tool-for-xhup/">
+        </link>
+        <updated>2020-05-03T07:57:30.000Z</updated>
+        <content type="html"><![CDATA[<p>学生生涯结束，踏入社会，没有成绩、学分约束，没有老师、学校监督，完全凭个人兴趣、意志自学的技能，挑出三个你最有成就感的。</p>
+<p>另外两个暂且不提，对于我来说，肯定会有<a href="https://www.flypy.com">小鹤双拼</a>。</p>
+<figure data-type="image" tabindex="1"><img src="https://www.flypy.com/images/hejp.png" alt="小鹤双拼" loading="lazy"></figure>
+<p>其实说「小鹤双拼」还不太准确，应该说「小鹤音形」。因为它不仅仅是一个双拼方案，还有双形方案。</p>
+<blockquote>
+<p>双形即从每个字中提取首末两部分形态各异的组字单元，以区分同音字，组字单元即字根</p>
+</blockquote>
+<figure data-type="image" tabindex="2"><img src="https://www.flypy.com/images/hebu.png" alt="小鹤字根" loading="lazy"></figure>
+<p>比如「<strong>武</strong>」字，拆分是:<code>一戈止</code>，首字根是<code>一</code>(形码是 a，笔画中「横」对应 a)，末字根是<code>止</code>(形码是 v，zh 对应 v)，完整的小鹤音形码是: 「<strong>双拼+双形</strong>」，即<code>wuav</code>。小鹤的字根基本都取声母，不需要特别记忆。所以，学起来也不难，主要是要多练习，形成肌肉记忆。<br>
+基本坚持学习一个月就能掌握「小鹤音形」，此后四码上屏，打字如飞。我的意外收获是:借机<a href="https://xwlearn.com/how-do-i-master-touch-type-in-two-hours/">学会了盲打</a>，如虎添翼。</p>
+<figure data-type="image" tabindex="3"><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gefk8r67w2g30fe06045x.gif" alt="" loading="lazy"></figure>
+<p>尽管我已熟练掌握小鹤音形，但是偶尔部分字还是会忘记编码。这时，我希望手边有一个工具能够辅助我快速查询编码。有爱好者制作了一款<strong>微信小程序</strong>，不过因为<strong>某些原因</strong>，该小程序需要<strong>看广告换积分</strong>来查询。<strong>pass</strong>。</p>
+<figure data-type="image" tabindex="4"><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gefmprjvc3j30ku112gm5.jpg" alt="" loading="lazy"></figure>
+<p>另外还有一个<a href="http://react.xhup.club/search">网站</a>可以查询编码。</p>
+<figure data-type="image" tabindex="5"><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gefmvn90ggj30ie0hjaaa.jpg" alt="" loading="lazy"></figure>
+<p>如果不想折腾，这里已经可以打住了，iOS 端只需要将该网页「<strong>添加到主屏幕</strong>」即可，参见<a href="https://xwlearn.com/howto-graciously-bb-in-ios/">上篇文章</a>。</p>
+<p>但我喜欢折腾，下面，我将说说我是如何利用该网站的接口自己开发了一款小鹤编码查询工具。</p>
+<p>先说说如何找接口。使用谷歌浏览器访问该网站，然后按 F12 进入开发者模式，执行查询时会发现多了一个叫 searchCode 的请求。</p>
+<figure data-type="image" tabindex="6"><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gefni8sbkkj318b0m677i.jpg" alt="" loading="lazy"></figure>
+<p>这是一个 <strong>POST</strong> 请求，请求 URL 是 http://www.xhup.club/Xhup/Search/searchCode。</p>
+<p>请求头如下</p>
+<figure data-type="image" tabindex="7"><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gefo28zl6qj30l007qwev.jpg" alt="" loading="lazy"></figure>
+<p>其中，<strong>Host</strong> 告诉后台，浏览器想访问的 web 服务器的<strong>域名/IP 地址和端口号</strong>，这里是 www.xhup.club。<strong>Origin</strong> 告诉后台请求发起方是 http://react.xhup.club，所以后面假如我们想用 Python 模拟该请求必须带上该头部，否则后台判定该请求不合法，后面响应头部中有个: <code>Access-Control-Allow-Origin: http://react.xhup.club</code>，意思是只接受 http://react.xhup.club 发起的请求。</p>
+<p>再来看看这个 <strong>Referer</strong>，跟 Origin 类似，我们是访问 http://react.xhup.club/search 后再发起的查询请求，所以这里记录的是上一个页面的 URL(<strong>协议+域名+查询参数</strong>) 即是 http://react.xhup.club/search。另外，还需要注意这个 User-Agent，当我们用 Python 调该接口时需要带上该头部以欺骗后台服务: <strong>请求是浏览器发起的</strong>。</p>
+<p>代码中请求头如下：</p>
+<pre><code class="language-python">headers = {
+  'Origin': 'http://react.xhup.club',
+  'Referer': 'http://react.xhup.club/search',
+  'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.122 Safari/537.36',
+  'Host': 'www.xhup.club',
+  'Content-Type': 'application/x-www-form-urlencoded',
+  'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
+  'Accept': 'application/json, text/plain, */*',
+}
+</code></pre>
+<p>接下来是最关键的一步了。</p>
+<figure data-type="image" tabindex="8"><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gefomth3qcj30kx06ht8z.jpg" alt="" loading="lazy"></figure>
+<p>我们执行查询时实际上是提交了一个表单，该表单包括<strong>所要查询的汉字</strong>与一个 <strong>sign</strong>。当表单上传编码格式为<code>application/x-www-form-urlencoded</code>，参数的格式（点击view source）如下</p>
+<pre><code>search_word=%E4%B8%AD&amp;sign=fa8d52dc60388d70b092c7f34db8f0c2
+</code></pre>
+<p>其中，汉字需要进行百分号转义。那么这里的 sign 是从哪来的呢? 通常是一个 md5 值。我们来看下相关 js 代码，打一些断点调试。</p>
+<figure data-type="image" tabindex="9"><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gefp7nk4q1j30hz057t8v.jpg" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="10"><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gefpfpmovej30ej08674i.jpg" alt="" loading="lazy"></figure>
+<p>图中变量 <code>e</code> 为 <strong>key_xhup</strong> 的值，即 <strong>fjc_xhup</strong>，变量 <code>r</code> 为 <strong>search_word</strong> 的值，即所要查询的汉字，<code>W()</code> 不用管，姑且猜测为 md5 加密函数，这里对 <strong>fjc_xhup</strong> 与 <strong>search_word</strong> 合并后的字符串进行了加密作为 <strong>sign</strong> 的值。</p>
+<p>在浏览器查询「<strong>中</strong>」的编码时，<strong>sign</strong> 值为: <strong>fa8d52dc60388d70b092c7f34db8f0c2</strong>。下面我们用 Python 的 md5 测试下。</p>
+<pre><code class="language-python">In [1]: import hashlib
+
+In [2]: key_xhup = 'fjc_xhup'
+
+In [3]: search_word = '中'
+
+In [4]: sign = hashlib.md5((key_xhup + search_word).encode('utf-8')).hexdigest()
+   ...:
+
+In [5]: print(sign)
+fa8d52dc60388d70b092c7f34db8f0c2
+</code></pre>
+<p>猜测正确。好了，剩下的事情就非常简单了。</p>
+<p>我分别用 <a href="http://omz-software.com/pythonista/">Pythonista</a> 与苹果自带的<a href="https://support.apple.com/zh-cn/guide/shortcuts/apdf22b0444c/2.2/ios/12.0">快捷指令</a>实现了该功能。其中，由于<strong>捷径</strong>的局限性，我设计为一次只能查询一个字的编码。</p>
+<p><photos><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gefqadrulng30ku112nhs.gif" alt="" loading="lazy"><img src="https://tva1.sinaimg.cn/large/007S8ZIlgy1gefqd474l8g30ku112kbp.gif" alt="" loading="lazy"></photos></p>
+<ul>
+<li><a href="https://github.com/imxw/xhup/blob/master/xhup.py">完整代码</a></li>
+<li><a href="https://www.icloud.com/shortcuts/c3610835668145b5aa3436fc5c608dec">捷径下载</a></li>
+</ul>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[如何在iOS端优雅地bb？]]></title>
         <id>https://ixwu.github.io/howto-graciously-bb-in-ios/</id>
@@ -1039,185 +1111,6 @@ hello   # 标准输出
 <blockquote>
 <p>学习一门新技术，最痛苦的过程只是前两小时，熬过了这两小时，后面就会越走越顺。</p>
 </blockquote>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Centos7上安装 elasticsearch-6.2.2及相关插件]]></title>
-        <id>https://ixwu.github.io/howto-setup-elasticsearch-6.2.2-in-centos/</id>
-        <link href="https://ixwu.github.io/howto-setup-elasticsearch-6.2.2-in-centos/">
-        </link>
-        <updated>2018-12-31T04:57:52.000Z</updated>
-        <content type="html"><![CDATA[<p>elasticsearch是一个开源的搜索服务器，提供了一个分布式多用户能力的全文搜索引擎，下面是我的安装笔记</p>
-<h2 id="准备工作">准备工作</h2>
-<h3 id="java版本">java版本</h3>
-<p>jdk版本必须是1.8及1.8以上</p>
-<pre><code class="language-bash">[root@localhost ~]# java -version
-java version &quot;1.8.0_161&quot;
-Java(TM) SE Runtime Environment (build 1.8.0_161-b12)
-Java HotSpot(TM) 64-Bit Server VM (build 25.161-b12, mixed mode)
-</code></pre>
-<h3 id="创建es用户">创建es用户</h3>
-<p>elasticsearch6 不允许root用户安装和使用，需要另外创建用户</p>
-<pre><code class="language-bash">[root@localhost ~]# useradd es &amp;&amp;  echo &quot;es123&quot;  | passwd --stdin es
-</code></pre>
-<h3 id="修改-etcsecuritylimitsconf">修改 /etc/security/limits.conf</h3>
-<pre><code class="language-bash">[root@localhost ~]#  vim /etc/security/limits.conf
-# 修改系统最大文件描述符限制
-* soft nofile 262144 
-* hard nofile 262144
-# 修改系统锁内存限制
-es soft memlock unlimited 
-es hard memlock unlimited
-# 更改用户可启用的最大线程数
-*  hard    nproc   4096
-*  soft    nproc   4096
-</code></pre>
-<h3 id="修改-etcsysctlconf">修改 /etc/sysctl.conf</h3>
-<pre><code class="language-bash">[root@localhost ~]#  vim /etc/sysctl.conf
-vm.max_map_count = 262144
-vm.swappiness = 1   # 禁用swapping
-</code></pre>
-<p>使修改生效</p>
-<pre><code>[root@localhost ~]#  sysctl -p
-</code></pre>
-<h2 id="安装-elasticsearch-622">安装 elasticsearch-6.2.2</h2>
-<h3 id="下载解压">下载解压</h3>
-<pre><code class="language-bash">[root@localhost ~]# cd /usr/local/src
-[root@localhost src]# wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.2.2.tar.gz
-[root@localhost src]#  tar xzvf elasticsearch-6.2.2.tar.gz
-[root@localhost src]# mv elasticsearch-6.2.2 /opt
-</code></pre>
-<h3 id="修改elasticsearch-622目录权限">修改elasticsearch-6.2.2目录权限</h3>
-<p>将该目录下所有文件的属主与属组均改为es</p>
-<pre><code class="language-bash">[root@localhost src]# chown -R es:es /opt/elasticsearch-6.2.2/
-</code></pre>
-<h3 id="创建数据目录与日志目录">创建数据目录与日志目录</h3>
-<p><strong>注意：后续操作需要切换至es账户</strong></p>
-<pre><code class="language-bash">[root@localhost src]# su - es
-[es@localhost src]$ cd /opt/elasticsearch-6.2.2/
-[es@localhost elasticsearch-6.2.2]$ mkdir -p elasticsearchdata/{data,log}
-</code></pre>
-<h3 id="修改配置文件">修改配置文件</h3>
-<pre><code class="language-bash">[es@localhost elasticsearch-6.2.2]$ cd /opt/elasticsearch-6.2.2/conf
-[es@localhost conf]$  vim elasticsearch.yml
-# 需要修改 cluster.name，node.name，path.data等参数值
-cluster.name: app_es	# 集群名字
-node.name: node-1	# 节点名字
-path.data: /opt/elasticsearch-6.2.2/elasticsearchdata/data # 指定数据存放路径
-path.logs: /opt/elasticsearch-6.2.2/elasticsearchdata/log # 指定日志存放路径
-bootstrap.memory_lock: false
-network.host: 0.0.0.0 # Set the bind address to a specific IP
-http.port: 9200	# 默认是9200，你也可以通过修改其值自定义端口
-transport.tcp.port: 9300    # 默认是9300，可自定义
-# 集群发现
-#集群节点ip或者主机，在这里添加各节点ip
-discovery.zen.ping.unicast.hosts: [&quot;ip1:9300&quot;, &quot;ip2:9300&quot;，&quot;ip3:9300&quot;]
-# 设置这个参数来保证集群中的节点可以知道其它N个有master资格的节点。默认为1，对于大的集群来说，可以设置大一点的值（2-4）
-discovery.zen.minimum_master_nodes: 3
-</code></pre>
-<h3 id="启动服务">启动服务</h3>
-<pre><code class="language-bash">[es@localhost elasticsearch-6.2.2]$ /opt/elasticsearch-6.2.2/bin/elasticsearch    #前台启动
-[es@localhost elasticsearch-6.2.2]$ nohup /opt/elasticsearch-6.2.2/bin/elasticsearch &amp;    #后台启动
-</code></pre>
-<h3 id="测试服务是否启动成功">测试服务是否启动成功</h3>
-<p>看到9200和9300端口就ok了,其中9300是es节点tcp通讯端口,9200是RESTful接口</p>
-<pre><code class="language-bash">[es@localhost ~]$ netstat -lntp | grep -E &quot;9200|9300&quot;
-(Not all processes could be identified, non-owned process info
- will not be shown, you would have to be root to see it all.)
-tcp        0      0 0.0.0.0:9200            0.0.0.0:*               LISTEN      1022/java
-tcp        0      0 0.0.0.0:9300            0.0.0.0:*               LISTEN      1022/java
-</code></pre>
-<p>在浏览器输入 http://你的ip:9200，可看到如下内容</p>
-<pre><code class="language-bash">{
-  &quot;name&quot; : &quot;node-1&quot;,
-  &quot;cluster_name&quot; : &quot;app_es&quot;,
- &quot;cluster_uuid&quot; : &quot;...&quot;, 
-  &quot;version&quot; : {
-    &quot;number&quot; : &quot;6.2.2&quot;,
-    &quot;build_hash&quot; : &quot;10b1edd&quot;,
-    &quot;build_date&quot; : &quot;2018-02-16T19:01:30.685723Z&quot;,
-    &quot;build_snapshot&quot; : false,
-    &quot;lucene_version&quot; : &quot;7.2.1&quot;,
-    &quot;minimum_wire_compatibility_version&quot; : &quot;5.6.0&quot;,
-    &quot;minimum_index_compatibility_version&quot; : &quot;5.0.0&quot;
-  },
-  &quot;tagline&quot; : &quot;You Know, for Search&quot;
-}
-证明启动成功
-</code></pre>
-<h2 id="解决启动报错">解决启动报错</h2>
-<h3 id="错误一cannot-allocate-memory">错误一：Cannot allocate memory</h3>
-<blockquote>
-<p>Java HotSpot(TM) 64-Bit Server VM warning: INFO: os::commit_memory(0x00000000ca660000, 899284992, 0) failed; error='Cannot allocate memory' (errno=12)<br>
-There is insufficient memory for the Java Runtime Environment to continue.<br>
-Native memory allocation (mmap) failed to map 899284992 bytes for committing reserved memory.<br>
-An error report file with more information is saved as:<br>
-/opt/elasticsearch-6.2.2/hs_err_pid17955.log</p>
-</blockquote>
-<p>由以上错误信息可知，分配给java的内存不足，elasticsearch6.2 默认分配 jvm 空间大小为1g，这个虚机的内存大小不足，需要修改 jvm 空间分配，我们可以将1g改成512m</p>
-<pre><code class="language-bash">[es@localhost ~]$ vim /opt/elasticsearch-6.2.2/config/jvm.options
--Xms1g  修改为 -Xms512m
--Xmx1g	修改为 -Xmx512m
-</code></pre>
-<h3 id="错误二文件描述符不足">错误二：文件描述符不足</h3>
-<pre><code>ERROR: [3] bootstrap checks failed
-[1]: max file descriptors [65535] for elasticsearch process is too low, increase to at least [65536]
-[2]: memory locking requested for elasticsearch process but memory is not locked
-[3]: max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]
-</code></pre>
-<p>如何你按我的教程顺序来就不会发生这个错误，请参照准备工作这一节，修改相应的内核参数</p>
-<h3 id="错误三不能以root启动">错误三：不能以root启动</h3>
-<p>不能以root身份来启动es服务，需要以相应的es来启动</p>
-<h2 id="插件下载">插件下载</h2>
-<h3 id="下载中文分词器-elasticsearch-analysis-ik-插件">下载中文分词器 elasticsearch-analysis-ik 插件</h3>
-<pre><code class="language-bash">[es@localhost ~]$ /opt/elasticsearch-6.2.2/bin/elasticsearch-plugin install https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v6.2.2/elasticsearch-analysis-ik-6.2.2.zip
-</code></pre>
-<h3 id="下载-elasticsearch-head-插件">下载 elasticsearch-head 插件</h3>
-<p>head插件是elasticsearch的客户端工具</p>
-<pre><code class="language-bash"># 下载必要组件
-[root@localhost ~]# yum -y install nodejs npm git bzip2
-[root@localhost ~]# cd /opt/
-[root@localhost opt]# git clone https://github.com/mobz/elasticsearch-head.git
-[root@localhost opt]# npm install -g grunt-cli
-[root@localhost opt]# cd /opt/elasticsearch-head
-[root@localhost /opt/elasticsearch-head]# npm install
-# 修改Gruntfile.js
-[root@localhost opt]# cd /opt/elasticsearch-head
-[root@localhost /opt/elasticsearch-head]# vim Gruntfile.js
-# 在appcss后添加server块
-appcss: {
-                                src: fileSets.srcCss,
-                                dest: '_site/app.css'
-                        },
-                        server: {
-                                options: {
-                                        hostname: '*',          
-                                        port: 9100,
-                                        base: '.',      
-                                        keepalive: true
-                                }
-                        }
-                },
-## 对外开放端口为9100，允许任何主机访问
-# 修改elasticsearch-head默认连接地址
-## 修改head/_site/app.js，修改head连接es的地址（修改localhost为本机的IP地址）
-[root@localhost /opt/elasticsearch-head]#  cd _site
-[root@localhost _site]# vim app.js
-## 将localhost修改为es服务的IP地址
-修改前：this.base_uri = this.config.base_uri || this.prefs.get(&quot;app-base_uri&quot;) || &quot;http://localhost:9200&quot;;
-修改后： this.base_uri = this.config.base_uri || this.prefs.get(&quot;app-base_uri&quot;) || &quot;http://你的ip:9200&quot;;
-# 启动head服务
-[root@localhost _site]# cd /opt/elasticsearch-head/node_modules/grunt/bin/
-[root@localhost bin]# nohup ./grunt server &amp;
-# 修改 elasticsearch-6.2.2 配置文件
-[root@localhost opt]# su - es 
-[es@localhost opt]$ vim /opt/elasticsearch-6.2.2/config/elasticsearch.yml
-## 在配置文件最后添加下面两条
-http.cors.enabled: true	# 允许跨域访问，为了配合elasticsearch-head可视化ES界面
-http.cors.allow-origin: &quot;*&quot;	# 允许所有地址跨域访问
-## 然后重启es服务
-</code></pre>
-<p>在浏览器输入：http://你的ip:9100，开始使用es服务吧</p>
 ]]></content>
     </entry>
 </feed>
