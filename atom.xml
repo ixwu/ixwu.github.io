@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://ixwu.github.io</id>
     <title>习吾学</title>
-    <updated>2020-05-03T17:47:23.092Z</updated>
+    <updated>2020-05-05T15:13:34.816Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://ixwu.github.io"/>
     <link rel="self" href="https://ixwu.github.io/atom.xml"/>
@@ -17,6 +17,7 @@
         </link>
         <updated>2020-05-03T07:57:30.000Z</updated>
         <content type="html"><![CDATA[<p>学生生涯结束，踏入社会，没有成绩、学分约束，没有老师、学校监督，完全凭个人兴趣、意志自学的技能，挑出三个你最有成就感的。</p>
+<p>你会选哪三个？</p>
 <p>另外两个暂且不提，对于我来说，肯定会有<a href="https://www.flypy.com">小鹤双拼</a>。</p>
 <figure data-type="image" tabindex="1"><img src="https://www.flypy.com/images/hejp.png" alt="小鹤双拼" loading="lazy"></figure>
 <p>其实说「小鹤双拼」还不太准确，应该说「小鹤音形」。因为它不仅仅是一个双拼方案，还有双形方案。</p>
